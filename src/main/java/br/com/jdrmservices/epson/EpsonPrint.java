@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import br.com.jdrmservices.model.Empresa;
 import br.com.jdrmservices.model.Produto;
@@ -21,9 +20,8 @@ import jpos.POSPrinterConst;
 import jpos.POSPrinterControl114;
 
 @Component
-@Service
-public class EpsonPrint {
-	// REFAZER ESTA CLASSE USANDO ORIENTAÇÃO A OBJETOS
+public class EpsonPrint implements EpsonPrintInterface {
+
 	@Autowired
 	private Empresas empresas;
 
@@ -56,6 +54,7 @@ public class EpsonPrint {
 		moedaFormat.applyPattern("#,##0.00");
 	}
 	
+	@Override
 	public boolean conectar() {
 		try {
 			printer.open("POSPrinter");
@@ -68,6 +67,7 @@ public class EpsonPrint {
 		return true;
 	}
 	
+	@Override
 	public boolean desconectar() {
 		try {
 			printer.setDeviceEnabled(false);
@@ -80,9 +80,12 @@ public class EpsonPrint {
 		return true;
 	}
 	
+	@Override
 	public boolean imprimirCabacalho() {
 		try {
-			conectar();
+			if(conectar()) {
+				System.out.println("==============> IMPRESSORA CONECTADA COM SUCESSO");
+			}
 
 			Optional<Empresa> empresa = empresas.findById(1L);	
 			
@@ -105,6 +108,7 @@ public class EpsonPrint {
 		return true;
 	}
 	
+	@Override
 	public boolean imprimirItem(String uuid, Produto produto, BigDecimal quantidade) {
 		try {
 			String itemLinhaUm = String.format(decimalFormat.format(INT_COUNT) + "   %s" + "                                                              ".substring(0, 42 - (produto.getCodigoBarras().length() + produto.getNome().length())) + "%s\n", produto.getCodigoBarras(), produto.getNome());
@@ -121,6 +125,7 @@ public class EpsonPrint {
 		return true;
 	}
 	
+	@Override
 	public boolean imprimirFechamento(Venda venda) {
 		
 		try {			
