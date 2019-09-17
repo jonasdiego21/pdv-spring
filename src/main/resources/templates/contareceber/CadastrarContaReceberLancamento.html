@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center" th:if="${contaReceberLancamento.novo}">Cadastrar conta a receber lançamento</h1>
+		<h1 class="text-center" th:unless="${contaReceberLancamento.novo}" th:text="|Edição de ${contaReceberLancamento.nome}|">Editar conta a receber laçamento</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item"><a th:href="@{/contasreceberlancamento}">Contas a receber laçamento</a></li>
+		    	<li class="breadcrumb-item active" aria-current="page">Novo</li>
+			</ol>
+		</div>
+		
+		<form method="POST" class="input-form" th:object="${contaReceberLancamento}" th:action="@{/contasreceberlancamento}">	
+
+			<input type="hidden" th:field="*{codigo}" />	
+			<input type="hidden" th:field="*{contaReceber}" />
+			
+			<!-- error -->
+			<th:block th:include="messages/ErrorMessage"></th:block>
+			
+			<!-- success -->
+			<th:block th:include="messages/SuccessMessage"></th:block>
+
+			<div class="row">
+				<div class="form-group date col-sm-3">
+					<label class="form-control-label" for="dataRecebimento">Data do recebimento</label>
+					<input readonly type="text" th:field="*{dataRecebimento}" class="form-control datepicker" id="dataRecebimento" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="totalRecebido"><span class="text-danger">*</span>Total recebido</label>
+					<input type="text" th:field="*{totalRecebido}" class="form-control moeda-formato" id="totalRecebido" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>		
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button type="submit" class="btn btn-primary">SAVAR</button>
+				</div>
+			</div>
+			
+			<br />
+		</form>
+	</section>
+</body>
+</html>

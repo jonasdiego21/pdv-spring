@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:data="http://www.thymeleaf.org/extras/data"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:th="http://www.thymeleaf.org">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+  
+  <link th:href="@{/css/admin.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/pdv.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/vendor/datepicker/css/bootstrap-datepicker.min.css}" rel="stylesheet" type="text/css">
+  
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body id="pdv" class="bg-dark" style="overflow: hidden !important;" oncontextmenu="return false">
+	<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+    <input type="hidden" name="_csrf_header" th:value="${_csrf.headerName}" />
+  
+	<form id="formFinalizarPdv" method="POST" th:object="${venda}" th:action="@{/vendas}" class="container-fluid d-block mx-auto my-auto m-0">
+		
+		<input type="hidden" th:field="*{codigo}" />	
+		<input type="hidden" th:field="*{uuid}" />
+		<input type="hidden" th:field="*{cliente}" />
+		<input type="hidden" th:field="*{status}" />
+		<input type="hidden" th:field="*{valorTotal}" class="moeda-formato" />
+		<input type="hidden" th:field="*{valorDesconto}" class="moeda-formato" />
+		<input type="hidden" th:field="*{valorPago}" class="moeda-formato" />
+		
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<h1 th:text="${venda.cliente.nome}" id="clienteNome" th:data-url="@{/}" class="card bg-dark-blue text-center p-3 mt-3 mb-2 text-white border-bold">CLIENTE AVULSO</h1>
+			</div>
+		</div>	
+		
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+				<span class="text-white">Logotipo | </span>
+				<a th:href="@{/}"> dashboard</a>
+				
+				<div class="card bg-light p-3 mt-2 mb-2 d-flex justify-content-center align-items-center" style="height: 87%;">
+					<img id="fotoProduto" class="img-fluid" th:src="@{/images/logo_pdv.svg}" alt="Image" />
+				</div>
+			</div>
+			
+			<div class="form-group col-sm-12 col-md-12 col-lg-3 col-xl-3">
+				<span class="text-white">Forma de pagamento <smal style="font-size: 6.5px;">[1. DINHEIRO, 2. CREDIÁRIO, 3. CRÉDITO, 4. DÉBITO]</smal></span>
+				<input th:field="*{formaPagamento}" id="formaPagamento" type="text" class="form-control bg-dark-blue border-bold text-center p-2 mt-2 mb-2 text-white" style="width: 100%; height: 60px; font-size: 30px; font-weight: bold;" autocomplete="off" />
+				
+				<span class="text-white">Total pago</span>
+				<input id="totalPago" type="text" class="form-control bg-dark-blue border-bold text-center p-2 mt-2 mb-2 text-white moeda-formato" value="R$ 0,00" style="width: 100%; height: 60px; font-size: 30px; font-weight: bold;" autocomplete="off" />
+				
+				<span class="text-white">Desconto</span>
+				<input id="desconto" type="text" class="form-control bg-dark-blue border-bold text-center p-2 mt-2 mb-2 text-white moeda-formato" value="R$ 0,00" style="width: 100%; height: 60px; font-size: 30px; font-weight: bold;" />
+				
+				<span class="text-white">Troco</span>
+				<input readonly id="troco" type="text" class="form-control bg-dark-blue border-bold text-center p-2 mt-2 mb-2 text-white" value="R$ 0,00" style="width: 100%; height: 60px; font-size: 30px; font-weight: bold;" />
+			</div>
+			
+			<div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+				<span class="text-white text-center">Visualização do Cupom</span>
+				<div id="tabela-itens-container" class="bg-light text-white">
+					<div class="mb-2">
+						<div id="cabecalho-cupom" class="row bg-dark-blue m-0">
+							<div class="col-sm-1 text-center">#</div>
+							<div class="col-sm-2 text-left">COD</div>
+							<div class="col-sm-4 text-left">DESC</div>
+							<div class="col-sm-1 text-center">QTD</div>
+							<div class="col-sm-1 text-center">UN</div>
+							<div class="col-sm-1 text-center">VAL</div>
+							<div class="col-sm-2 text-right">TOTAL</div>
+						</div>
+						
+						<div id="tabela-itens" class="overflow-y-auto" th:replace="venda/TabelaItensVenda::item-tabela"></div>
+					</div>
+				</div>
+				
+				<div class="mt-2">
+					<div id="btn-cancelar" class="text-right d-none">
+						<a href="javascript:;" class="btn btn-secondary">
+							<i class="fas fa-times"></i>
+						</a>
+					</div>
+					
+					<div id="btn-excluir" class="text-right d-none">
+						<a href="javascript:;" class="btn btn-danger">
+							<i class="fas fa-trash"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+		
+		<div class="row">			
+			<div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+				<span class="text-white">Aviso/Status</span>
+				<h1 id="aviso" class="card bg-dark-blue border-bold text-center pl-3 pt-3 pb-3 mt-2 mb-2 text-white">FINALIZAR VENDA</h1>
+			</div>
+			
+			<div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+				<span class="text-white">Total da Venda</span>
+				<h1 id="totalVenda" class="card bg-success border-bold text-center pl-3 pt-3 pb-3 mt-2 mb-2 text-white moeda-formato">R$ [[${{pdvDTO.valorVenda}}]]</h1>
+			</div>
+		</div>	
+	</form>
+	
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/pdv.security-token.js}"></script>
+	<script th:src="@{/js/pdv.global-loading.js}"></script>
+	<script th:src="@{/js/admin.js}"></script>
+	<script th:src="@{/vendor/datepicker/js/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
+  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
+  	<script th:src="@{/js/pdv.finalizar-venda.js}"></script>
+</body>
+</html>

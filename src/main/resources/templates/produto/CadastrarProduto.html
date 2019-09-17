@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center" th:if="${produto.novo}">Cadastrar Produto</h1>
+		<h1 class="text-center" th:unless="${produto.novo}" th:text="|Edição de ${produto.nome}|">Editar Produto</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item"><a th:href="@{/produtos}">Produtos</a></li>
+		    	<li class="breadcrumb-item active" aria-current="page">Novo</li>
+			</ol>
+		</div>
+		
+		<form method="POST" class="input-form" th:object="${produto}" th:action="@{/produtos}">	
+
+			<input type="hidden" th:field="*{codigo}" />	
+			
+			<!-- error -->
+			<th:block th:include="messages/ErrorMessage"></th:block>
+			
+			<!-- success -->
+			<th:block th:include="messages/SuccessMessage"></th:block>
+
+			<div class="row">
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="codigoBarras"><span class="text-danger">*</span>Código de Barras</label>
+					<input type="text" th:field="*{codigoBarras}" class="form-control" id="codigoBarras" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-7">
+					<label class="form-control-label" for="nome"><span class="text-danger">*</span>Nome</label>
+					<input type="text" th:field="*{nome}" class="form-control" id="nome" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="unidade"><span class="text-danger">*</span>Und. Medida</label>
+					
+					<select th:field="*{unidade}" class="form-control" id="unidade" th:errorclass="is-invalid">
+						<option value="">Selecione a und. medida</option>
+						<option th:each="medida : ${medidas}" th:value="${medida}" th:text="${medida.descricao}"></option>
+					</select>
+				</div>
+			</div>	
+			
+			<div class="row">				
+				<div class="form-group col-sm-12">
+					<label class="form-control-label" for="descricao">Descrição do produto</label>
+					<textarea rows="5" cols="5" th:field="*{descricao}" class="form-control" id="descricao" th:errorclass="is-invalid"></textarea>
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="quantidade"><span class="text-danger">*</span>Quantidade</label>
+					<input type="text" th:field="*{quantidade}" class="form-control" id="quantidade" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="precoCompra"><span class="text-danger">*</span>Preço de Compra</label>
+					<input type="text" th:field="*{precoCompra}" class="form-control moeda-formato" id="precoCompra" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="precoVenda"><span class="text-danger">*</span>Preço de Venda</label>
+					<input type="text" th:field="*{precoVenda}" class="form-control moeda-formato" id="precoVenda" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="estado"><span class="text-danger">*</span>Categoria</label>
+					
+					<select th:field="*{categoria}" class="form-control" id="categoria" th:errorclass="is-invalid">
+						<option value="">Selecione a categoria</option>
+						<option th:each="categoria : ${categorias}" th:value="${categoria.codigo}" th:text="${categoria.nome}"></option>
+					</select>
+				</div>
+				
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="estado"><span class="text-danger">*</span>Fornecedor</label>
+					
+					<select th:field="*{fornecedor}" class="form-control" id="fornecedor" th:errorclass="is-invalid">
+						<option value="">Selecione o fornecedor</option>
+						<option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.codigo}" th:text="${fornecedor.nome}"></option>
+					</select>
+				</div>
+			</div>	
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button type="submit" class="btn btn-primary">SAVAR</button>
+				</div>
+			</div>
+			
+			<br />
+		</form>
+	</section>
+	
+	<!-- JavaScript -->
+  	<th:block layout:fragment="javascripts">
+  	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
+  	<script>
+  		$(function() {
+  			$('#codigoBarras').on('keypress', function(evento) {
+  				if(evento.which == 13) {
+  					evento.preventDefault();
+  					$('#nome').focus();
+  				}
+  			});
+  		});
+  	</script>
+  	</th:block>
+</body>
+</html>

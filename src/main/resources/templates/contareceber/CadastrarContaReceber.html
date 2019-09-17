@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:data="http://www.thymeleaf.org/extras/data"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center" th:if="${contaReceber.novo}">Cadastrar Conatas a Receber</h1>
+		<h1 class="text-center" th:unless="${contaReceber.novo}" th:text="|Edição de ${contaReceber.cliente.nome}|">Editar Contas a Receber</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item"><a th:href="@{/contasreceber}">Contas a Receber</a></li>
+		    	<li class="breadcrumb-item active" aria-current="page">Novo</li>
+			</ol>
+		</div>
+		
+		<form method="POST" class="input-form" th:object="${contaReceber}" th:action="@{/contasreceber}">	
+
+			<input type="hidden" th:field="*{codigo}" />	
+			
+			<!-- error -->
+			<th:block th:include="messages/ErrorMessage"></th:block>
+			
+			<!-- success -->
+			<th:block th:include="messages/SuccessMessage"></th:block>
+
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="estado"><span class="text-danger">*</span>Cliente</label>
+					
+					<select th:field="*{cliente}" class="form-control" id="cliente" th:errorclass="is-invalid">
+						<option value="">Selecione o cliente</option>
+						<option th:each="cliente : ${clientes}" th:value="${cliente.codigo}" th:text="${cliente.nome}"></option>
+					</select>
+				</div>
+				
+				<div class="form-group date col-sm-3">
+					<label class="form-control-label" for="dataVenda">Data da venda</label>
+					<input readonly type="text" th:field="*{dataVenda}" class="form-control datepicker" id="dataVenda" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group date col-sm-3">
+					<label class="form-control-label" for="dataVencimento">Data de vencimento</label>
+					<input type="text" th:field="*{dataVencimento}" class="form-control datepicker" id="dataVencimento" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>
+				
+			<div class="row">
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="totalVenda"><span class="text-danger">*</span>Total da venda</label>
+					<input type="text" th:field="*{totalVenda}" class="form-control moeda-formato" id="totalVenda" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				<!--
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="totalRecebido"><span class="text-danger">*</span>Total recebido</label>
+					<input type="text" th:field="*{totalRecebido}" class="form-control moeda-formato" id="totalRecebido" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="restante">Saldo devedor</label>
+					<input readonly type="text" th:field="*{restante}" class="form-control moeda-formato" id="restante" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				-->
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="status"><span class="text-danger">*</span>Status</label>
+					
+					<select th:field="*{status}" class="form-control" id="status" th:errorclass="is-invalid">
+						<option value="">Selecione o status</option>
+						<option th:each="status : ${status}" th:value="${status}" th:text="${status.descricao}"></option>
+					</select>
+				</div>
+			</div>	
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button type="submit" class="btn btn-primary">SAVAR</button>
+				</div>
+			</div>
+			
+			<br />
+		</form>
+	</section>
+</body>
+</html>

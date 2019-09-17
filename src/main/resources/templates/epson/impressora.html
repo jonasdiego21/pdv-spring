@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+		<h1>Configurações de impressão</h1>
+		<hr />
+
+		<input type="button" id="print" value="Print" />
+	</section>
+	
+	<th:block layout:fragment="javascripts">
+	<script th:src="@{/vendor/epson/epos-2.12.0.min.js}"></script>
+	<script th:src="@{/js/pdv.epson-print.js}"></script>
+	</th:block>
+</body>
+</html>

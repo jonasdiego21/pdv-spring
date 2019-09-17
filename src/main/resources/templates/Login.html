@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		
+		<title>PDV - Ponto de Venda</title>
+		
+		<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+		<link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
+	</head>
+	
+	<body class="bg-secondary">
+		<div class="container">
+			<div class="wrapper">		
+				<form class="form-signin" method="post" th:action="@{/login}"> 
+				
+					<div class="row">
+						<div class="col-sm-12 text-center mb-2 mt-2">
+							<img class="img-fluid" th:src="@{/images/logo_pdv.svg}" alt="Logo PDV" width="200px" />
+						</div>
+					</div>
+					
+					<div class="form-group text-center mb-2" th:if="${#bools.isTrue(param.error)}">
+	                  	<span class="text-white badge badge-danger p-3">Usuário/Senha não conferem!</span>
+	                </div>
+	                  	      
+					<h2 class="form-signin-heading mb-3 text-center text-muted">Faça seu login</h2>
+					
+					<input type="email" class="form-control mb-3" name="username" placeholder="Seu e-mail..." required="required" autofocus="autofocus" />
+					
+					<input type="password" class="form-control mb-3" name="password" placeholder="Sua senha..." required="required"/>      
+
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>   
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

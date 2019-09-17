@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center" th:if="${permissao.novo}">Cadastrar Permissões</h1>
+		<h1 class="text-center" th:unless="${permissao.novo}" th:text="|Edição de ${permissao.nome}|">Editar Permissões</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item"><a th:href="@{/permissaos}">Permissões</a></li>
+		    	<li class="breadcrumb-item active" aria-current="page">Novo</li>
+			</ol>
+		</div>
+		
+		<form method="POST" class="input-form" th:object="${permissao}" th:action="@{/permissaos}">	
+
+			<input type="hidden" th:field="*{codigo}" />	
+			
+			<!-- error -->
+			<th:block th:include="messages/ErrorMessage"></th:block>
+			
+			<!-- success -->
+			<th:block th:include="messages/SuccessMessage"></th:block>
+			
+			<!-- Nome -->
+			<div class="row">
+				<div class="form-group col-sm-12">
+					<label class="form-control-label" for="nome"><span class="text-danger">*</span>Nome</label>
+					<input type="text" th:field="*{nome}" class="form-control" id="nome" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>		
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button type="submit" class="btn btn-primary">SAVAR</button>
+				</div>
+			</div>
+			
+			<br />
+		</form>
+	</section>
+	
+	<!-- JavaScript -->
+  	<th:block layout:fragment="javascripts">
+  	<script th:src="@{js/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{js/mask/jquery.mask.min.js}"></script>
+  	</th:block>
+</body>
+</html>

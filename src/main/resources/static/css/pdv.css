@@ -1,0 +1,76 @@
+/* PDV */
+::-webkit-scrollbar-track {
+    background-color: #fff68b;
+}
+::-webkit-scrollbar {
+    width: 2px;
+    background: #ffff00;
+}
+::-webkit-scrollbar-thumb {
+    background: #fff68b;
+}
+
+.border-bold {
+	border: 2px solid #fff !important;
+}
+
+.bg-dark-blue {
+	background-color: #110071 !important;
+}
+
+#tabela-itens-container {
+	width: 100% !important;
+	height: 88% !important;
+}
+
+#tabela-itens {
+	width: 100% !important;
+	height: 320px !important;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#item-tabela {
+	margin: 0;
+	font-size: 12px;
+	font-family: monospace;
+	color: #fff;
+	border-bottom: 1px dashed #eee !important; 
+}
+
+#item-tabela input[type=radio] {
+	border: 1px solid #0000ff;
+    content: "\00a0";
+    display: inline-block;
+    font: 16px/1em sans-serif;
+    height: 16px;
+    margin: 0 .25em 0 0;
+    padding:0;
+    vertical-align: top;
+    width: 16px;
+    border-radius:4px;
+}
+
+#btn-excluir {
+	right: 2% !important;
+	position: fixed;
+	width: 150px !important;
+	height: 10px !important;
+	z-index: 9999;
+}
+
+
+#btn-cancelar {
+	right: 6% !important;
+	position: fixed;
+	width: 150px !important;
+	height: 10px !important;
+	z-index: 9999;
+}
+
+.input-lg {
+	width: 100% !important; 
+	height: 60px !important; 
+	font-size: 30px !important; 
+	font-weight: bold !important;
+}

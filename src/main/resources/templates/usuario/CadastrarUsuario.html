@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center" th:if="${usuario.novo}">Cadastrar Usuario</h1>
+		<h1 class="text-center" th:unless="${usuario.novo}" th:text="|Edição de ${usuario.nome}|">Editar Usuario</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item"><a th:href="@{/usuarios}">Usuarios</a></li>
+		    	<li class="breadcrumb-item active" aria-current="page">Novo</li>
+			</ol>
+		</div>
+		
+		<form method="POST" class="input-form" th:object="${usuario}" th:action="@{/usuarios}">	
+
+			<input type="hidden" th:field="*{codigo}" />	
+			
+			<!-- error -->
+			<th:block th:include="messages/ErrorMessage"></th:block>
+			
+			<!-- success -->
+			<th:block th:include="messages/SuccessMessage"></th:block>
+			
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="nome"><span class="text-danger">*</span>Nome</label>
+					<input type="text" th:field="*{nome}" class="form-control" id="nome" th:errorclass="is-invalid">
+				</div>
+				
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="email"><span class="text-danger">*</span>E-mail</label>
+					<input type="text" th:field="*{email}" class="form-control" id="email" th:errorclass="is-invalid">
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="senha"><span class="text-danger">*</span>Senha</label>
+					<input type="password" th:field="*{senha}" class="form-control" id="senha" th:errorclass="is-invalid">
+				</div>
+				
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="senhaConfirmacao"><span class="text-danger">*</span>Confirmação de senha</label>
+					<input type="password" th:field="*{senhaConfirmacao}" class="form-control" id="senhaConfirmacao" th:errorclass="is-invalid">
+				</div>
+			</div>
+			
+			<div class="row">
+				<!-- Grupos -->
+				<div class="form-group ms-container col-sm-6">
+					<label class="form-control-label" for="grupo"><span class="text-danger">*</span>Grupos</label>
+					<select th:field="*{grupo}" class="form-control" id="grupo" th:errorclass="is-invalid">
+						<option th:each="grupo : ${grupos}" th:value="${grupo.codigo}" th:text="|${grupo.nome}|"></option>
+					</select>
+				</div>
+				
+				<!-- Status -->
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="ativo"><span class="text-danger">*</span>Ativo</label>
+					<select th:field="*{ativo}" class="form-control" id="ativo" th:errorclass="is-invalid">
+						<option value="0">INATIVO</option>
+						<option value="1">ATIVO</option>
+					</select>
+				</div>
+			</div>		
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button type="submit" class="btn btn-primary">SAVAR</button>
+				</div>
+			</div>
+			
+			<br />
+		</form>
+	</section>
+</body>
+</html>

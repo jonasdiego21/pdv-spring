@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+	xmlns:data="http://www.thymeleaf.org/extras/data">
+
+	<div th:fragment="item-tabela" id="item-tabela" data:valor-total="${valorTotal}" data:total-venda="${totalVenda}" class="row bg-info" th:each="item : ${itens}">
+		<div class="col-sm-1 mt-1 mb-1 text-center">
+			<input th:value="${item.produto.codigo}" type="radio" name="_item_selecionado" />
+			<!--<span th:text="${itemStat.count}"></span>-->
+		</div>
+		
+		<div class="col-sm-2 mt-1 mb-1 text-left" th:text="${item.produto.codigoBarras}"></div>
+		<div class="col-sm-4 mt-1 mb-1 text-left" th:text="${item.produto.nome}"></div>
+		<div class="col-sm-1 mt-1 mb-1 text-center" th:text="${#numbers.formatDecimal(item.quantidade, 0, 'DEFAULT', 3, 'DEFAULT')}"></div>
+		<div class="col-sm-1 mt-1 mb-1 text-center" th:text="${item.produto.unidade}"></div>
+		<div class="col-sm-1 mt-1 mb-1 text-center" th:text="${#numbers.formatDecimal(item.valorUnitario, 1, 'DEFAULT', 2, 'DEFAULT')}"></div>
+		<div class="col-sm-2 mt-1 mb-1 text-right" th:text="${#numbers.formatDecimal(item.valorTotal, 1, 'DEFAULT', 2, 'DEFAULT')}"></div>
+	</div>
+	
+</html>

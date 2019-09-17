@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:data="http://www.thymeleaf.org/extras/data"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center" th:if="${cliente.novo}">Cadastrar Cliente</h1>
+		<h1 class="text-center" th:unless="${cliente.novo}" th:text="|Edição de ${cliente.nome}|">Editar Cliente</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item"><a th:href="@{/clientes}">Clientes</a></li>
+		    	<li class="breadcrumb-item active" aria-current="page">Novo</li>
+			</ol>
+		</div>
+		
+		<form method="POST" class="input-form" th:object="${cliente}" th:action="@{/clientes}">	
+
+			<input type="hidden" th:field="*{codigo}" />	
+			
+			<!-- error -->
+			<th:block th:include="messages/ErrorMessage"></th:block>
+			
+			<!-- success -->
+			<th:block th:include="messages/SuccessMessage"></th:block>
+
+			<div class="row">
+				<div class="form-group col-sm-12">
+					<label class="form-control-label" for="nome"><span class="text-danger">*</span>Nome</label>
+					<input type="text" th:field="*{nome}" class="form-control" id="nome" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="form-group col-sm-8">
+					<label class="form-control-label" for="email">E-mail</label>
+					<input type="text" th:field="*{email}" class="form-control" id="email" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-4">
+					<label class="form-control-label" for="telefone">Telefone</label>
+					<input type="text" th:field="*{telefone}" class="form-control" id="telefone" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>	
+
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="estado"><span class="text-danger">*</span>Estado</label>
+					
+					<select th:field="*{estado}" class="form-control" id="estado" th:errorclass="is-invalid">
+						<option value="">Selecione o estado</option>
+						<option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}"></option>
+					</select>
+				</div>
+				
+				<div id="container-cidade" class="form-group col-sm-6">
+					<input type="hidden" id="inputCidadeSelecionada" th:value="*{cidade} != null ? *{cidade.codigo}" />
+					
+					<label class="form-control-label" for="cidade"><span class="text-danger">*</span>Cidade</label>
+					
+					<select th:field="*{cidade}" class="form-control" id="cidade" data:url="@{/cidades}" th:errorclass="is-invalid" disabled="disabled">
+						<option value="">Selecione a cidade</option>
+					</select>
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label class="form-control-label" for="rua"><span class="text-danger">*</span>Logradouro/Rua/Avenida</label>
+					<input type="text" th:field="*{rua}" class="form-control" id="rua" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="numero">Número</label>
+					<input type="text" th:field="*{numero}" class="form-control" id="numero" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-4">
+					<label class="form-control-label" for="bairro">Bairro/Distrito</label>
+					<input type="text" th:field="*{bairro}" class="form-control" id="bairro" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="form-group col-sm-5">
+					<label class="form-control-label" for="complemento">Complemento</label>
+					<input type="text" th:field="*{complemento}" class="form-control" id="complemento" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group date col-sm-2">
+					<label class="form-control-label" for="dataNascimento">Data de Nascimento</label>
+					<input type="text" th:field="*{dataNascimento}" class="form-control datepicker" id="dataNascimento" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="cpf">CPF</label>
+					<input type="text" th:field="*{cpf}" class="form-control" id="cpf" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+				
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="limiteCompra"><span class="text-danger">*</span>Limite de compra</label>
+					<input type="text" th:field="*{limiteCompra}" class="form-control" id="limiteCompra" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>	
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button type="submit" class="btn btn-primary">SAVAR</button>
+				</div>
+			</div>
+			
+			<br />
+		</form>
+	</section>
+	
+	<!-- JavaScript -->
+  	<th:block layout:fragment="javascripts">
+  	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
+  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
+  	</th:block>
+</body>
+</html>

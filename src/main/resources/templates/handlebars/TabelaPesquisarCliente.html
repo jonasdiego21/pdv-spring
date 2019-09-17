@@ -1,0 +1,26 @@
+<script id="tabela-pesquisa-cliente" type="text/x-handlebars-template">
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>CPF</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#if .}}
+			{{#each .}}
+			<tr>
+				<td id="clientePesquisaRapida" data-codigo="{{codigo}}" data-nome="{{nome}}" style="cursor: pointer;">{{nome}}</td>
+				<td>{{cpf}}</td>
+			</tr>
+			{{/each}}
+			{{else}}
+			<tr>
+				<td colspan="2">Nenhum cliente encontrado!</td>
+			</tr>
+			{{/if}}
+		</tbody>
+	</table>
+</div>
+</script>

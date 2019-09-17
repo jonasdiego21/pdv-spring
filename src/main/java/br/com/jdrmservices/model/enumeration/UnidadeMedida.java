@@ -1,0 +1,76 @@
+package br.com.jdrmservices.model.enumeration;
+
+public enum UnidadeMedida {
+
+	AMPOLA("AMPOLA"),
+	BALDE("BALDE"),
+	BANDEJ("BANDEJA"),
+	BARRA("BARRA"),
+	BISNAG("BISNAGA"),
+	BLOCO("BLOCO"),
+	BOBINA("BOBINA"),
+	BOMBEAR("BOMBONA"),
+	CÁPSULAS("CÁPSULA"),
+	CARRINHO("CARTELA"),
+	CENTO("CENTO"),
+	CJ("CONJUNTO"),
+	CM("CENTÍMETRO"),
+	CM2("CENTIMETRO QUADRADO"),
+	CX("CAIXA"),
+	CX2("CAIXA COM 2 UNIDADES"),
+	CX3("CAIXA COM 3 UNIDADES"),
+	CX5("CAIXA COM 5 UNIDADES"),
+	CX10("CAIXA COM 10 UNIDADES"),
+	CX15("CAIXA COM 15 UNIDADES"),
+	CX20("CAIXA COM 20 UNIDADES"),
+	CX25("CAIXA COM 25 UNIDADES"),
+	CX50("CAIXA COM 50 UNIDADES"),
+	CX100("CAIXA COM 100 UNIDADES"),
+	DISP("EXIBIÇÃO"),
+	DUZIA("DUZIA"),
+	EMBAL("EMBALAGEM"),
+	FARDO("FARDO"),
+	FOLHA("FOLHA"),
+	FRASCO("FRASCO"),
+	GALAO("GALÃO"),
+	GF("GARRAFA"),
+	GRAMAS("GRAMAS"),
+	JOGO("JOGO"),
+	KG("QUILOGRAMA"),
+	KIT("KIT"),
+	LATA("LATA"),
+	LITRO("LITRO"),
+	M("METRO"),
+	M2("METRO QUADRADO"),
+	M3("METRO CÚBICO"),
+	MILHEI("MILHEIRO"),
+	ML("MILILITRO"),
+	MWH("MEGAWATT HORA"),
+	PACOTE("PACOTE"),
+	PALETE("PALETE"),
+	PARES("PARES"),
+	PC("PEÇA"),
+	AMIGO("AMIGO"),
+	K("QUILATE"),
+	RESMA("RESMA"),
+	ROLO("ROLO"),
+	SACO("SACO"),
+	SACOLA("SACOLA"),
+	TAMBOR("TAMBOR"),
+	TANQUE("TANQUE"),
+	TON("TONELADA"),
+	TUBO("TUBO"),
+	UN("UNIDADE"),
+	VASIL("VASILHAME"),
+	VIDRO("VIDRO");
+	
+	private String descricao;
+	
+	private UnidadeMedida(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	public String getDescricao() {
+		return this.descricao;
+	}
+}
