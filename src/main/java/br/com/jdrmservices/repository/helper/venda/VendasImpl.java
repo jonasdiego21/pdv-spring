@@ -14,7 +14,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +25,6 @@ import br.com.jdrmservices.dto.TotalVendasDia;
 import br.com.jdrmservices.dto.TotalVendasMes;
 import br.com.jdrmservices.model.Venda;
 import br.com.jdrmservices.model.enumeration.StatusVenda;
-import br.com.jdrmservices.repository.Clientes;
 import br.com.jdrmservices.repository.filter.VendaFilter;
 
 public class VendasImpl implements VendasQueries {
@@ -34,22 +32,25 @@ public class VendasImpl implements VendasQueries {
 	@PersistenceContext
 	private EntityManager manager;
 	
-	@Autowired
-	private Clientes clientes;
-	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TotalVendasDia> totalVendasDia() {
-		return manager.createNamedQuery("Vendas.totalVendasDia").getResultList();
+		List<TotalVendasDia> totalDia = manager.createNamedQuery("Vendas.totalVendasDia").getResultList();	
+		return totalDia;
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TotalVendasMes> totalVendasMes() {
-		return manager.createNamedQuery("Vendas.totalVendasMes").getResultList();
+		List<TotalVendasMes> totalMes = manager.createNamedQuery("Vendas.totalVendasMes").getResultList();	
+		return totalMes;
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TotalVendasAno> totalVendasAno() {
-		return manager.createNamedQuery("Vendas.totalVendasAno").getResultList();
+		List<TotalVendasAno> totalAno = manager.createNamedQuery("Vendas.totalVendasAno").getResultList();	
+		return totalAno;
 	}
 	
 	@Override
@@ -82,12 +83,11 @@ public class VendasImpl implements VendasQueries {
 		return optional.orElse(BigDecimal.ZERO);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
 	@Override
+	@Transactional(readOnly = true)
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	public Page<Venda> filtrar(VendaFilter filtro, Pageable pageable) {
 		
-		@SuppressWarnings("deprecation")
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Venda.class);
 		
 		int paginaAtual = pageable.getPageNumber();
@@ -99,7 +99,9 @@ public class VendasImpl implements VendasQueries {
 		
 		adicionarFiltro(filtro, criteria);
 		
-		return new PageImpl<>(criteria.list(), pageable, total(filtro));
+		Page<Venda> page = new PageImpl<>(criteria.list(), pageable, total(filtro));
+		
+		return page;
 	}
 
 	private Long total(VendaFilter filtro) {

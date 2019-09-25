@@ -41,7 +41,10 @@ public class VendaService {
 				contaReceberOptional.get().setCodigo(contaReceberOptional.get().getCodigo());
 				contaReceberOptional.get().setTotalVenda(venda.getValorTotal().add(contaReceberOptional.get().getTotalVenda()));
 
-				if(venda.getCliente().getLimiteCompra().doubleValue() >= venda.getValorTotal().add(contaReceberOptional.get().getTotalVenda()).doubleValue()) {					
+				if(venda.getCliente().getLimiteCompra().doubleValue() >= venda.getValorTotal().add(contaReceberOptional.get().getRestante()).doubleValue()) {					
+					System.out.println("O CLIENTE ATINGIU O LIMITE DE CRÉDITO!");
+					publisher.publishEvent(new VendaEvent(venda));
+					publisher.publishEvent(new FechamentoCupomEvent(venda));
 					throw new GlobalException("LIMITE DE CREDITO ATINGIDO!");
 				}				
 
@@ -71,6 +74,12 @@ public class VendaService {
 			publisher.publishEvent(new FechamentoCupomEvent(venda));
 		}
 		
+		vendas.saveAndFlush(venda);
+	}
+	
+	@Transactional
+	public void cancelaVendaEmitida(Venda venda) {
+		venda.setStatus(StatusVenda.CANCELADA);
 		vendas.saveAndFlush(venda);
 	}
 	

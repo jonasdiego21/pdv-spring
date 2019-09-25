@@ -15,4 +15,5 @@ public interface Produtos extends JpaRepository<Produto, Long>, ProdutosQueries 
 	public List<Produto> findAllByOrderByNomeAsc();
 	public Produto findByCodigo(Long codigoProduto);
 	public Produto findByCodigoBarras(String codigoBarras);
+	public Optional<Produto> findByCodigoBarrasIgnoreCase(String codigoBarras);
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:data="http://www.thymeleaf.org/extras/data"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center">Gerar Relatórios</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item">Relatórios</li>
+			</ol>
+		</div>
+		
+		<div id="div-form" data:url="@{/relatorios/vendas}" class="input-form">		
+			<div class="row">	
+				<div class="col-sm-12">			
+					<h4>Relatórios de vendas por período</h4>
+				</div>
+				
+				<hr />
+				
+				<div class="input-group mb-3 col-sm-3 date">
+					<input readonly placeholder="Data Início" type="text" data-date-format="dd/mm/yy" class="form-control datepicker" id="dataInicio" autocomplete="off">
+					
+					<div class="input-group-prepend">
+				    	<button class="btn btn-outline-secondary" type="button" disabled="disabled">
+							<i class="fas fa-calendar-alt"></i>
+						</button>
+					</div>					
+				</div>
+				
+				<div class="input-group mb-3 col-sm-3 date">
+					<input readonly placeholder="Data Fim" type="text" data-date-format="dd/mm/yy" class="form-control datepicker" id="dataFim" autocomplete="off">
+					
+					<div class="input-group-prepend">
+				    	<button class="btn btn-outline-secondary" type="button" disabled="disabled">
+				    		<i class="fas fa-calendar-alt"></i>
+				    	</button>
+					</div>					
+				</div>
+			</div>	
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button id="btnGerar" type="button" class="btn btn-primary">Gerar relatório de vendas</button>
+				</div>
+			</div>
+			
+			<hr />
+			<h5>Outros relatórios</h5>
+			<hr />
+			
+			<div class="row">
+				<div class="col-sm-4 text-left">
+					<a target="_blank" th:href="@{/relatorios/clientes}" class="btn btn-primary">Gerar relatorios de clientes</a>
+				</div>
+				
+				<div class="col-sm-4 text-center">
+					<a target="_blank" th:href="@{/relatorios/produtos}" class="btn btn-primary">Gerar relatorios de produtos</a>
+				</div>
+				
+				<div class="col-sm-4 text-right">
+					<a target="_blank" th:href="@{/relatorios/funcionarios}" class="btn btn-primary">Gerar relatorios de funcionários</a>
+				</div>
+			</div>
+			
+			<br />
+		</div>
+	</section>
+	
+	<!-- JavaScript -->
+  	<th:block layout:fragment="javascripts">
+  	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
+  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
+  	<script th:src="@{/js/pdv.gerar-relatorio.js}"></script>
+  	</th:block>
+</body>
+</html>

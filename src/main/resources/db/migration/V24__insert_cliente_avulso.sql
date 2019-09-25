@@ -1,0 +1,2 @@
+-- INSERT CLIENTE AVULSO --
+-- insert into cliente (nome, email, telefone, estado, cidade_codigo, rua, numero, bairro, complemento, data_nascimento, cpf, limite_compra) values ('CLIENTE AVULSO', 'admin@localhost', null, 1, 1, 'Rua Projetada', 'S/N', 'Centro', '', null, '000.000.000-00', '1000000.00');

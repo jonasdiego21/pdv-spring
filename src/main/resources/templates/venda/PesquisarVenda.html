@@ -57,7 +57,7 @@
 							<th style="width: 35%;">cliente <i class="fas fa-angle-down"></i></th>
 							<th style="width: 20%;" class="text-center">Status <i class="fas fa-angle-down"></i></th>
 							<th style="width: 20%;" class="text-center">Valor Total <i class="fas fa-angle-down"></i></th>
-							<!--<th style="width: 10%;" colspan="2" class="text-center">Ações <i class="fas fa-angle-down"></th>-->
+							<th style="width: 10%;" class="text-center">Ações <i class="fas fa-angle-down"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -83,15 +83,16 @@
 								</span>
 							</td>
 							<td class="text-center text-danger"><b>R$ [[${{venda.valorTotal}}]]</b></td>
-							<!--
+							
 							<td class="text-center">
-								<a th:href="@{/vendas/emitir}" data-toggle="tooltip" title="EMITTIR" data-position="top">
-									<i class="fas fa-check-circle"></i>
+								<a th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" th:href="|/vendas/cancelar/${venda.codigo}|" data-toggle="tooltip" title="CANCELAR" data-position="top">
+									<i class="fas fa-ban text-danger"></i>
 								</a>
 							</td>
-							<td class="text-center" data-toggle="tooltip" title="CANCELAR" data-position="top"> 
-								<a href="javascript:;" class="js-btn-excluir" th:url="@{|/vendas/cancelar|}">
-									<i class="fas fa-ban text-danger"></i>
+							<!--
+							<td class="text-center" data-toggle="tooltip" title="EMITIR" data-position="top"> 
+								<a href="javascript:;">
+									<i class="fas fa-check-circle"></i>
 								</a>
 							</td>
 							-->

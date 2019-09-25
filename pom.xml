@@ -4,6 +4,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>br.com.jdrmservices</groupId>
+	<artifactId>pdv-basico</artifactId>
+	<version>1.31.22-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>pdv-basico</name>
+	<description>Sistema de Ponto de Vendas</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -11,70 +19,59 @@
 		<version>2.1.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-
-	<groupId>br.com.jdrmservices</groupId>
-	<artifactId>pdv-basico</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-
-	<name>pdv-basico</name>
-	<description>Sistema de Ponto de Vendas</description>
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+		
 		<java.version>1.8</java.version>
 
-		<maven-compiler-pluging.version>2.3.1</maven-compiler-pluging.version>
-		<spring-boot-starter-web.version>2.1.2.RELEASE</spring-boot-starter-web.version>
-		<thumbnailator.version>0.4.8</thumbnailator.version>
+		<!--<maven-compiler-pluging.version>3.8.1</maven-compiler-pluging.version>
+		<spring-boot-starter-web.version>2.1.2.RELEASE</spring-boot-starter-web.version>-->
 		<jackson-databind.version>2.7.5</jackson-databind.version>
 		<thymeleaf-extras-springsecurity.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity.version>
+		
+		<jasperreports.version>6.3.0</jasperreports.version>
+		<jasperreports-fonts.version>6.0.0</jasperreports-fonts.version>
 	</properties>
 
 	<dependencies>
-		<!-- Spring Data JPA e Hibernate -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- Driver Conector Mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.flywaydb</groupId>
+		    <artifactId>flyway-core</artifactId>
+		</dependency>
 
-		<!-- Thymeleaf Template Engine -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-		<!-- Data Attribute Thymeleaf -->
 		<dependency>
 			<groupId>com.github.mxab.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-data-attribute</artifactId>
 		</dependency>
 
-		<!-- Thymeleaf Layout Dialect -->
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
 
-		<!-- Web Containers -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- Thumbnailator -->
-		<!--<dependency> <groupId>net.coobird</groupId> <artifactId>thumbnailator</artifactId> 
-			<version>${thumbnailator.version}</version> <scope>compile</scope> </dependency> -->
-
-		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -85,36 +82,42 @@
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
 
-		<!-- Spring Security Testes -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Loggers lsf4j -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
-		<!-- Cache -->
-		<!--<dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-cache</artifactId> 
-			</dependency> -->
+		<dependency> 
+			<groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-starter-cache</artifactId> 
+		</dependency> 
+		
+		<dependency> 
+			<groupId>net.sf.jasperreports</groupId> 
+			<artifactId>jasperreports</artifactId> 
+			<version>${jasperreports.version}</version> 
+			<scope>compile</scope> 
+		</dependency>
+		
+		<dependency> 
+			<groupId>net.sf.jasperreports</groupId> 
+			<artifactId>jasperreports-fonts</artifactId> 
+			<version>${jasperreports-fonts.version}</version> 
+			<scope>compile</scope> 
+		</dependency>
 
-		<!-- Jasper Software -->
-		<!-- <dependency> <groupId>net.sf.jasperreports</groupId> <artifactId>jasperreports-fonts</artifactId> 
-			<version>${jasperreports-fonts.version}</version> <scope>compile</scope> 
-			</dependency> -->
-
-		<!-- Jackson - JSON -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- API de testes -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -127,121 +130,47 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- ############### EPSON DEPENDENCIAS ################# -->
-		<dependency>
-			<groupId>org.javapos</groupId>
-			<artifactId>javapos</artifactId>
-			<version>1.14.0</version>
-		</dependency>
-		
 		<dependency> 
 			<groupId>epson</groupId> 
-			<artifactId>epson-javaPOS-ADK.epsonjpos</artifactId> 
-			<version>1.14.10W</version> 
+			<artifactId>javapos.epsonjpos</artifactId> 
+			<version>1.14.0</version>
 			<scope>system</scope> 
 			<systemPath>C:\Program Files\EPSON\JavaPOS\lib\epsonjpos.jar</systemPath> 
 		</dependency>
 		
 		<dependency> 
 			<groupId>epson</groupId> 
-			<artifactId>epson-javaPOS-ADK.jpos1141</artifactId> 
-			<version>1.14.10W</version> 
+			<artifactId>javapos.jpos1141</artifactId> 
+			<version>1.14.0</version>
 			<scope>system</scope> 
 			<systemPath>C:\Program Files\EPSON\JavaPOS\lib\jpos1141.jar</systemPath> 
 		</dependency>
 		
 		<dependency> 
 			<groupId>epson</groupId> 
-			<artifactId>epson-javaPOS-ADK.xercesimpl</artifactId> 
-			<version>1.14.10W</version> 
+			<artifactId>javapos.xercesimpl</artifactId> 
+			<version>1.14.0</version>
 			<scope>system</scope> 
 			<systemPath>C:\Program Files\EPSON\JavaPOS\lib\xercesImpl.jar</systemPath> 
 		</dependency>
 		
 		<dependency> 
 			<groupId>epson</groupId> 
-			<artifactId>epson-javaPOS-ADK.xml-apis</artifactId> 
-			<version>1.14.10W</version> 
+			<artifactId>javapos.xml-apis</artifactId> 
+			<version>1.14.0</version>
 			<scope>system</scope> 
 			<systemPath>C:\Program Files\EPSON\JavaPOS\lib\xml-apis.jar</systemPath> 
 		</dependency>
-		<!-- #################################################### -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>
-		</dependency>
 	</dependencies>
-
+	
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.1</version>
-					<configuration>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+	
 		<plugins>
 			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<configuration>
-					<driver>com.mysql.jdbc.Driver</driver>
-					<scope>runtime</scope>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>../lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>../lib</classpathPrefix>
-							<mainClass>br.com.jdrmservices.PdvBasicoApplication</mainClass>
-						</manifest>
-						<manifestEntries>
-							<Class-Path>.</Class-Path>
-						</manifestEntries>
-					</archive>
-
-					<finalName>pdv-basico</finalName>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-	</build>
+	</build>	
 </project>

@@ -10,6 +10,7 @@ public class Constants {
 
 	public final static String INFORMACOES_SALVAS_SUCESSO = "Informações salvas com sucesso!";
 	public final static String INFORMACOES_JA_CADASTRADAS = "Informações já cadastradas!";
+	public final static String INFORMACOES_NAO_CADASTRADO = "Produto não cadastrado!";
 	public final static String ERRO_SALVAR_SUCESSO = "Erro ao salvar as informações!";
 	
 	public final static String INFORMACOES_EXCLUIDAS_SUCESSO = "Informações excluídas com sucesso!";
@@ -54,6 +55,8 @@ public class Constants {
 	public final static String VIEW_PESQUISAR_PRODUTO = "produto/PesquisarProduto";
 	public final static String VIEW_PRODUTO_NOVO = "produto/CadastrarProduto";
 	public final static String VIEW_PRODUTO_REDIRECT = "redirect:/produtos/novo";
+	public final static String VIEW_PRODUTO_ENTRADA = "produto/EntradaEstoque";
+	public final static String VIEW_PRODUTO_ENTRADA_REDIRECT = "redirect:/produtos/entrada";
 	
 	public final static String VIEW_PESQUISAR_USUARIO = "usuario/PesquisarUsuario";
 	public final static String VIEW_USUARIO_NOVO = "usuario/CadastrarUsuario";
@@ -68,6 +71,8 @@ public class Constants {
 	public final static String VIEW_ITENS_VENDA = "venda/TabelaItensVenda";
 	public final static String VIEW_FINALIZAR_VENDA = "venda/FinalizarVendaPdv";
 	public final static String VIEW_VENDA_REDIRECT = "redirect:/vendas/novo";
+	
+	public final static String VIEW_RELATORIOS = "relatorios/EmitirRelatorio";
 	
 	public static final String USUARIO_SENHA_OBRIGATORIA = "A Senha é obrigatória";
 	public static final String USUARIO_SENHA_INCORRETOS = "E-mail e/ou Senha estão incorretos!";

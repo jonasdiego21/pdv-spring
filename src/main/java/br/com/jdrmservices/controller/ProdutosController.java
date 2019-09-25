@@ -4,6 +4,8 @@ import static br.com.jdrmservices.util.Constants.INFORMACOES_SALVAS_SUCESSO;
 import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_PRODUTO;
 import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_NOVO;
 import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_REDIRECT;
+import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_ENTRADA;
+import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_ENTRADA_REDIRECT;
 
 import java.util.List;
 
@@ -64,6 +66,33 @@ public class ProdutosController {
 		return mv;
 	}
 	
+	@GetMapping("/entrada")
+	private ModelAndView produtoEntradaNovo(Produto produto) {
+		ModelAndView mv = new ModelAndView(VIEW_PRODUTO_ENTRADA);
+		
+		mv.addObject("produtos", produtos.findAllByOrderByNomeAsc());
+		mv.addObject("categorias", categorias.findAllByOrderByNomeAsc());
+		mv.addObject("fornecedores", fornecedores.findAllByOrderByNomeAsc());
+		mv.addObject("medidas", UnidadeMedida.values());
+		mv.addObject(produto);
+		
+		return mv;
+	}
+	
+	@PostMapping("/entrada")
+	private ModelAndView produtoEntradaSalvar(Produto produto, RedirectAttributes attributes) {
+		
+		try {
+			produtoService.adicionarEntrada(produto);
+		} catch (GlobalException e) {
+			return produtoEntradaNovo(produto);		
+		}
+		
+		attributes.addFlashAttribute("successMessage", INFORMACOES_SALVAS_SUCESSO);
+		
+		return new ModelAndView(VIEW_PRODUTO_ENTRADA_REDIRECT);
+	}
+	
 	@PostMapping
 	public ModelAndView cadastrar(@Valid Produto produto, BindingResult result, Model model, RedirectAttributes attributes) {
 		
@@ -74,7 +103,7 @@ public class ProdutosController {
 		try {
 			produtoService.cadastrar(produto);
 		} catch (GlobalException e) {
-			result.rejectValue("nome", e.getMessage(), e.getMessage());
+			result.rejectValue("codigoBarras", e.getMessage(), e.getMessage());
 			return novo(produto);		
 		}
 		
@@ -86,6 +115,14 @@ public class ProdutosController {
 	@GetMapping("/{codigo}")
 	public ModelAndView editar(@PathVariable("codigo") Produto produto) {	
 		ModelAndView mv = novo(produto);
+		mv.addObject(produto);
+		
+		return mv;
+	}
+	
+	@GetMapping("/entrada/{codigo}")
+	public ModelAndView editarEntrada(@PathVariable("codigo") Produto produto) {	
+		ModelAndView mv = produtoEntradaNovo(produto);
 		mv.addObject(produto);
 		
 		return mv;

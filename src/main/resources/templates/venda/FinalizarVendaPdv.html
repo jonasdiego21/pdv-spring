@@ -33,6 +33,12 @@
 		<input type="hidden" th:field="*{valorDesconto}" class="moeda-formato" />
 		<input type="hidden" th:field="*{valorPago}" class="moeda-formato" />
 		
+		<!-- error -->
+		<th:block th:include="messages/ErrorMessage"></th:block>
+			
+		<!-- success -->
+		<th:block th:include="messages/SuccessMessage"></th:block>
+		
 		<div class="row">
 			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<h1 th:text="${venda.cliente.nome}" id="clienteNome" th:data-url="@{/}" class="card bg-dark-blue text-center p-3 mt-3 mb-2 text-white border-bold">CLIENTE AVULSO</h1>

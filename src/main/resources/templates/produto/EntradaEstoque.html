@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<section class="container" layout:fragment="conteudo">
+
+		<h1 class="text-center" th:if="${produto.novo}">Cadastrar Produto</h1>
+		<h1 class="text-center" th:unless="${produto.novo}" th:text="|Edição de ${produto.nome}|">Editar Produto</h1>
+		
+		<hr />
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
+		    	<li class="breadcrumb-item"><a th:href="@{/produtos}">Produtos</a></li>
+		    	<li class="breadcrumb-item active" aria-current="page">Entrada</li>
+			</ol>
+		</div>
+		
+		<form method="POST" class="input-form" th:object="${produto}" th:action="@{/produtos/entrada}">	
+
+			<input type="hidden" th:field="*{codigo}" />	
+			
+			<!-- error -->
+			<th:block th:include="messages/ErrorMessage"></th:block>
+			
+			<!-- success -->
+			<th:block th:include="messages/SuccessMessage"></th:block>
+
+			<div class="row">
+				<div class="form-group col-sm-3">
+					<label class="form-control-label" for="codigoBarras"><span class="text-danger">*</span>Código de Barras</label>
+					<input type="text" th:field="*{codigoBarras}" class="form-control" id="codigoBarras" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="quantidade"><span class="text-danger">*</span>Quantidade</label>
+					<input type="text" th:field="*{quantidade}" class="form-control" id="quantidade" th:errorclass="is-invalid" autocomplete="off">
+				</div>
+			</div>	
+			
+			<hr />
+			
+			<div class="row">
+				<!-- Botão cadastrar -->
+				<div class="col-sm-12 text-right">
+					<button type="submit" class="btn btn-primary">Adicionar</button>
+				</div>
+			</div>
+			
+			<br />
+		</form>
+	</section>
+	
+	<!-- JavaScript -->
+  	<th:block layout:fragment="javascripts">
+  	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
+  	<script>
+  		$(function() {
+  			$('#codigoBarras').on('keypress', function(evento) {
+  				if(evento.which == 13) {
+  					evento.preventDefault();
+  					
+  					$('#quantidade').focus();
+  				}
+  			});
+  		});
+  	</script>
+  	</th:block>
+</body>
+</html>

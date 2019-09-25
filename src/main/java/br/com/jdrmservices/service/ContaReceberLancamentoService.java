@@ -34,6 +34,7 @@ public class ContaReceberLancamentoService {
 			contaReceber.get().setStatus(Status.PAGO);
 			contaReceber.get().setTotalVenda(new BigDecimal("0.000"));
 			contaReceber.get().setTotalRecebido(new BigDecimal("0.000"));
+			contaReceber.get().setRestante(contaReceber.get().getCliente().getLimiteCompra());
 		}
 		
 		if(contaReceber.get().getStatus().equals(Status.DEVENDO)) {

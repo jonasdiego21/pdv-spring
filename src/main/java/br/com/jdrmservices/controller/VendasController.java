@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import br.com.jdrmservices.dto.TotalVendasDia;
 import br.com.jdrmservices.dto.TotalVendasMes;
 import br.com.jdrmservices.epson.EpsonPrint;
 import br.com.jdrmservices.exception.GlobalException;
+import br.com.jdrmservices.impressora.GenericPrinter;
 import br.com.jdrmservices.model.Cliente;
 import br.com.jdrmservices.model.Produto;
 import br.com.jdrmservices.model.Venda;
@@ -71,6 +73,9 @@ public class VendasController {
 	@Autowired
 	private EpsonPrint epsonPrint;
 	
+	@Autowired
+	private GenericPrinter genericPrinter;
+	
 	private DecimalFormat decimalFormat;
 	
 	public VendasController() {
@@ -84,9 +89,11 @@ public class VendasController {
 		
 		tabelasItensSession.adicionarItem(uuid, produto, quantidade);
 
+		// retirar para service
 		if(venda.getStatus().equals(StatusVenda.EMITIDA) || venda.getStatus().equals(StatusVenda.CREDIARIO)) {			
 			epsonPrint.imprimirItem(uuid, produto, quantidade);
-		}
+			genericPrinter.imprimirItem(uuid, produto, quantidade);
+		}//
 		
 		mv.addObject("itens", tabelasItensSession.getItens(uuid));	
 		mv.addObject("valorTotal", decimalFormat.format(tabelasItensSession.getValorTotal(uuid)));
@@ -144,11 +151,14 @@ public class VendasController {
 		mv.addObject("itens", tabelasItensSession.getItens(venda.getUuid()));
 		mv.addObject("vendas", vendas.findAll());
 		
-		if(epsonPrint.conectar()) {
-			if(venda.getStatus().equals(StatusVenda.EMITIDA) || venda.getStatus().equals(StatusVenda.CREDIARIO)) {
+		// remover para o service
+		if(venda.getStatus().equals(StatusVenda.EMITIDA) || venda.getStatus().equals(StatusVenda.CREDIARIO)) {
+			if(epsonPrint.conectar()) {
 				epsonPrint.imprimirCabacalho();
 			}
-		}
+			
+			genericPrinter.imprimirCabacalho();
+		}//
 		
 		return mv;
 	}
@@ -156,17 +166,6 @@ public class VendasController {
 	@PostMapping("/finalizar")
 	public ModelAndView finalizarVenda(@AuthenticationPrincipal UsuarioSistema usuarioSistema, Venda venda, PdvDTO pdvDTO) {
 		ModelAndView mv = new ModelAndView(VIEW_FINALIZAR_VENDA);
-		
-		//pdvDTO.setUuid(venda.getUuid());
-		//pdvDTO.setUsuario(usuarioSistema.getUsuario());
-		//pdvDTO.setCliente(venda.getCliente());
-		//pdvDTO.setDataCriacao(LocalDate.now());
-		//pdvDTO.setValorDesconto(venda.getValorDesconto());
-		//pdvDTO.setFormaPagamento(venda.getFormaPagamento());
-		//pdvDTO.setStatus(venda.getStatus());
-		//pdvDTO.setItens(venda.getItens());
-		//pdvDTO.setValorPago(venda.getValorPago());
-		//pdvDTO.setTroco(venda.getTroco());
 		
 		pdvDTO.setValorVenda(tabelasItensSession.getValorTotal(venda.getUuid()));
 		
@@ -198,6 +197,7 @@ public class VendasController {
 		try {
 			vendaService.cadastrar(venda);
 		} catch (GlobalException e) {
+			attributes.addAttribute("aviso", e.getMessage());
 			return novo(venda, uuid);		
 		}
 
@@ -233,6 +233,16 @@ public class VendasController {
 		mv.addObject("pagina", pagina);
 		
 		return mv;
+	}
+	
+	@GetMapping("/cancelar/{codigo}")
+	public ModelAndView cancelarVendaEmitida(@PathVariable("codigo") Long codigo) {	
+		Optional<Venda> venda = vendas.findById(codigo);
+		venda.get().setCodigo(codigo);
+		
+		vendaService.cancelaVendaEmitida(venda.get());
+		
+		return new ModelAndView("redirect:/vendas");
 	}
 	
 	@GetMapping("/totalVendasDia")

@@ -23,6 +23,7 @@
 				<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Produtos</li>
 				<li class="breadcrumb-item"><a th:href="@{/produtos/novo}">Novo</a></li>
+				<li class="breadcrumb-item"><a th:href="@{/produtos/entrada}">Entrada</a></li>
 			</ol>
 		</div>
 		
@@ -65,7 +66,7 @@
 							<td class="text-center" th:text="${produto.codigoBarras}"></td>
 							<td th:text="${produto.nome}"></td>
 							<td class="text-center">[[${{produto.precoVenda}}]]</td>
-							<td class="text-center" th:text="${produto.quantidade}"></td>
+							<td class="text-center">[[${{produto.quantidade}}]]</td>
 							<td class="text-center" th:text="${produto.categoria.nome}"></td>
 							<td class="text-center" th:text="${produto.fornecedor.nome}"></td>
 							<td class="text-center" th:text="${produto.unidade}"></td>

@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import br.com.jdrmservices.model.Empresa;
 import br.com.jdrmservices.model.Produto;
@@ -20,6 +22,8 @@ import jpos.POSPrinterConst;
 import jpos.POSPrinterControl114;
 
 @Component
+@ComponentScan(basePackageClasses = { EpsonPrint.class })
+@Service
 public class EpsonPrint implements EpsonPrintInterface {
 
 	@Autowired
@@ -83,9 +87,7 @@ public class EpsonPrint implements EpsonPrintInterface {
 	@Override
 	public boolean imprimirCabacalho() {
 		try {
-			if(conectar()) {
-				System.out.println("==============> IMPRESSORA CONECTADA COM SUCESSO");
-			}
+			conectar();
 
 			Optional<Empresa> empresa = empresas.findById(1L);	
 			
@@ -126,8 +128,7 @@ public class EpsonPrint implements EpsonPrintInterface {
 	}
 	
 	@Override
-	public boolean imprimirFechamento(Venda venda) {
-		
+	public boolean imprimirFechamento(Venda venda) {	
 		try {			
 			String linhaValorTotal = String.format("%s" + "                                         ".substring(0, 39 - moedaFormat.format(venda.getValorTotal()).length()) + "%s\n", "Sub Total", moedaFormat.format(venda.getValorTotal()));
 			String linhaTotalPago = String.format("%s" + "                                         ".substring(0, 38 - moedaFormat.format(venda.getValorPago()).length()) + "%s\n", "Total Pago", moedaFormat.format(venda.getValorPago()));

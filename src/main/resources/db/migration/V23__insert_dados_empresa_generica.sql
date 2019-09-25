@@ -1,0 +1,2 @@
+-- INSERT EMPRESA --
+-- insert into empresa (nome, email, telefone, cnpj, estado, cidade_codigo, rua, numero, bairro) values ('JDRM SERVICES', 'jdrmservices@hotmail.com', '(88) 99653-4543', '15.550.364/0001-12', 1, 1, 'Rua Antonio Barbosa de Menezes', '289', 'Flores');

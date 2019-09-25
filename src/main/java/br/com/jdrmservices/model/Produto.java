@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import br.com.jdrmservices.model.enumeration.UnidadeMedida;
 
@@ -28,6 +30,7 @@ public class Produto implements Serializable {
 	private Long codigo;
 
 	@NotBlank(message = "Nome é obrigatório")
+	@Size(max = 24, message = "O nome deve conter no máximo 24 caracteres e no mínimo 5")
 	private String nome;
 
 	@NotBlank(message = "Descricao é obrigatória")
@@ -35,16 +38,20 @@ public class Produto implements Serializable {
 
 	@Column(name = "preco_compra")
 	@Digits(integer = 10, fraction = 2)
+	@NotNull(message = "O preço de compra é obrigatorio")
 	private BigDecimal precoCompra = BigDecimal.ZERO;
 
 	@Column(name = "preco_venda")
 	@Digits(integer = 10, fraction = 2)
+	@NotNull(message = "O preço de venda é obrigatorio")
 	private BigDecimal precoVenda = BigDecimal.ZERO;
 
 	@Digits(integer = 10, fraction = 3)
+	@NotNull(message = "A quantidade é obrigatoria")
 	private BigDecimal quantidade = BigDecimal.ZERO;
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull(message = "A unidade de medida é obrigatoria")
 	private UnidadeMedida unidade = UnidadeMedida.UN;
 
 	@NotBlank(message = "CodigoBarras é obrigatório")
@@ -54,9 +61,11 @@ public class Produto implements Serializable {
 	//private String contentType;
 	
 	@ManyToOne
+	@NotNull(message = "A categoria é obrigatoria")
 	private Categoria categoria;
 	
 	@ManyToOne
+	@NotNull(message = "O fornecedor é obrigatório")
 	private Fornecedor fornecedor;
 
 	public boolean isNovo() {

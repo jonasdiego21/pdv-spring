@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -24,20 +25,18 @@ public class Fornecedor implements Serializable {
 	
 	private String email;
 
-	@NotBlank(message = "Cnpj é obrigatório")
 	private String cnpj;
 
-	@NotBlank(message = "Rua é obrigatório")
 	private String rua;
 
 	private String numero;
 
-	@NotBlank(message = "Bairro é obrigatório")
 	private String bairro;
 
 	private String complemento;
 
 	@NotBlank(message = "Cidade é obrigatória")
+	//@ManyToOne
 	private String cidade;
 
 	@NotBlank(message = "Estado é obrigatório")

@@ -103,6 +103,13 @@
         </a>
       </li>
       
+      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_PRODUTO')}">
+        <a class="nav-link" th:href="@{/produtos/entrada}">
+          <i class="fas fa-fw fa-people-carry"></i>
+          <span>ENTRADA ESTOQUE</span>
+        </a>
+      </li>
+      
       <!-- Conta Pagar -->
       <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CONTA_PAGAR')}">
         <a class="nav-link" th:href="@{/contaspagar/novo}">
@@ -136,12 +143,12 @@
       </li>
       
       <!-- Relatórios -->
-      <!--<li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'EMITIR_RELATORIO')}">
-        <a class="nav-link" th:href="@{/relatorios/emitir}">
-          <i class="fas fa-fw fa-home"></i>
+      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'EMITIR_RELATORIO')}">
+        <a class="nav-link" th:href="@{/relatorios}">
+          <i class="fas fa-fw fa-file-pdf"></i>
           <span>RELATÓRIOS</span>
         </a>
-      </li>-->
+      </li>
 
       <!-- Usuário -->
       <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_USUARIO')}">

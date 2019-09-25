@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "empresa")
@@ -22,6 +23,7 @@ public class Empresa implements Serializable {
 	private Long codigo;
 
 	@NotBlank(message = "Nome é obrigatório")
+	@Size(min = 5, max = 24, message = "O nome deve conter no máximo 24 caracteres e no mínimo 5")
 	private String nome;
 
 	private String email;
@@ -35,8 +37,7 @@ public class Empresa implements Serializable {
 	private String numero;
 
 	private String bairro;
-	
-	//@Transient
+
 	@NotNull(message = "Estado é obrigatório")
 	private Estado estado;
 	

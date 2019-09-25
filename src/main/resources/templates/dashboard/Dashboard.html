@@ -31,7 +31,7 @@
 				<h5 class="text-white">Produtos</h5>
 			</div>
 			
-			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA')}">
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 				<h1 class="text-white">[[${vendas}]]</h1>
 				<h5 class="text-white">Vendas</h5>
 			</div>
@@ -57,7 +57,7 @@
 		<span class="text-dark m-0 p-0">VENDAS</span>
 		<hr class="bg-ligt m-0 p-0" />
 		
-		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA')}">
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
 				<h1 class="text-white">R$ [[${{valorVendasAno}}]]</h1>
 				<h5 class="text-white">Valor total das vendas no ano</h5>
@@ -76,7 +76,7 @@
 		<span class="text-dark m-0 p-0">GRÁFICOS</span>
 		<hr class="bg-ligt m-0 p-0" />
 		
-		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA')}">
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="col-sm-4">
 				<canvas id="totalVendasDia" width="100%" height="100%"></canvas>
 			</div>

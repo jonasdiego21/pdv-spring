@@ -28,17 +28,14 @@ public class Cliente implements Serializable {
 
 	private String email;
 
-	@NotBlank(message = "Telefone é obrigatório")
 	private String telefone;
 
-	@NotBlank(message = "Rua/Logradouro é obrigatória")
 	private String rua;
 
 	private String numero;
 
 	private String bairro;
 	
-	//@Transient
 	@NotNull(message = "Estado é obrigatório")
 	private Estado estado;
 	
@@ -52,9 +49,6 @@ public class Cliente implements Serializable {
 	private String dataNascimento;
 
 	private String cpf;
-
-	//@Column(name = "ultima_compra")
-	//private LocalDate ultimaCompra;
 	
 	private BigDecimal limiteCompra = BigDecimal.valueOf(500);
 
@@ -157,14 +151,6 @@ public class Cliente implements Serializable {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-
-	/*public LocalDate getUltimaCompra() {
-		return ultimaCompra;
-	}
-
-	public void setUltimaCompra(LocalDate ultimaCompra) {
-		this.ultimaCompra = ultimaCompra;
-	}*/
 
 	public BigDecimal getLimiteCompra() {
 		return limiteCompra;

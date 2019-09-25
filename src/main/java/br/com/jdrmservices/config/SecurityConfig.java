@@ -37,10 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/fornecedores/novo").hasAuthority("CADASTRAR_FORNECEDOR")
 				.antMatchers("/funcionarios/novo").hasAuthority("CADASTRAR_FUNCIONARIO")
 				.antMatchers("/produtos/novo").hasAuthority("CADASTRAR_PRODUTO")
+				.antMatchers("/produtos/entrada").hasAuthority("CADASTRAR_PRODUTO")
 				.antMatchers("/usuarios/novo").hasAuthority("CADASTRAR_USUARIO")
 				.antMatchers("/vendas/novo").hasAuthority("CADASTRAR_VENDA")
 				.antMatchers("/vendas/finalizarVendaPdv").hasAuthority("CADASTRAR_VENDA")
-				.antMatchers("/relatorios/emitir").hasAuthority("EMITIR_RELATORIO")
+				.antMatchers("/relatorios").hasAuthority("EMITIR_RELATORIO")
 				.antMatchers("/caixas/novo").hasAuthority("CADASTRAR_CAIXA")
 				
 				.antMatchers("/categorias").hasAuthority("PESQUISAR_CATEGORIA")
