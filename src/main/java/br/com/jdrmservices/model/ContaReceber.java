@@ -16,10 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import br.com.jdrmservices.model.enumeration.Status;
-import br.com.jdrmservices.util.Constants;
 
 @Entity
 @Table(name = "conta_receber")
@@ -34,12 +31,12 @@ public class ContaReceber implements Serializable {
 	@ManyToOne
 	private Cliente cliente;
 	
-	@DateTimeFormat(pattern = Constants.FORMAT_DATE)
-	@Column(name = "data_venda", columnDefinition = "DATE")
+	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)
+	@Column(name = "data_venda")
 	private LocalDate dataVenda = LocalDate.now();
 	
-	@DateTimeFormat(pattern = Constants.FORMAT_DATE)
-	@Column(name = "data_vencimento", columnDefinition = "DATE")
+	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)
+	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento = LocalDate.now().plusDays(30);
 	
 	@Column(name = "total_venda")

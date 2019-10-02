@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
 		
 		DateTimeFormatterRegistrar dateTimeFormatterRegistrar = new DateTimeFormatterRegistrar();
-		dateTimeFormatterRegistrar.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm"));
+		dateTimeFormatterRegistrar.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm:ss"));
 		dateTimeFormatterRegistrar.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		dateTimeFormatterRegistrar.registerFormatters(registry);
 		

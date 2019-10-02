@@ -44,7 +44,7 @@ public class ProdutoService {
 		produto.setNome(optional.get().getNome());
 		produto.setUnidade(optional.get().getUnidade());
 		produto.setDescricao(optional.get().getDescricao());
-		produto.setQuantidade(produto.getQuantidade().add(optional.get().getQuantidade()));
+		produto.setQuantidade(optional.get().getQuantidade().add(produto.getQuantidade()));
 		produto.setPrecoCompra(optional.get().getPrecoCompra());
 		produto.setPrecoVenda(optional.get().getPrecoVenda());
 		produto.setCategoria(optional.get().getCategoria());

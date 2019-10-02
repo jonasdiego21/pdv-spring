@@ -18,14 +18,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.DynamicUpdate;
 
 import br.com.jdrmservices.model.enumeration.FormaPagamento;
 import br.com.jdrmservices.model.enumeration.StatusVenda;
-import br.com.jdrmservices.util.Constants;
 
 @Entity
 @Table(name = "venda")
+@DynamicUpdate
 public class Venda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,8 +40,8 @@ public class Venda implements Serializable {
 	@ManyToOne
 	private Cliente cliente;
 	
-	@DateTimeFormat(pattern = Constants.FORMAT_DATE)
-	@Column(name = "data_criacao", columnDefinition = "DATE")
+	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)
+	@Column(name = "data_criacao")
 	private LocalDate dataCriacao = LocalDate.now();
 	
 	//@Digits(integer = 10, fraction = 2)

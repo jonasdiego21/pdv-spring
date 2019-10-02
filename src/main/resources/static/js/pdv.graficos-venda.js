@@ -3,12 +3,61 @@ var Pdv = Pdv || {};
 Pdv.Graficos = (function() {
 	
 	function Graficos() {
+		//this.line = $('#line');
+		//this.bar = $('#bar');
+		//this.pizza = $('#pie');
+		
 		this.ctxTotalVendasDia = $('#totalVendasDia')[0].getContext('2d');
 		this.ctxTotalVendasMes = $('#totalVendasMes')[0].getContext('2d');
 		this.ctxTotalVendasAno = $('#totalVendasAno')[0].getContext('2d');
+		
+		this.ctxTotalVendasDiaCrediario = $('#totalVendasDiaCrediario')[0].getContext('2d');
+		this.ctxTotalVendasMesCrediario = $('#totalVendasMesCrediario')[0].getContext('2d');
+		this.ctxTotalVendasAnoCrediario = $('#totalVendasAnoCrediario')[0].getContext('2d');
+		
+		this.ctxTotalVendasDiaGeral = $('#totalVendasDiaGeral')[0].getContext('2d');
+		this.ctxTotalVendasMesGeral = $('#totalVendasMesGeral')[0].getContext('2d');
+		this.ctxTotalVendasAnoGeral = $('#totalVendasAnoGeral')[0].getContext('2d');
+		
+		//this.tipoGrafico = 'line';
 	}
 	
 	Graficos.prototype.start = function() {
+		//this.line.on('click', alterarTipoGrafico.bind(this));
+		//this.bar.on('click', alterarTipoGrafico.bind(this));
+		//this.pizza.on('click', alterarTipoGrafico.bind(this));
+		
+		buscarDadosDosGraficos.call(this);
+	}
+	
+	function gerarCores(bar) {
+		var cor = [];
+		
+		for(i = 0; i < bar.length; i++) {
+			cor.unshift('rgba(' + Math.floor(Math.random() * 255) + ',' 
+					+ Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ', 0.5)');
+		}
+		
+		return cor;
+	}
+	
+	function gerarCoresText(bar) {
+		var cor = [];
+		
+		for(i = 0; i < bar.length; i++) {
+			cor.unshift('rgba(' + Math.floor(Math.random() * 255) + ',' 
+					+ Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ', 1.0)');
+		}
+		
+		return cor;
+	}
+	
+	function alterarTipoGrafico(e) {
+		this.tipoGrafico = e.currentTarget.id;
+		buscarDadosDosGraficos.call(this);
+	}
+	
+	function buscarDadosDosGraficos() {
 		$.ajax({
 			url: 'vendas/totalVendasDia',
 			method: 'GET',
@@ -29,6 +78,48 @@ Pdv.Graficos = (function() {
 			success: rederizaGraficoTotalVendasAno.bind(this),
 			error: rederizarGraficoError.bind(this)
 		});
+		
+		$.ajax({
+			url: 'vendas/totalVendasDiaCrediario',
+			method: 'GET',
+			success: rederizaGraficoTotalVendasDiaCrediario.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		$.ajax({
+			url: 'vendas/totalVendasMesCrediario',
+			method: 'GET',
+			success: rederizaGraficoTotalVendasMesCrediario.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		$.ajax({
+			url: 'vendas/totalVendasAnoCrediario',
+			method: 'GET',
+			success: rederizaGraficoTotalVendasAnoCrediario.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		$.ajax({
+			url: 'vendas/totalVendasDiaGeral',
+			method: 'GET',
+			success: rederizaGraficoTotalVendasDiaGeral.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		$.ajax({
+			url: 'vendas/totalVendasMesGeral',
+			method: 'GET',
+			success: rederizaGraficoTotalVendasMesGeral.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		$.ajax({
+			url: 'vendas/totalVendasAnoGeral',
+			method: 'GET',
+			success: rederizaGraficoTotalVendasAnoGeral.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
 	}
 	
 	function rederizaGraficoTotalVendasDia(totalVendasDia) {
@@ -46,8 +137,8 @@ Pdv.Graficos = (function() {
 				labels: dia,
 				datasets: [{
 					label: 'Total de vendas por dia',
-					backgroundColor: 'rgba(26, 179, 148, 0.5)',
-					pointBorderColor: 'rgba(26, 179, 148, 1)',
+					backgroundColor: gerarCores(dia),
+					pointBorderColor: gerarCoresText(dia),
 					pointBackgroundColor: '#fff',
 					data: total
 				}]
@@ -65,13 +156,13 @@ Pdv.Graficos = (function() {
 		});
 		
 		var graficoTotalVendasMes = new Chart(this.ctxTotalVendasMes, {
-			type: 'line',
+			type: 'bar',
 			data: {
 				labels: mes,
 				datasets: [{
 					label: 'Total de vendas por mês',
-					backgroundColor: 'rgba(26, 179, 148, 0.5)',
-					pointBorderColor: 'rgba(26, 179, 148, 1)',
+					backgroundColor: gerarCores(mes),
+					pointBorderColor: gerarCoresText(mes),
 					pointBackgroundColor: '#fff',
 					data: total
 				}]
@@ -89,13 +180,157 @@ Pdv.Graficos = (function() {
 		});
 		
 		var graficoTotalVendasAno = new Chart(this.ctxTotalVendasAno, {
-			type: 'line',
+			type: 'pie',
 			data: {
 				labels: ano,
 				datasets: [{
 					label: 'Total de vendas por ano',
-					backgroundColor: 'rgba(26, 179, 148, 0.5)',
-					pointBorderColor: 'rgba(26, 179, 148, 1)',
+					backgroundColor: gerarCores(ano),
+					pointBorderColor: gerarCoresText(ano),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+
+	function rederizaGraficoTotalVendasDiaCrediario(totalVendasDiaCrediario) {
+		var dia = [];
+		var total = [];
+		
+		totalVendasDiaCrediario.forEach(function(data) {
+			dia.unshift(data.dia);
+			total.unshift(data.total);
+		});
+		
+		var graficoTotalVendasDiaCrediario = new Chart(this.ctxTotalVendasDiaCrediario, {
+			type: 'line',
+			data: {
+				labels: dia,
+				datasets: [{
+					label: 'Total de vendas por dia',
+					backgroundColor: gerarCores(dia),
+					pointBorderColor: gerarCoresText(dia),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	function rederizaGraficoTotalVendasMesCrediario(totalVendasMesCrediario) {
+		var mes = [];
+		var total = [];
+		
+		totalVendasMesCrediario.forEach(function(data) {
+			mes.unshift(data.mes);
+			total.unshift(data.total);
+		});
+		
+		var graficoTotalVendasMesCrediario = new Chart(this.ctxTotalVendasMesCrediario, {
+			type: 'bar',
+			data: {
+				labels: mes,
+				datasets: [{
+					label: 'Total de vendas por mês',
+					backgroundColor: gerarCores(mes),
+					pointBorderColor: gerarCoresText(mes),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	function rederizaGraficoTotalVendasAnoCrediario(totalVendasAnoCrediario) {
+		var ano = [];
+		var total = [];
+		
+		totalVendasAnoCrediario.forEach(function(data) {
+			ano.unshift(data.ano);
+			total.unshift(data.total);
+		});
+		
+		var graficoTotalVendasAnoCrediario = new Chart(this.ctxTotalVendasAnoCrediario, {
+			type: 'pie',
+			data: {
+				labels: ano,
+				datasets: [{
+					label: 'Total de vendas por ano',
+					backgroundColor: gerarCores(ano),
+					pointBorderColor: gerarCoresText(ano),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	function rederizaGraficoTotalVendasDiaGeral(totalVendasDiaGeral) {
+		var dia = [];
+		var total = [];
+		
+		totalVendasDiaGeral.forEach(function(data) {
+			dia.unshift(data.dia);
+			total.unshift(data.total);
+		});
+		
+		var graficoTotalVendasDiaGeral = new Chart(this.ctxTotalVendasDiaGeral, {
+			type: 'line',
+			data: {
+				labels: dia,
+				datasets: [{
+					label: 'Total de vendas por dia',
+					backgroundColor: gerarCores(dia),
+					pointBorderColor: gerarCoresText(dia),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	function rederizaGraficoTotalVendasMesGeral(totalVendasMesGeral) {
+		var mes = [];
+		var total = [];
+		
+		totalVendasMesGeral.forEach(function(data) {
+			mes.unshift(data.mes);
+			total.unshift(data.total);
+		});
+		
+		var graficoTotalVendasMesGeral = new Chart(this.ctxTotalVendasMesGeral, {
+			type: 'bar',
+			data: {
+				labels: mes,
+				datasets: [{
+					label: 'Total de vendas por mês',
+					backgroundColor: gerarCores(mes),
+					pointBorderColor: gerarCoresText(mes),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	function rederizaGraficoTotalVendasAnoGeral(totalVendasAnoGeral) {
+		var ano = [];
+		var total = [];
+		
+		totalVendasAnoGeral.forEach(function(data) {
+			ano.unshift(data.ano);
+			total.unshift(data.total);
+		});
+		
+		var graficoTotalVendasAnoGeral = new Chart(this.ctxTotalVendasAnoGeral, {
+			type: 'pie',
+			data: {
+				labels: ano,
+				datasets: [{
+					label: 'Total de vendas por ano',
+					backgroundColor: gerarCores(ano),
+					pointBorderColor: gerarCoresText(ano),
 					pointBackgroundColor: '#fff',
 					data: total
 				}]

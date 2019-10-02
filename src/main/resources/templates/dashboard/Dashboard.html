@@ -54,7 +54,27 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">VENDAS</span>
+		<span class="text-dark m-0 p-0">FLUXO DE CAIXA (HOJE)</span>
+		<hr class="bg-ligt m-0 p-0" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="card bg-success col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorTotalCaixa}}]]</h1>
+				<h5 class="text-white">Total em caixa (hoje)</h5>
+			</div>
+			
+			<div class="card bg-danger col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ -[[${{valorTotalDespesas}}]]</h1>
+				<h5 class="text-white">Total das despesas (hoje)</h5>
+			</div>
+			
+			<div class="card bg-info col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorTotalSaldo}}]]</h1>
+				<h5 class="text-white">Saldo total (hoje)</h5>
+			</div>
+		</div>
+		
+		<span class="text-dark m-0 p-0">VENDAS À VISTA</span>
 		<hr class="bg-ligt m-0 p-0" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
@@ -73,20 +93,111 @@
 				<h5 class="text-white">Valor total das vendas no dia</h5>
 			</div>
 		</div>
-		<span class="text-dark m-0 p-0">GRÁFICOS</span>
+		
+		<span class="text-dark m-0 p-0">VENDAS À PRAZO</span>
+		<hr class="bg-ligt m-0 p-0" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasAnoCrediario}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no ano</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasMesCrediario}}]]</h1>
+				<h5 class="text-white">Valor total das vendas mês</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$  [[${{valorVendasDiaCrediario}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no dia</h5>
+			</div>
+		</div>
+		
+		<span class="text-dark m-0 p-0">TODAS AS VENDAS</span>
+		<hr class="bg-ligt m-0 p-0" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasAnoGeral}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no ano</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasMesGeral}}]]</h1>
+				<h5 class="text-white">Valor total das vendas mês</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$  [[${{valorVendasDiaGeral}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no dia</h5>
+			</div>
+		</div>
+		
+		<div class="row mt-1 justify-content-center" style="z-index: 9999; display: flex;">
+			<div class="btn-group col-sm-12">				
+				<button id="line" class="btn" disabled="disabled">
+					<i class="fas fa-chart-line"></i> Por dia
+				</button>
+				
+				<button id="bar" class="btn" disabled="disabled">
+					<i class="fas fa-chart-bar"></i> Por mês
+				</button>
+				
+				<button id="pie" class="btn" disabled="disabled">
+					<i class="fas fa-chart-pie"></i> Por ano
+				</button>
+			</div>
+		</div>
+		
+		<span class="text-dark m-0 p-0">GRÁFICOS - VENDA À VISTA</span>
 		<hr class="bg-ligt m-0 p-0" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="col-sm-4">
-				<canvas id="totalVendasDia" width="100%" height="100%"></canvas>
+				<canvas id="totalVendasDia" width="100%" height="100px"></canvas>
 			</div>
 			
 			<div class="col-sm-4">
-				<canvas id="totalVendasMes" width="100%" height="100%"></canvas>
+				<canvas id="totalVendasMes" width="100%" height="100px"></canvas>
 			</div>
 			
 			<div class="col-sm-4">
-				<canvas id="totalVendasAno" width="100%" height="100%"></canvas>
+				<canvas id="totalVendasAno" width="100%" height="100px"></canvas>
+			</div>
+		</div>
+		
+		<span class="text-dark m-0 p-0">GRÁFICOS - VENDA À PRAZO</span>
+		<hr class="bg-ligt m-0 p-0" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="col-sm-4">
+				<canvas id="totalVendasDiaCrediario" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasMesCrediario" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasAnoCrediario" width="100%" height="100px"></canvas>
+			</div>
+		</div>
+		
+		<span class="text-dark m-0 p-0">GRÁFICOS - TOTDAS AS VENDAS</span>
+		<hr class="bg-ligt m-0 p-0" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="col-sm-4">
+				<canvas id="totalVendasDiaGeral" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasMesGeral" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasAnoGeral" width="100%" height="100px"></canvas>
 			</div>
 		</div>
 	</div>

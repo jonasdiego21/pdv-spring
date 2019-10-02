@@ -34,11 +34,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.jdrmservices.dto.PdvDTO;
 import br.com.jdrmservices.dto.TotalVendasAno;
+import br.com.jdrmservices.dto.TotalVendasAnoCrediario;
+import br.com.jdrmservices.dto.TotalVendasAnoGeral;
 import br.com.jdrmservices.dto.TotalVendasDia;
+import br.com.jdrmservices.dto.TotalVendasDiaCrediario;
+import br.com.jdrmservices.dto.TotalVendasDiaGeral;
 import br.com.jdrmservices.dto.TotalVendasMes;
-import br.com.jdrmservices.epson.EpsonPrint;
+import br.com.jdrmservices.dto.TotalVendasMesCrediario;
+import br.com.jdrmservices.dto.TotalVendasMesGeral;
 import br.com.jdrmservices.exception.GlobalException;
-import br.com.jdrmservices.impressora.GenericPrinter;
 import br.com.jdrmservices.model.Cliente;
 import br.com.jdrmservices.model.Produto;
 import br.com.jdrmservices.model.Venda;
@@ -69,13 +73,11 @@ public class VendasController {
 	
 	@Autowired
 	private TabelasItensSession tabelasItensSession;
+	
+	//private Thread imprimeItemCupomThread;
+	
+	//private Thread imprimeCabecalhoCupomThead;
 
-	@Autowired
-	private EpsonPrint epsonPrint;
-	
-	@Autowired
-	private GenericPrinter genericPrinter;
-	
 	private DecimalFormat decimalFormat;
 	
 	public VendasController() {
@@ -89,11 +91,10 @@ public class VendasController {
 		
 		tabelasItensSession.adicionarItem(uuid, produto, quantidade);
 
-		// retirar para service
-		if(venda.getStatus().equals(StatusVenda.EMITIDA) || venda.getStatus().equals(StatusVenda.CREDIARIO)) {			
-			epsonPrint.imprimirItem(uuid, produto, quantidade);
-			genericPrinter.imprimirItem(uuid, produto, quantidade);
-		}//
+		vendaService.imprimirItemCupom(venda, uuid, produto, quantidade);
+		
+		//imprimeItemCupomThread = new Thread(new ImprimeItemCupomRunnable(vendaService, venda, uuid, produto, quantidade));
+		//imprimeItemCupomThread.start();
 		
 		mv.addObject("itens", tabelasItensSession.getItens(uuid));	
 		mv.addObject("valorTotal", decimalFormat.format(tabelasItensSession.getValorTotal(uuid)));
@@ -151,14 +152,10 @@ public class VendasController {
 		mv.addObject("itens", tabelasItensSession.getItens(venda.getUuid()));
 		mv.addObject("vendas", vendas.findAll());
 		
-		// remover para o service
-		if(venda.getStatus().equals(StatusVenda.EMITIDA) || venda.getStatus().equals(StatusVenda.CREDIARIO)) {
-			if(epsonPrint.conectar()) {
-				epsonPrint.imprimirCabacalho();
-			}
-			
-			genericPrinter.imprimirCabacalho();
-		}//
+		vendaService.imprimirCabecalhoCupom(venda);
+		
+		//imprimeCabecalhoCupomThead = new Thread(new ImprimeCabecalhoCupomRunnable(vendaService, venda));
+		//imprimeCabecalhoCupomThead.start();
 		
 		return mv;
 	}
@@ -236,11 +233,22 @@ public class VendasController {
 	}
 	
 	@GetMapping("/cancelar/{codigo}")
-	public ModelAndView cancelarVendaEmitida(@PathVariable("codigo") Long codigo) {	
-		Optional<Venda> venda = vendas.findById(codigo);
-		venda.get().setCodigo(codigo);
+	public ModelAndView cancelar(@PathVariable("codigo") Venda venda) {		
+		vendaService.cancelar(venda);
 		
-		vendaService.cancelaVendaEmitida(venda.get());
+		return new ModelAndView("redirect:/vendas");
+	}
+	
+	@GetMapping("/emitir/{codigo}")
+	public ModelAndView emitir(@PathVariable("codigo") Venda venda) {		
+		vendaService.emitir(venda);
+		
+		return new ModelAndView("redirect:/vendas");
+	}
+	
+	@GetMapping("/orcamento/{codigo}")
+	public ModelAndView cancelarVendaEmitida(@PathVariable("codigo") Venda venda) {	
+		vendaService.orcamento(venda);
 		
 		return new ModelAndView("redirect:/vendas");
 	}
@@ -258,5 +266,35 @@ public class VendasController {
 	@GetMapping("/totalVendasAno")
 	public @ResponseBody List<TotalVendasAno> totalVendasAno() {
 		return vendas.totalVendasAno();
+	}
+	
+	@GetMapping("/totalVendasDiaCrediario")
+	public @ResponseBody List<TotalVendasDiaCrediario> totalVendasDiaCrediario() {
+		return vendas.totalVendasDiaCrediario();
+	}
+	
+	@GetMapping("/totalVendasMesCrediario")
+	public @ResponseBody List<TotalVendasMesCrediario> totalVendasMesCrediario() {
+		return vendas.totalVendasMesCrediario();
+	}
+	
+	@GetMapping("/totalVendasAnoCrediario")
+	public @ResponseBody List<TotalVendasAnoCrediario> totalVendasAnoCrediario() {
+		return vendas.totalVendasAnoCrediario();
+	}
+	
+	@GetMapping("/totalVendasDiaGeral")
+	public @ResponseBody List<TotalVendasDiaGeral> totalVendasDiaGeral() {
+		return vendas.totalVendasDiaGeral();
+	}
+	
+	@GetMapping("/totalVendasMesGeral")
+	public @ResponseBody List<TotalVendasMesGeral> totalVendasMesGeral() {
+		return vendas.totalVendasMesGeral();
+	}
+	
+	@GetMapping("/totalVendasAnoGeral")
+	public @ResponseBody List<TotalVendasAnoGeral> totalVendasAnoGeral() {
+		return vendas.totalVendasAnoGeral();
 	}
 }

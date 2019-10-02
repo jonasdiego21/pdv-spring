@@ -17,10 +17,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import br.com.jdrmservices.model.enumeration.UnidadeMedida;
 
 @Entity
 @Table(name = "produto")
+@DynamicUpdate
 public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;

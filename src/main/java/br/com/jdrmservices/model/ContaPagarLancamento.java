@@ -12,10 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import br.com.jdrmservices.util.Constants;
-
 @Entity
 @Table(name = "conta_pagar_lancamento")
 public class ContaPagarLancamento implements Serializable {
@@ -29,8 +25,8 @@ public class ContaPagarLancamento implements Serializable {
 	@ManyToOne
 	private ContaPagar contaPagar;
 	
-	@DateTimeFormat(pattern = Constants.FORMAT_DATE)
-	@Column(name = "data_pagamento", columnDefinition = "DATE")
+	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)
+	@Column(name = "data_pagamento")
 	private LocalDate dataPagamento = LocalDate.now();
 	
 	@Column(name = "total_pago")

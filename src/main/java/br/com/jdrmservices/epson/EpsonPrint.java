@@ -1,3 +1,4 @@
+/*
 package br.com.jdrmservices.epson;
 
 import java.math.BigDecimal;
@@ -169,3 +170,4 @@ public class EpsonPrint implements EpsonPrintInterface {
 		return true;
 	}
 }
+*/

@@ -11,10 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import br.com.jdrmservices.util.Constants;
-
 @Entity
 @Table(name = "conta_receber_lancamento")
 public class ContaReceberLancamento {
@@ -26,8 +22,8 @@ public class ContaReceberLancamento {
 	@ManyToOne
 	private ContaReceber contaReceber;
 
-	@DateTimeFormat(pattern = Constants.FORMAT_DATE)
-	@Column(name = "data_recebimento", columnDefinition = "DATE")
+	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)
+	@Column(name = "data_recebimento")
 	private LocalDate dataRecebimento = LocalDate.now();
 	
 	@Column(name = "total_recebido")

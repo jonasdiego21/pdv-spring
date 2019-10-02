@@ -1,6 +1,5 @@
 package br.com.jdrmservices.service;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -24,17 +23,15 @@ public class ContaReceberLancamentoService {
 	private ContasReceber contasReceber;
 	
 	@Transactional
-	public void cadastrar(ContaReceberLancamento contaReceberLancamento) {	
-		contasReceberLancamento.saveAndFlush(contaReceberLancamento);
-		
+	public void cadastrar(ContaReceberLancamento contaReceberLancamento) {			
 		Optional<ContaReceber> contaReceber = contasReceber.findById(contaReceberLancamento.getContaReceber().getCodigo());
 		contaReceber.get().setTotalRecebido(contaReceberLancamento.getTotalRecebido().add(contaReceber.get().getTotalRecebido()));
 		
-		if(contaReceber.get().getRestante().doubleValue() <= 0) {
+		if(contaReceber.get().getRestante().doubleValue() <= 0 && contaReceber.get().getStatus().equals(Status.DEVENDO)) {
 			contaReceber.get().setStatus(Status.PAGO);
-			contaReceber.get().setTotalVenda(new BigDecimal("0.000"));
-			contaReceber.get().setTotalRecebido(new BigDecimal("0.000"));
 			contaReceber.get().setRestante(contaReceber.get().getCliente().getLimiteCompra());
+		} else {			
+			contasReceberLancamento.saveAndFlush(contaReceberLancamento);
 		}
 		
 		if(contaReceber.get().getStatus().equals(Status.DEVENDO)) {
@@ -44,7 +41,9 @@ public class ContaReceberLancamentoService {
 	
 	@Transactional
 	public void alterarValorReceber(Optional<ContaReceber> contaReceber) {
-		contasReceber.saveAndFlush(contaReceber.get());		
+		if(contaReceber.get().getStatus().equals(Status.DEVENDO)) {
+			contasReceber.saveAndFlush(contaReceber.get());		
+		}
 	}
 	
 	@Transactional

@@ -35,12 +35,12 @@ public class Fornecedor implements Serializable {
 
 	private String complemento;
 
-	@NotBlank(message = "Cidade é obrigatória")
-	//@ManyToOne
-	private String cidade;
-
 	@NotBlank(message = "Estado é obrigatório")
 	private String estado;
+
+	//@ManyToOne
+	@NotBlank(message = "Cidade é obrigatória")
+	private String cidade;
 
 	private String observacao;
 

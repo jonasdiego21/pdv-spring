@@ -28,7 +28,7 @@ public class UsuarioService {
 		Optional<Usuario> emailOptional = usuarios.findByEmail(usuario.getEmail());
 		
 		if (usuario.isNovo() && emailOptional.isPresent()) {
-			throw new GlobalException(Constants.VIEW_USUARIO_NOVO);
+			throw new GlobalException(Constants.INFORMACOES_JA_CADASTRADAS);
 		}
 		
 		usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));

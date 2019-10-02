@@ -130,15 +130,31 @@
       <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_VENDA')}">
         <a class="nav-link" th:href="@{/vendas/novo}">
           <i class="fas fa-fw fa-shopping-basket"></i>
-          <span>VENDA</span>
+          <span>VENDA [PDV]</span>
         </a>
       </li>
       
+      <!-- Vendas -->
+      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+        <a class="nav-link" th:href="@{/vendas}">
+          <i class="fas fa-fw fa-shopping-basket"></i>
+          <span>VENDAS</span>
+        </a>
+      </li>
+     
       <!-- Empresa -->
       <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_EMPRESA')}">
         <a class="nav-link" th:href="@{/empresas/novo}">
           <i class="fas fa-fw fa-home"></i>
           <span>EMPRESA</span>
+        </a>
+      </li>
+      
+      <!-- Emprestimo -->
+      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_EMPRESTIMO')}">
+        <a class="nav-link" th:href="@{/emprestimos/novo}">
+          <i class="fas fa-fw fa-box"></i>
+          <span>EMPRÉSTIMO</span>
         </a>
       </li>
       
@@ -234,7 +250,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Editora Imeph 2019</span>
+            <span>Copyright &copy; Controle de Estoque PDV 2019</span>
           </div>
         </div>
       </footer>

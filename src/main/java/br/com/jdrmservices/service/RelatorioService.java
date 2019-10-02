@@ -3,6 +3,11 @@ package br.com.jdrmservices.service;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,11 +27,17 @@ public class RelatorioService {
 	@Autowired
 	private DataSource dataSource;
 
-	public byte[] gerarRelatorioVendas(String dataInicio, String dataFim) throws Exception {	
+	public byte[] gerarRelatorioVendas(LocalDate dataInicio, LocalDate dataFim) throws Exception {	
 		Map<String, Object> parametros = new HashMap<>();
 		
-		parametros.put("data_inicio", dataInicio);
-		parametros.put("data_fim", dataFim);
+		Date dataInicioConvertido = Date.from(LocalDateTime.of(dataInicio, LocalTime.of(0, 0, 0))
+				.atZone(ZoneId.systemDefault()).toInstant());
+		
+		Date dataFimConvertido = Date.from(LocalDateTime.of(dataFim, LocalTime.of(23, 59, 59))
+				.atZone(ZoneId.systemDefault()).toInstant());
+		
+		parametros.put("data_inicio", dataInicioConvertido);
+		parametros.put("data_fim", dataFimConvertido);
 		
 		return exportandoPdf(parametros, "/relatorios/relatorio_vendas.jasper");
 	}
@@ -44,6 +55,22 @@ public class RelatorioService {
 	public byte[] gerarRelatorioFuncionarios() throws Exception {	
 		Map<String, Object> parametros = new HashMap<>();		
 		return exportandoPdf(parametros, "/relatorios/relatorio_funcionarios.jasper");
+	}
+	
+	public byte[] gerarRelatorioComissaoFuncionarios(String nomeFuncionario, LocalDate dataInicioFuncionario, LocalDate dataFimFuncionario) throws Exception {	
+		Map<String, Object> parametros = new HashMap<>();
+		
+		Date dataInicioFuncionarioConvertido = Date.from(LocalDateTime.of(dataInicioFuncionario, LocalTime.of(0, 0, 0))
+				.atZone(ZoneId.systemDefault()).toInstant());
+		
+		Date dataFimFuncionarioConvertido = Date.from(LocalDateTime.of(dataFimFuncionario, LocalTime.of(23, 59, 59))
+				.atZone(ZoneId.systemDefault()).toInstant());
+
+		parametros.put("funcionario", nomeFuncionario);
+		parametros.put("data_inicio", dataInicioFuncionarioConvertido);
+		parametros.put("data_fim", dataFimFuncionarioConvertido);
+		
+		return exportandoPdf(parametros, "/relatorios/relatorio_funcionario_comissao.jasper");
 	}
 	
 	private byte[] exportandoPdf(Map<String, Object> parametros, String caminhoRelatorio) throws JRException, SQLException {

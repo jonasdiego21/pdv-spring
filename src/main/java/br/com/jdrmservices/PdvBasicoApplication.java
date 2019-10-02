@@ -23,7 +23,7 @@ public class PdvBasicoApplication {
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {
-			logger.info("A aplicação foi carregada completamente, abra o navegador no endereço: http://localhost:8083");
+			logger.info("Finalizado acesse: http://localhost:8083");
 		}
 	}
 	

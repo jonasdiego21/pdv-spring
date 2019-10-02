@@ -53,12 +53,12 @@
 				
 				<div class="form-group date col-sm-3">
 					<label class="form-control-label" for="dataCompra">Data da compra</label>
-					<input readonly type="text" th:field="*{dataCompra}" class="form-control datepicker" id="dataCompra" th:errorclass="is-invalid" autocomplete="off">
+					<input readonly type="text" th:field="*{dataCompra}" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="dataCompra" th:errorclass="is-invalid" autocomplete="off">
 				</div>
 				
 				<div class="form-group date col-sm-3">
 					<label class="form-control-label" for="dataVencimento">Data de vencimento</label>
-					<input type="text" th:field="*{dataVencimento}" class="form-control datepicker" id="dataVencimento" th:errorclass="is-invalid" autocomplete="off">
+					<input type="text" th:field="*{dataVencimento}" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="dataVencimento" th:errorclass="is-invalid" autocomplete="off">
 				</div>
 			</div>
 
@@ -100,5 +100,12 @@
 			<br />
 		</form>
 	</section>
+	
+	<!-- JavaScript -->
+  	<th:block layout:fragment="javascripts">
+  	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
+  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
+  	</th:block>
 </body>
 </html>

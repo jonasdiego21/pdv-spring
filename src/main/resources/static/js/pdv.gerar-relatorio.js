@@ -4,10 +4,12 @@ Pdv.Relatorios = (function() {
 	
 	Relatorios = function() {
 		this.btnGerar = $('#btnGerar');
+		this.btnGerarComissaoFuncionario = $('#btnGerarComissaoFuncionario');
 	}
 	
 	Relatorios.prototype.start = function() {
 		this.btnGerar.on('click', gerarRelatorio.bind(this));
+		this.btnGerarComissaoFuncionario.on('click', gerarRelatorioComissaoFuncionario.bind(this));
 	}
 
 	gerarRelatorio = function(response) {
@@ -20,8 +22,31 @@ Pdv.Relatorios = (function() {
 			url: url,
 			method: 'GET',
 			data: {
-				dataInicio: dataInicio + ' 00:00:00',
-				dataFim: dataFim + ' 23:59:59'
+				dataInicio: dataInicio,
+				dataFim: dataFim
+			}
+		});
+		
+		resposta.done(function(resposta){
+			location.href = '/relatorios';
+			window.open(this.url, '_blank', null, null);
+		});
+	}
+	
+	function gerarRelatorioComissaoFuncionario(response) {
+		var nomeFuncionario = $('#nomeFuncionario').val();
+		var dataInicioFuncionario = $('#dataInicioFuncionario').val();
+		var dataFimFuncionario = $('#dataFimFuncionario').val();
+		
+		var url = $('#btnGerarComissaoFuncionario').data('url');	
+		
+		var resposta = $.ajax({
+			url: url,
+			method: 'GET',
+			data: {
+				nomeFuncionario: nomeFuncionario,
+				dataInicioFuncionario: dataInicioFuncionario,
+				dataFimFuncionario: dataFimFuncionario
 			}
 		});
 		

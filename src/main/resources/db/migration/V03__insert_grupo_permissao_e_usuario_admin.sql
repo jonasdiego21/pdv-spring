@@ -33,6 +33,8 @@ insert into permissao (nome) values ('PESQUISAR_VENDA');
 insert into permissao (nome) values ('PESQUISAR_CAIXA');
 insert into permissao (nome) values ('DASHBOARD');
 insert into permissao (nome) values ('PESQUISAR_VENDA_ADMIN');
+insert into permissao (nome) values ('CADASTRAR_EMPRESTIMO');
+insert into permissao (nome) values ('PESQUISAR_EMPRESTIMO');
 
 -- INSERT GRUPO_PERMISSÕES --
 insert into grupo_permissoes (codigo_grupo, codigo_permissao) values (2, 1);
@@ -78,6 +80,8 @@ insert into grupo_permissoes (codigo_grupo, codigo_permissao) values (1, 26);
 insert into grupo_permissoes (codigo_grupo, codigo_permissao) values (1, 27);
 insert into grupo_permissoes (codigo_grupo, codigo_permissao) values (1, 28);
 insert into grupo_permissoes (codigo_grupo, codigo_permissao) values (1, 29);
+insert into grupo_permissoes (codigo_grupo, codigo_permissao) values (1, 30);
+insert into grupo_permissoes (codigo_grupo, codigo_permissao) values (1, 31);
 
 -- INSERT USUARIO ADMIN --
 insert into pdvbasico.usuario (nome, email, senha, ativo, codigo_grupo) values ('Administrador', 'admin@localhost', '$2a$10$VG0VxfwUKhzGZn7R7NWa9e0qA/jv03tCbs.9DADeb0KWcmQPRzEnS', 1, 1);

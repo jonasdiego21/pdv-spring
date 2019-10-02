@@ -1,0 +1,2 @@
+# Refatorar sistema atribuindo a um padrão de projeto, focar na refatoração do java script e remoção de regras de
+negocio em butida.

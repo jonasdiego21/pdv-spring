@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html 
+	lang="pt-br"
+	xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="'Index'">
+    
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>PDV - PONTO DE VENDA</title>
+</head>
+
+<body>
+	<div class="container" layout:fragment="conteudo">
+		<h1 class="text-center">Itens da venda</h1>
+		
+		<!-- Breadcrumb -->
+		<div aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a th:href="@{/}">Dashboard</a></li>
+				<li class="breadcrumb-item"><a th:href="@{/vendas}">Vendas</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Itens Venda</li>
+			</ol>
+		</div>
+		
+		<!-- Table -->
+		<div class="row">
+			<div class="col-sm-12 table-responsive">
+				<table class="table table-hover thead-light table-bordered">
+					<thead>
+						<tr>
+							<th style="width: 10%;" class="text-center">Código <i class="fas fa-angle-down"></i></th>
+							<th style="width: 40%;">Nome <i class="fas fa-angle-down"></i></th>
+							<th style="width: 10%;" class="text-center">Qtde <i class="fas fa-angle-down"></i></th>
+							<th style="width: 15%;" class="text-center">Valor Unit. <i class="fas fa-angle-down"></i></th>
+							<th style="width: 15%;" class="text-center">Total <i class="fas fa-angle-down"></i></th>
+							<th style="width: 10%;" class="text-center">Ações <i class="fas fa-angle-down"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${itens}">
+							<td class="text-center" th:text="${item.codigo}"></td>
+							<td th:text="${item.produto.nome}"></td>
+							<td class="text-center" th:text="${item.quantidade}"></td>
+							<td class="text-center">R$ [[${{item.valorUnitario}}]]</td>
+							<td class="text-center">R$ [[${{item.quantidade * item.valorUnitario}}]]</td>
+							
+							<td class="text-center">
+								<a th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" th:href="|/itensvendas/devolver/${item.codigo}|" data-toggle="tooltip" title="DEVOLVER" data-position="top">
+									<i class="fas fa-exchange-alt text-danger"></i>
+								</a>
+							</td>
+						</tr>
+						
+						<tr th:if="${#lists.isEmpty(itens)}"> 
+							<td colspan="8" class="text-center">Nenhuma informação encontrado!</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+  	<!-- JavaScript -->
+  	<th:block layout:fragment="javascripts">
+  	<script th:src="@{vendor/sweetalert/sweetalert.min.js}"></script>
+  	<script th:src="@{js/pdv.dialogo-excluir.js}"></script>
+  	</th:block>
+  	
+  	<script>
+	$(document).ready(function(){
+	  $('[data-toggle="tooltip"]').tooltip();
+	});
+	</script>
+</body>
+</html>

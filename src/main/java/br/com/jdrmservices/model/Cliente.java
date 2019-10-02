@@ -39,8 +39,8 @@ public class Cliente implements Serializable {
 	@NotNull(message = "Estado é obrigatório")
 	private Estado estado;
 	
-	@NotNull(message = "Cidade é obrigatória")
 	@ManyToOne
+	@NotNull(message = "Cidade é obrigatória")
 	private Municipio cidade;
 	
 	private String complemento;

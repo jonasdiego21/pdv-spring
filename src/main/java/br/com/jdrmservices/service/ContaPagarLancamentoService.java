@@ -30,10 +30,10 @@ public class ContaPagarLancamentoService {
 		Optional<ContaPagar> contaPagar = contasPagar.findById(contaPagarLancamento.getContaPagar().getCodigo());
 		contaPagar.get().setTotalPago(contaPagarLancamento.getTotalPago().add(contaPagar.get().getTotalPago()));
 		
-		if(contaPagar.get().getRestante().doubleValue() <= 0) {
+		if(contaPagar.get().getRestante().doubleValue() <= 0 && contaPagar.get().getStatus().equals(Status.DEVENDO)) {
 			contaPagar.get().setStatus(Status.PAGO);
-			contaPagar.get().setTotalCompra(new BigDecimal("0.000"));
-			contaPagar.get().setTotalPago(new BigDecimal("0.000"));
+			//contaPagar.get().setTotalCompra(new BigDecimal("0.000"));
+			//contaPagar.get().setTotalPago(new BigDecimal("0.000"));
 		}
 		
 		if(contaPagar.get().getStatus().equals(Status.DEVENDO)) {

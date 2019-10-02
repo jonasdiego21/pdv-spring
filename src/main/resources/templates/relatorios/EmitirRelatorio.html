@@ -30,15 +30,13 @@
 		</div>
 		
 		<div id="div-form" data:url="@{/relatorios/vendas}" class="input-form">		
-			<div class="row">	
-				<div class="col-sm-12">			
-					<h4>Relatórios de vendas por período</h4>
-				</div>
-				
-				<hr />
-				
-				<div class="input-group mb-3 col-sm-3 date">
-					<input readonly placeholder="Data Início" type="text" data-date-format="dd/mm/yy" class="form-control datepicker" id="dataInicio" autocomplete="off">
+			
+			<h5>Relatórios de vendas por período</h5>
+			<hr />	
+						
+			<div class="row">							
+				<div class="input-group mb-4 col-sm-3 date">
+					<input readonly placeholder="Data Início" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataInicio" autocomplete="off">
 					
 					<div class="input-group-prepend">
 				    	<button class="btn btn-outline-secondary" type="button" disabled="disabled">
@@ -47,8 +45,8 @@
 					</div>					
 				</div>
 				
-				<div class="input-group mb-3 col-sm-3 date">
-					<input readonly placeholder="Data Fim" type="text" data-date-format="dd/mm/yy" class="form-control datepicker" id="dataFim" autocomplete="off">
+				<div class="input-group mb-4 col-sm-3 date">
+					<input readonly placeholder="Data Fim" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataFim" autocomplete="off">
 					
 					<div class="input-group-prepend">
 				    	<button class="btn btn-outline-secondary" type="button" disabled="disabled">
@@ -56,19 +54,51 @@
 				    	</button>
 					</div>					
 				</div>
-			</div>	
-			
-			<hr />
-			
-			<div class="row">
-				<!-- Botão cadastrar -->
-				<div class="col-sm-12 text-right">
-					<button id="btnGerar" type="button" class="btn btn-primary">Gerar relatório de vendas</button>
+
+				<div class="form-group col-sm-4">
+					<button id="btnGerar" type="button" class="btn btn-primary">Gerar relatório</button>
 				</div>
 			</div>
 			
 			<hr />
-			<h5>Outros relatórios</h5>
+				<h5>Relatórios de comissão de funcionário por período e nome</h5>
+			<hr />	
+			
+			<div class="row">
+				<div class="form-group mb-4 col-sm-3 date">
+					<select id="nomeFuncionario" class="form-control">
+						<option value="">Selecione um funcionário</option>
+						<option th:each="funcionario : ${funcionarios}" th:value="${funcionario.nome}" th:text="${funcionario.nome}"></option>
+					</select>
+				</div>
+				
+				<div class="input-group mb-4 col-sm-3 date">
+					<input readonly placeholder="Data Início" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataInicioFuncionario" autocomplete="off">
+					
+					<div class="input-group-prepend">
+				    	<button class="btn btn-outline-secondary" type="button" disabled="disabled">
+							<i class="fas fa-calendar-alt"></i>
+						</button>
+					</div>					
+				</div>
+				
+				<div class="input-group mb-4 col-sm-3 date">
+					<input readonly placeholder="Data Fim" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataFimFuncionario" autocomplete="off">
+					
+					<div class="input-group-prepend">
+				    	<button class="btn btn-outline-secondary" type="button" disabled="disabled">
+				    		<i class="fas fa-calendar-alt"></i>
+				    	</button>
+					</div>					
+				</div>
+
+				<div class="form-group col-sm-2">
+					<button type="button" id="btnGerarComissaoFuncionario" data:url="@{/relatorios/comissaoFuncionarios}" class="btn btn-primary">Gerar relatorios</button>
+				</div>		
+			</div>
+			
+			<hr />
+				<h5>Outros relatórios</h5>
 			<hr />
 			
 			<div class="row">

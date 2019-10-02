@@ -34,6 +34,9 @@ import br.com.jdrmservices.repository.Empresas;
 public class GenericPrinter implements GenericPrinterInterface {
 
 	private PrintService impressora = null;
+	
+	byte[] comecoNegrito = {0x1B, 0x45};  
+	byte[] fimNegrito = {0x1B, 0x46}; 
     
 	@Autowired
 	private Empresas empresas;
@@ -148,7 +151,7 @@ public class GenericPrinter implements GenericPrinterInterface {
 	
 	public void listarImpressoras() {
         try {
-            DocFlavor docFlavor = DocFlavor.SERVICE_FORMATTED.PRINTABLE;
+            DocFlavor docFlavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(docFlavor, null);
             for (PrintService p : printServices) {
                 System.out.println("Impressoras: " + p.getName());

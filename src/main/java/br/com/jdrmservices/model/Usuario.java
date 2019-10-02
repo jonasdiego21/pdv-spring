@@ -24,6 +24,9 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
+	@ManyToOne
+	private Funcionario funcionario;
+	
 	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 	
@@ -100,6 +103,14 @@ public class Usuario implements Serializable {
 
 	public void setGrupo(Grupo grupo) {
 		this.grupo = grupo;
+	}
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 
 	@Override

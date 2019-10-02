@@ -2,7 +2,7 @@ package br.com.jdrmservices.util;
 
 public class Constants {
 	public static final String FORMAT_DATE = "dd/MM/yyyy";
-	public static final String FORMAT_TIME = "HH:mm";
+	public static final String FORMAT_TIME = "HH:mm:ss";
 	
 	public final static String ERRO_IMPRIMIR_CABECALHO = "Erro ao imprimir cabeçalho da venda";
 	public final static String ERRO_IMPRIMIR_ITEM = "Erro ao imprimir item da venda";
@@ -69,10 +69,15 @@ public class Constants {
 	public final static String VIEW_PESQUISAR_VENDA = "venda/PesquisarVenda";
 	public final static String VIEW_VENDA_NOVO = "venda/Pdv";
 	public final static String VIEW_ITENS_VENDA = "venda/TabelaItensVenda";
+	public final static String VIEW_VISUALIZAR_ITENS_VENDA = "venda/VisualizarItensVenda";
 	public final static String VIEW_FINALIZAR_VENDA = "venda/FinalizarVendaPdv";
 	public final static String VIEW_VENDA_REDIRECT = "redirect:/vendas/novo";
 	
 	public final static String VIEW_RELATORIOS = "relatorios/EmitirRelatorio";
+	
+	public final static String VIEW_PESQUISAR_EMPRESTIMO = "emprestimo/PesquisarEmprestimo";
+	public final static String VIEW_EMPRESTIMO_NOVO = "emprestimo/CadastrarEmprestimo";
+	public final static String VIEW_EMPRESTIMO_REDIRECT = "redirect:/emprestimos/novo";
 	
 	public static final String USUARIO_SENHA_OBRIGATORIA = "A Senha é obrigatória";
 	public static final String USUARIO_SENHA_INCORRETOS = "E-mail e/ou Senha estão incorretos!";

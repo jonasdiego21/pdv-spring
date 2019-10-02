@@ -69,7 +69,7 @@ Pdv.BuscarProduto = (function() {
 	}
 
 	function buscarProduto(evento) {
-		if(evento.which == 13) {				
+		if(evento.which == 13 || evento.which == 9) {				
 			evento.preventDefault();
 
 			if(this.campoCodigoProduto.val() == ',1') {
@@ -125,7 +125,7 @@ Pdv.BuscarProduto = (function() {
 	}
 
 	function quantidadeEnter(evento) {			
-		if(evento.which == 13) { 
+		if(evento.which == 13 || evento.which == 9) { 
 			evento.preventDefault();
 			
 			var campoQuantidade = parseFloat(this.campoQuantidade.val());
@@ -153,7 +153,7 @@ Pdv.BuscarProduto = (function() {
 	}
 	
 	function valorUnitarioEnter(evento, data) {					
-		if(evento.which == 13) {		
+		if(evento.which == 13 || evento.which == 9) {		
 			evento.preventDefault();
 
 			if(this.campoQuantidade.val() != null && this.campoQuantidade.val() != undefined && this.campoQuantidade.val() != '') {				

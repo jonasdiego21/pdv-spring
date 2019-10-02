@@ -66,9 +66,25 @@ public class DashboardController {
 		mv.addObject("produtos", produtos.count());
 		mv.addObject("vendas", vendas.count());
 		
+		mv.addObject("valorTotalCaixa", vendas.valorTotalCaixa());
+		mv.addObject("valorTotalDespesas", vendas.valorTotalDespesas());
+		mv.addObject("valorTotalSaldo", vendas.valorTotalSaldo());
+		
 		mv.addObject("valorVendasDia", vendas.valorTotalDia());
 		mv.addObject("valorVendasMes", vendas.valorTotalMes());
 		mv.addObject("valorVendasAno", vendas.valorTotalAno());
+		
+		mv.addObject("valorVendasDiaCrediario", vendas.valorTotalDiaCrediario());
+		mv.addObject("valorVendasMesCrediario", vendas.valorTotalMesCrediario());
+		mv.addObject("valorVendasAnoCrediario", vendas.valorTotalAnoCrediario());
+		
+		mv.addObject("valorVendasDiaGeral", vendas.valorTotalDiaGeral());
+		mv.addObject("valorVendasMesGeral", vendas.valorTotalMesGeral());
+		mv.addObject("valorVendasAnoGeral", vendas.valorTotalAnoGeral());
+		
+		// conta pagar (TOTAL COMPRA, PAGO, RESTANTE)
+		
+		// conta receber (TOTAL VENDA, RECEBIDO, RESTANTE)
 		
 		return mv;
 	}

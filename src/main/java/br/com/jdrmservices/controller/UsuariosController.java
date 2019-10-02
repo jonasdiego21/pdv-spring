@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.jdrmservices.exception.GlobalException;
 import br.com.jdrmservices.model.Usuario;
+import br.com.jdrmservices.repository.Funcionarios;
 import br.com.jdrmservices.repository.Grupos;
 import br.com.jdrmservices.repository.Usuarios;
 import br.com.jdrmservices.repository.filter.UsuarioFilter;
@@ -44,9 +45,13 @@ public class UsuariosController {
 	@Autowired
 	private Usuarios usuarios;
 	
+	@Autowired
+	private Funcionarios funcionarios;
+	
 	@GetMapping("/novo")
 	public ModelAndView novo(Usuario usuario) {
 		ModelAndView mv = new ModelAndView(VIEW_USUARIO_NOVO);
+		mv.addObject("funcionarios", funcionarios.findAll());
 		mv.addObject("usuarios", usuarios.findAll());
 		mv.addObject("grupos", grupos.findAll());
 		mv.addObject(usuario);

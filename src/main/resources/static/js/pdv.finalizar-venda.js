@@ -39,6 +39,9 @@ Pdv.FinalizarVenda = (function() {
 					case '5':
 						this.formaPagamento.val('NENHUMA');
 						break;
+					case '6':
+						this.formaPagamento.val('ORCAMENTO');
+						break;
 					default:
 						this.formaPagamento.val('DINHEIRO');
 						break;
@@ -59,13 +62,13 @@ Pdv.FinalizarVenda = (function() {
 						alert('O VALOR PAGO NÃO PODE SER MENOR QUE O TOTAL A PAGAR');
 						this.totalPago.focus();
 						this.totalPago.select();
+					} else {
+						this.totalPago.val('R$ ' + this.totalPago.val());
+
+						this.desconto.focus();
+						this.desconto.select();
 					}
 				}
-
-				this.totalPago.val('R$ ' + this.totalPago.val());
-				
-				this.desconto.focus();
-				this.desconto.select();
 			}		
 		}.bind(this));
 		
@@ -82,6 +85,9 @@ Pdv.FinalizarVenda = (function() {
 				$('#valorDesconto').val(desconto.replace('R$ ', ''));
 				
 				this.troco.val(troco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+
+				var total = totalVenda.replace('R$ ', '').replace('.', '').replace(',', '.') - desconto.replace('R$ ', '').replace('.', '').replace(',', '.');
+				this.totalVenda.text(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
 				
 				this.desconto.val('R$ ' + this.desconto.val());
 				

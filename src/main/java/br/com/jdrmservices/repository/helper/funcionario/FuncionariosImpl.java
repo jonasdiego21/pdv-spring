@@ -1,5 +1,7 @@
 package br.com.jdrmservices.repository.helper.funcionario;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -22,6 +24,14 @@ public class FuncionariosImpl implements FuncionariosQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Funcionario> comissaoFuncionario() {
+		List<Funcionario> lista = manager.createQuery("select from Funcionario").getResultList();
+		
+		return lista;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)

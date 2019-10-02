@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/vendas/finalizarVendaPdv").hasAuthority("CADASTRAR_VENDA")
 				.antMatchers("/relatorios").hasAuthority("EMITIR_RELATORIO")
 				.antMatchers("/caixas/novo").hasAuthority("CADASTRAR_CAIXA")
+				.antMatchers("/emprestimos/novo").hasAuthority("CADASTRAR_EMPRESTIMO")
 				
 				.antMatchers("/categorias").hasAuthority("PESQUISAR_CATEGORIA")
 				.antMatchers("/clientes").hasAuthority("PESQUISAR_CLIENTE")
@@ -57,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuarios").hasAuthority("PESQUISAR_USUARIO")
 				.antMatchers("/vendas").hasAuthority("PESQUISAR_VENDA")
 				.antMatchers("/caixas").hasAuthority("PESQUISAR_CAIXA")
+				.antMatchers("/emprestimos").hasAuthority("PESQUISAR_EMPRESTIMO")
 				
 				.antMatchers("/dashboard").hasAuthority("DASHBOARD")
 				.anyRequest().authenticated()

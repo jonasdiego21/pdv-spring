@@ -129,7 +129,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<!--
 		<dependency> 
 			<groupId>epson</groupId> 
 			<artifactId>javapos.epsonjpos</artifactId> 
@@ -161,8 +161,9 @@
 			<scope>system</scope> 
 			<systemPath>C:\Program Files\EPSON\JavaPOS\lib\xml-apis.jar</systemPath> 
 		</dependency>
+		-->
 	</dependencies>
-	
+
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 	
