@@ -2,10 +2,10 @@ package br.com.jdrmservices.controller;
 
 import static br.com.jdrmservices.util.Constants.INFORMACOES_SALVAS_SUCESSO;
 import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_PRODUTO;
-import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_NOVO;
-import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_REDIRECT;
 import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_ENTRADA;
 import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_ENTRADA_REDIRECT;
+import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_NOVO;
+import static br.com.jdrmservices.util.Constants.VIEW_PRODUTO_REDIRECT;
 
 import java.util.List;
 
@@ -37,6 +37,7 @@ import br.com.jdrmservices.repository.Fornecedores;
 import br.com.jdrmservices.repository.Produtos;
 import br.com.jdrmservices.repository.filter.ProdutoFilter;
 import br.com.jdrmservices.service.ProdutoService;
+import br.com.jdrmservices.util.GCPA;
 
 @RestController
 @RequestMapping("/produtos")
@@ -61,6 +62,8 @@ public class ProdutosController {
 		mv.addObject("categorias", categorias.findAllByOrderByNomeAsc());
 		mv.addObject("fornecedores", fornecedores.findAllByOrderByNomeAsc());
 		mv.addObject("medidas", UnidadeMedida.values());
+		mv.addObject("codigoGeradoAuto", GCPA.getTimestampCodigo());
+		mv.addObject("codigoGerado", produtos.count());
 		mv.addObject(produto);
 		
 		return mv;
@@ -140,7 +143,7 @@ public class ProdutosController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(ProdutoFilter produtoFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(ProdutoFilter produtoFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_PRODUTO);
 		mv.addObject("produtos", produtos.findAllByOrderByNomeAsc());
 		
@@ -153,5 +156,10 @@ public class ProdutosController {
 	@GetMapping("/filtro")
 	public List<ProdutoDTO> pesquisarProduto(String codigoOuCodigoBarras) {
 		return produtos.porCodigoOuCodigoBarras(codigoOuCodigoBarras);	
+	}
+	
+	@GetMapping("/gerarCodigoProduto")
+	public String gerarCodigoProduto() {
+		return GCPA.getTimestampCodigo();
 	}
 }

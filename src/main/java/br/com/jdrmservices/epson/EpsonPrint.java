@@ -1,4 +1,3 @@
-/*
 package br.com.jdrmservices.epson;
 
 import java.math.BigDecimal;
@@ -17,6 +16,7 @@ import br.com.jdrmservices.model.Produto;
 import br.com.jdrmservices.model.Venda;
 import br.com.jdrmservices.model.enumeration.FormaPagamento;
 import br.com.jdrmservices.repository.Empresas;
+import br.com.jdrmservices.repository.Vendas;
 import jpos.JposException;
 import jpos.POSPrinter;
 import jpos.POSPrinterConst;
@@ -29,6 +29,9 @@ public class EpsonPrint implements EpsonPrintInterface {
 
 	@Autowired
 	private Empresas empresas;
+	
+	@Autowired
+	private Vendas vendas;
 
 	private POSPrinterControl114 printer = (POSPrinterControl114) new POSPrinter();
 	
@@ -131,23 +134,27 @@ public class EpsonPrint implements EpsonPrintInterface {
 	@Override
 	public boolean imprimirFechamento(Venda venda) {	
 		try {			
-			String linhaValorTotal = String.format("%s" + "                                         ".substring(0, 39 - moedaFormat.format(venda.getValorTotal()).length()) + "%s\n", "Sub Total", moedaFormat.format(venda.getValorTotal()));
-			String linhaTotalPago = String.format("%s" + "                                         ".substring(0, 38 - moedaFormat.format(venda.getValorPago()).length()) + "%s\n", "Total Pago", moedaFormat.format(venda.getValorPago()));
-            String linhaDesconto = String.format("%s" + "                                        -".substring(0, 40 - moedaFormat.format(venda.getValorDesconto()).length()) + "%s\n", "Desconto", moedaFormat.format(venda.getValorDesconto()));
-            String linhaTroco = String.format("%s" + "                                            ".substring(0, 43 - moedaFormat.format((venda.getValorPago().subtract(venda.getValorDesconto())).subtract(venda.getValorTotal())).length()) + "%s\n", "Troco", moedaFormat.format((venda.getValorPago().subtract(venda.getValorDesconto())).subtract(venda.getValorTotal())));
+			String linhaValorTotal = String.format("%s" + "                                         ".substring(0, 39 - moedaFormat.format(venda.getValorTotal()).length()) + "%s\n", "Val Total", moedaFormat.format(venda.getValorTotal()));
+			String linhaDesconto = String.format("%s" + "                                        ".substring(0, 39 - moedaFormat.format(venda.getValorDesconto()).length()) + "-%s\n", "Desconto", moedaFormat.format(venda.getValorDesconto()));
+			String linhaValorSubTotal = String.format("%s" + "                                         ".substring(0, 39 - moedaFormat.format(venda.getValorTotal().subtract(venda.getValorDesconto())).length()) + "%s\n", "Sub Total", moedaFormat.format(venda.getValorTotal().subtract(venda.getValorDesconto())));
+			String linhaTotalPago = String.format("%s" + "                                         ".substring(0, 38 - moedaFormat.format(venda.getValorPago()).length()) + "%s\n", "Total Pago", moedaFormat.format(venda.getValorPago()));          
+            String linhaTroco = String.format("%s" + "                                            ".substring(0, 43 - moedaFormat.format((venda.getTroco())).length()) + "%s\n", "Troco", moedaFormat.format((venda.getTroco())));
 			
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "                                 ---------------\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, JPOS_SIZE0 + JPOS_BOLD + linhaValorTotal);
 			
 			if(!venda.getFormaPagamento().equals(FormaPagamento.CREDIARIO)) {
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, linhaTotalPago);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, linhaDesconto);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, linhaValorSubTotal);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, linhaTotalPago);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, linhaTroco);
 			}
 			
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "Data/Hora                    " + simpleDateFormat.format(data) + "\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
+			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "VENDA Nº: " + vendas.count() + "\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "CLIENTE: " + venda.getCliente().getNome() + "\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "OPERADOR: " + venda.getUsuario().getNome() + "\n");
 			
@@ -170,4 +177,3 @@ public class EpsonPrint implements EpsonPrintInterface {
 		return true;
 	}
 }
-*/

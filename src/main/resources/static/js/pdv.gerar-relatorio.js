@@ -16,11 +16,17 @@ Pdv.Relatorios = (function() {
 		var dataInicio = $('#dataInicio').val();
 		var dataFim = $('#dataFim').val();
 		
+		console.log(dataInicio);
+		console.log(dataFim);
+		
 		var url = $('#div-form').data('url');	
 		
 		var resposta = $.ajax({
 			url: url,
 			method: 'GET',
+			beforeSend: function() {
+				$('#preloader').show();
+			},
 			data: {
 				dataInicio: dataInicio,
 				dataFim: dataFim
@@ -29,6 +35,7 @@ Pdv.Relatorios = (function() {
 		
 		resposta.done(function(resposta){
 			location.href = '/relatorios';
+			$('#preloader').hide();
 			window.open(this.url, '_blank', null, null);
 		});
 	}
@@ -43,6 +50,9 @@ Pdv.Relatorios = (function() {
 		var resposta = $.ajax({
 			url: url,
 			method: 'GET',
+			beforeSend: function() {
+				$('#preloader').show();
+			},
 			data: {
 				nomeFuncionario: nomeFuncionario,
 				dataInicioFuncionario: dataInicioFuncionario,
@@ -52,6 +62,7 @@ Pdv.Relatorios = (function() {
 		
 		resposta.done(function(resposta){
 			location.href = '/relatorios';
+			$('#preloader').hide();
 			window.open(this.url, '_blank', null, null);
 		});
 	}

@@ -27,6 +27,7 @@ import br.com.jdrmservices.model.Produto;
 import br.com.jdrmservices.model.Venda;
 import br.com.jdrmservices.model.enumeration.FormaPagamento;
 import br.com.jdrmservices.repository.Empresas;
+import br.com.jdrmservices.repository.Vendas;
 
 @Component
 @ComponentScan(basePackageClasses = { GenericPrinter.class })
@@ -40,6 +41,9 @@ public class GenericPrinter implements GenericPrinterInterface {
     
 	@Autowired
 	private Empresas empresas;
+	
+	@Autowired
+	private Vendas vendas;
 
     private Date data;
 
@@ -74,6 +78,15 @@ public class GenericPrinter implements GenericPrinterInterface {
 			String enderecoLine = String.format("%s, %s, %s", empresa.get().getRua(), empresa.get().getNumero(), empresa.get().getBairro() + "\n");
 			String localizacaoLine = String.format("%s - %s | %s", empresa.get().getCidade().getNome(), empresa.get().getEstado().getSigla(), empresa.get().getTelefone() + "\n");
 
+			System.out.print("\n\n\n\n");
+			System.out.print(empresaLine + "\n");
+			System.out.print(enderecoLine);
+			System.out.print(localizacaoLine);
+			System.out.print("           DOCUMENTO SEM VALOR FISCAL           \n");
+			System.out.print("================================================\n");
+			System.out.print("# COD     DESC     UN    QTD     VL UN.    VL TL\n");
+			System.out.print("------------------------------------------------\n");
+			
 			imprimir(empresaLine + "\n");
 			imprimir(enderecoLine);
 			imprimir(localizacaoLine);
@@ -96,6 +109,9 @@ public class GenericPrinter implements GenericPrinterInterface {
 			String itemLinhaUm = String.format(decimalFormat.format(INT_COUNT) + "   %s" + "                                                              ".substring(0, 42 - (produto.getCodigoBarras().length() + produto.getNome().length())) + "%s\n", produto.getCodigoBarras(), produto.getNome());
             String itemLinhaDois = String.format("%s  x  %s" + "                                                               ".substring(0, 44 - (quantidadeFormat.format(quantidade).length() + moedaFormat.format(produto.getPrecoVenda()).length() + quantidadeFormat.format(quantidade.multiply(produto.getPrecoVenda())).length())) + "%s\n", quantidadeFormat.format(quantidade), moedaFormat.format(produto.getPrecoVenda()), moedaFormat.format(quantidade.multiply(produto.getPrecoVenda())));
 			
+            System.out.print(itemLinhaUm);
+            System.out.print(itemLinhaDois);
+            
             imprimir(itemLinhaUm);		
             imprimir(itemLinhaDois);
 		} catch (Exception e) {
@@ -112,36 +128,66 @@ public class GenericPrinter implements GenericPrinterInterface {
 		try {
 			listarImpressoras();
 			
-			String linhaValorTotal = String.format("%s" + "                                         ".substring(0, 39 - moedaFormat.format(venda.getValorTotal()).length()) + "%s\n", "Sub Total", moedaFormat.format(venda.getValorTotal()));
-			String linhaTotalPago = String.format("%s" + "                                         ".substring(0, 38 - moedaFormat.format(venda.getValorPago()).length()) + "%s\n", "Total Pago", moedaFormat.format(venda.getValorPago()));
-            String linhaDesconto = String.format("%s" + "                                        -".substring(0, 40 - moedaFormat.format(venda.getValorDesconto()).length()) + "%s\n", "Desconto", moedaFormat.format(venda.getValorDesconto()));
-            String linhaTroco = String.format("%s" + "                                            ".substring(0, 43 - moedaFormat.format((venda.getValorPago().subtract(venda.getValorDesconto())).subtract(venda.getValorTotal())).length()) + "%s\n", "Troco", moedaFormat.format((venda.getValorPago().subtract(venda.getValorDesconto())).subtract(venda.getValorTotal())));
+			String linhaValorTotal = String.format("%s" + "                                         ".substring(0, 39 - moedaFormat.format(venda.getValorTotal()).length()) + "%s\n", "Val Total", moedaFormat.format(venda.getValorTotal()));
+			String linhaDesconto = String.format("%s" + "                                        ".substring(0, 39 - moedaFormat.format(venda.getValorDesconto()).length()) + "-%s\n", "Desconto", moedaFormat.format(venda.getValorDesconto()));
+			String linhaValorSubTotal = String.format("%s" + "                                         ".substring(0, 39 - moedaFormat.format(venda.getValorTotal().subtract(venda.getValorDesconto())).length()) + "%s\n", "Sub Total", moedaFormat.format(venda.getValorTotal().subtract(venda.getValorDesconto())));
+			String linhaTotalPago = String.format("%s" + "                                         ".substring(0, 38 - moedaFormat.format(venda.getValorPago()).length()) + "%s\n", "Total Pago", moedaFormat.format(venda.getValorPago()));          
+            String linhaTroco = String.format("%s" + "                                            ".substring(0, 43 - moedaFormat.format((venda.getTroco())).length()) + "%s\n", "Troco", moedaFormat.format((venda.getTroco())));
 			
+            System.out.print("                                 ---------------\n");
+            System.out.print(linhaValorTotal);
+
             imprimir("                                 ---------------\n");
 			imprimir(linhaValorTotal);
 			
 			if(!venda.getFormaPagamento().equals(FormaPagamento.CREDIARIO)) {
-				imprimir(linhaTotalPago);
+				System.out.print(linhaDesconto);
+				System.out.print(linhaTotalPago);
+				System.out.print("------------------------------------------------\n");
+				System.out.print(linhaValorSubTotal);
+				System.out.print(linhaTroco);
+				
 				imprimir(linhaDesconto);
+				imprimir(linhaValorSubTotal);
+				imprimir("------------------------------------------------\n");
+				imprimir(linhaTotalPago);
 				imprimir(linhaTroco);
 			}
+			
+			System.out.print("------------------------------------------------\n");
+			System.out.print("Data/Hora                    " + simpleDateFormat.format(data) + "\n");
+			System.out.print("------------------------------------------------\n");
+			System.out.print("VENDA Nº: " + vendas.count() + "\n");
+			System.out.print("CLIENTE: " + venda.getCliente().getNome() + "\n");
+			System.out.print("OPERADOR: " + venda.getUsuario().getNome() + "\n");
 			
 			imprimir("------------------------------------------------\n");
 			imprimir("Data/Hora                    " + simpleDateFormat.format(data) + "\n");
 			imprimir("------------------------------------------------\n");
+			imprimir("VENDA Nº: " + vendas.count() + "\n");
 			imprimir("CLIENTE: " + venda.getCliente().getNome() + "\n");
 			imprimir("OPERADOR: " + venda.getUsuario().getNome() + "\n");
 			
 			if(venda.getFormaPagamento().equals(FormaPagamento.CREDIARIO)) {
+				System.out.print("------------------------------------------------\n");
+				System.out.print("\n");
+				System.out.print("   __________________________________________   \n");
+				System.out.print("             ASSINATURA DO CLIENTE              \n");
+				
 				imprimir("------------------------------------------------\n");
 				imprimir("\n");
 				imprimir("   __________________________________________   \n");
 				imprimir("             ASSINATURA DO CLIENTE              \n");
 			}
 			
+			System.out.print("================================================\n");
+			System.out.print("             OBRIGADO, VOLTE SEMPRE!            \n");
+			System.out.print("\n\n\n\n\n\n");
+			
 			imprimir("================================================\n");
 			imprimir("             OBRIGADO, VOLTE SEMPRE!            \n");
 			imprimir("\n\n\n\n\n\n");
+			imprimir("\u001b|100fP");
 		} catch (Exception e) {
 			return false;
 		}
@@ -149,22 +195,24 @@ public class GenericPrinter implements GenericPrinterInterface {
 		return true;
 	}
 	
-	public void listarImpressoras() {
+	public String listarImpressoras() {
         try {
             DocFlavor docFlavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(docFlavor, null);
             for (PrintService p : printServices) {
-                System.out.println("Impressoras: " + p.getName());
+                //System.out.println("Impressoras: " + p.getName());
                 
                 if (p.getName().toUpperCase().contains("Generic".toUpperCase())) {
-                        System.out.println("Impressora Selecionada: " + p.getName());
+                        //System.out.println("Impressora Selecionada: " + p.getName());
                         impressora = p;
                     break;
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+        	return "Não encontrada.";
         }
+        
+        return impressora.getName();
     }
     
     public synchronized boolean imprimir(String texto) {
@@ -172,7 +220,7 @@ public class GenericPrinter implements GenericPrinterInterface {
             throw new GlobalException("Nenhuma impressora encontrada.");
         } else {
             try {
-                System.out.println("Impressora: " + impressora);
+                //System.out.println("Impressora: " + impressora);
                 DocPrintJob docPrintJob = impressora.createPrintJob();
                 InputStream inputStream = new ByteArrayInputStream(texto.getBytes());
                 DocFlavor docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;

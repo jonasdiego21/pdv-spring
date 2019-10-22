@@ -93,7 +93,7 @@ public class FornecedoresController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(FornecedorFilter fornecedorFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(FornecedorFilter fornecedorFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_FORNECEDOR);
 		mv.addObject("fornecedores", fornecedores.findAllByOrderByNomeAsc());
 		

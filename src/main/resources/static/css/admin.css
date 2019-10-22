@@ -11847,3 +11847,20 @@ input[type=text] .text-uppercase {
 	background-color: rgba(255, 255, 255);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+/* select de status com image */
+select#status option[value="ORCAMENTO"] {
+    background-image: url('../images/orcamento.png') !important;
+}
+
+select#status option[value="EMITIDA"] {
+    background-image: url('../images/emitida.png') !important;
+}
+
+select#status option[value="CREDIARIO"] {
+    background-image: url('../images/crediario.png') !important;
+}
+
+select#status option[value="CANCELADA"] {
+    background-image: url('../images/cancelada.png') !important;
+}

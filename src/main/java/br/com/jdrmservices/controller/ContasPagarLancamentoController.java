@@ -103,7 +103,7 @@ public class ContasPagarLancamentoController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(ContaPagarLancamentoFilter contapagarlancamentoFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(ContaPagarLancamentoFilter contapagarlancamentoFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_CONTAPAGAR_LANCAMENTO);
 		mv.addObject("contasPagarLancamento", contasPagarLancamento.findAllByOrderByDataPagamentoAsc());
 		

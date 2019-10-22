@@ -93,7 +93,7 @@ public class EmprestimosController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(EmprestimoFilter emprestimoFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(EmprestimoFilter emprestimoFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_EMPRESTIMO);
 		mv.addObject("emprestimos", emprestimos.findAllByOrderByNomeAsc());
 		

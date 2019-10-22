@@ -28,21 +28,40 @@
 		
 		<!-- Filtros -->
 		<form class="row" method="GET" th:object="${vendaFilter}" th:action="@{/vendas}">
-			<!-- busca -->	
-			<div class="col-sm-8"></div>	
-					
-			<div class="col-sm-4">
-				<div class="input-group mb-3">						 
-					<select id="codigo" th:field="*{codigo}" class="form-control-select">
-						<option th:each="cliente : ${clientes}" th:text="|${cliente.codigo} - ${cliente.nome}|" th:value="${cliente.codigo}"></option>
-					</select>
-					 
-					<div class="input-group-append">
-						<button id="btnBuscar" class="btn btn-primary" type="submit">
-							<i class="fas fa-search"></i>
-						</button> 
-					</div>
-				</div>
+			<div class="form-group col-sm-2">
+				<label for="status" class="form-control-label">Status</label>
+				
+				<select th:field="*{status}" id="status" class="form-control">
+					<option value="">TODOS</option>
+					<option th:each="status : ${status}" th:value="${status}" th:text="${status.descricao}"></option>
+				</select>
+			</div>
+			
+			<div class="form-group col-sm-4 date">
+				<label for="cliente" class="form-control-label">Cliente</label>
+				
+				<select th:field="*{codigoCliente}" id="cliente" class="form-control">
+					<option value="">TODOS</option>
+					<option th:each="cliente : ${clientes}" th:value="${cliente.codigo}" th:text="|${cliente.codigo}. ${cliente.nome}|"></option>
+				</select>
+			</div>
+			
+			<div class="form-group col-sm-3 date">
+				<label for="dataInicio" class="form-control-label">Data Início</label>
+				
+				<input th:field="*{dataInicio}" placeholder="Data Início" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataInicio" autocomplete="off">
+			</div>
+
+			<div class="form-group col-sm-3 date">	
+				<label for="dataFim" class="form-control-label">Data Fim</label>
+				
+				<input th:field="*{dataFim}" placeholder="Data Fim" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataFim" autocomplete="off">
+			</div>
+			
+			<hr class="bg-dark text-dark" />
+			
+			<div class="col-sm-12 mb-2 text-right">				
+				<button class="btn btn-primary" type="submit">Pesquisar</button>
 			</div>
 		</form>
 		
@@ -51,18 +70,24 @@
 			<div class="col-sm-12 table-responsive">
 				<table class="table table-hover thead-light table-bordered">
 					<thead>
-						<tr>
-							<th style="width: 10%;">Código <i class="fas fa-angle-down"></i></th>
-							<th style="width: 15%;" class="text-center">Data da venda<i class="fas fa-angle-down"></i></th>
-							<th style="width: 35%;">cliente <i class="fas fa-angle-down"></i></th>
-							<th style="width: 20%;" class="text-center">Status <i class="fas fa-angle-down"></i></th>
-							<th style="width: 20%;" class="text-center">Valor Total <i class="fas fa-angle-down"></i></th>
-							<th style="width: 10%;" class="text-center" colspan="2">Ações <i class="fas fa-angle-down"></th>
+						<tr style="font-size: 12px;">
+							<th style="width: 10%;">Nº/Código <i class="fas fa-angle-down"></i></th>
+							<th style="width: 12%;" class="text-center">Dat. venda<i class="fas fa-angle-down"></i></th>
+							<th style="width: 25%;">cliente <i class="fas fa-angle-down"></i></th>
+							<th style="width: 8%;" class="text-center">Status <i class="fas fa-angle-down"></i></th>
+							<th style="width: 10%;" class="text-center">Valor Total <i class="fas fa-angle-down"></i></th>
+							<th style="width: 11%;" class="text-center">Desconto <i class="fas fa-angle-down"></i></th>
+							<th style="width: 12%;" class="text-center">Sub Total <i class="fas fa-angle-down"></i></th>
+							<th style="width: 12%;" class="text-center" colspan="2">Ações <i class="fas fa-angle-down"></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="venda : ${pagina.content}">
-							<td class="text-center" th:text="${venda.codigo}"></td>
+						<tr th:each="venda : ${pagina.content}" style="font-size: 12px;">
+							<td class="text-center">
+								<span class="badge badge-info p-1" th:text="|${vendaStat.count}º|"></span>
+								/ 
+								<span th:text="${venda.codigo}"></span>
+							</td>
 							<td class="text-center">[[${{venda.dataCriacao}}]]</td>
 							<td th:text="${venda.cliente.nome}"></td>
 							<td class="text-center">
@@ -82,7 +107,9 @@
 									th:class="${venda.status.descricao == 'CANCELADA'} ? 'badge badge-danger p-2' : ''">
 								</span>
 							</td>
-							<td class="text-center text-danger"><b>R$ [[${{venda.valorTotal}}]]</b></td>
+							<td class="text-center text-info"><b>R$ [[${{venda.subTotal}}]]</b></td>
+							<td class="text-center text-danger"><b>-R$ [[${{venda.valorDesconto}}]]</b></td>
+							<td class="text-center text-success"><b>R$ [[${{venda.valorTotal}}]]</b></td>
 							
 							<td class="text-center">
 								<a th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" th:href="|/vendas/cancelar/${venda.codigo}|" data-toggle="tooltip" title="CANCELAR" data-position="top">
@@ -98,7 +125,7 @@
 						</tr>
 						
 						<tr th:if="${#lists.isEmpty(pagina.content)}"> 
-							<td colspan="7" class="text-center">Nenhuma informação encontrado!</td>
+							<td colspan="8" class="text-center">Nenhuma informação encontrado!</td>
 						</tr>
 					</tbody>
 				</table>
@@ -131,8 +158,11 @@
 		</div>
 	</div>
 	
-  	<!-- JavaScript -->
+	<!-- JavaScript -->
   	<th:block layout:fragment="javascripts">
+  	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
+  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
   	<script th:src="@{vendor/sweetalert/sweetalert.min.js}"></script>
   	<script th:src="@{js/pdv.dialogo-excluir.js}"></script>
   	</th:block>

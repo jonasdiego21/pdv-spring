@@ -2,16 +2,23 @@ var Pdv = Pdv || {};
 
 Pdv.FinalizarVenda = (function() {
 	
-	function FinalizarVenda() {
+	function FinalizarVenda(venda) {
+		this.venda = venda;
 		this.formPdv = $('#formFinalizarPdv');
 		this.cliente = $('#clienteNome');
 		this.status = $('#status');
+		this.aviso = $('#aviso');
+		
 		this.formaPagamento = $('#formaPagamento');
+		
 		this.totalVenda = $('#totalVenda');
 		this.desconto = $('#desconto');
 		this.totalPago = $('#totalPago');
 		this.troco = $('#troco');
-		this.aviso = $('#aviso');
+		
+		this.valorTotalVenda = 0.00;
+		this.valorTotalDesconto = 0.00;
+		this.valorTotalPago = 0.00;
 		
 		this.formaPagamento.focus();
 		this.formaPagamento.select();
@@ -20,9 +27,6 @@ Pdv.FinalizarVenda = (function() {
 	FinalizarVenda.prototype.start = function() {
 		this.formaPagamento.on('keypress', function(e) {
 			if(e.which == 13) {
-				this.totalPago.focus();
-				this.totalPago.select();
-				
 				switch(this.formaPagamento.val()) {
 					case '1':
 						this.formaPagamento.val('DINHEIRO');
@@ -46,54 +50,66 @@ Pdv.FinalizarVenda = (function() {
 						this.formaPagamento.val('DINHEIRO');
 						break;
 				}
+				
+				this.desconto.focus();
+				this.desconto.select();
+			}
+		}.bind(this));
+		
+		this.desconto.on('keypress', function(e) {			
+			if(e.which == 13) {
+				e.preventDefault();
+				
+				this.valorTotalVenda = this.totalVenda.text().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+				this.valorTotalDesconto = this.desconto.val().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+
+				$('#valorTotal').val(this.totalVenda.text().replace('R$ ', '').trim());
+
+				var total = this.valorTotalVenda - this.valorTotalDesconto;
+
+				this.totalVenda.text(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ '));//1
+
+				this.desconto.val(this.desconto.val() != '' ? 'R$ ' + this.desconto.val() : 'R$ 0,00');	
+
+				this.totalPago.focus();
+				this.totalPago.select();
 			}
 		}.bind(this));
 		
 		this.totalPago.on('keypress', function(e) {
-			var totalVenda = this.totalVenda.text();
-			var totalPago = this.totalPago.val();
-			
-			var venda = parseFloat(totalVenda.replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.'));
-			var pago = parseFloat(totalPago.replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.'));
-			
 			if(e.which == 13) {
-				if(this.formaPagamento.val() == 'DINHEIRO') {
-					if(pago < venda) {
+				e.preventDefault();
+				
+				this.valorTotalVenda = this.totalVenda.text().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+				this.valorTotalPago = this.totalPago.val().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+
+				if(this.formaPagamento.val() == 'DINHEIRO' || 
+						this.formaPagamento.val() == 'CREDITO' || this.formaPagamento.val() == 'DEBITO') {
+
+					if(parseFloat(this.valorTotalPago) < parseFloat(this.valorTotalVenda)) {
+						console.log('#ERRO', 'totalVenda', this.valorTotalVenda, 'totalPago', this.valorTotalPago, 'desconto', this.valorTotalDesconto);
 						alert('O VALOR PAGO NÃO PODE SER MENOR QUE O TOTAL A PAGAR');
-						this.totalPago.focus();
-						this.totalPago.select();
+						
+						this.totalPago.val(this.totalPago.val() != '' ? 'R$ ' + this.totalPago.val() : 'R$ 0,00');
 					} else {
-						this.totalPago.val('R$ ' + this.totalPago.val());
+						var troco = this.valorTotalPago - (this.valorTotalVenda - this.valorTotalDesconto);
+						var total = this.valorTotalVenda - this.valorTotalDesconto;
 
-						this.desconto.focus();
-						this.desconto.select();
+						this.troco.val(troco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ '));
+						this.totalVenda.text(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ '));//2	
+
+						this.totalPago.val(this.totalPago.val() != '' ? 'R$ ' + this.totalPago.val() : 'R$ 0,00');
+						
+						this.troco.focus();
+						this.troco.select();
 					}
+				} else {
+					this.totalPago.val(this.totalPago.val() != '' ? 'R$ ' + this.totalPago.val() : 'R$ 0,00');
+					
+					this.troco.focus();
+					this.troco.select();
 				}
-			}		
-		}.bind(this));
-		
-		this.desconto.on('keypress', function(e) {
-			if(e.which == 13) {
-				var totalVenda = this.totalVenda.text();
-				var desconto = this.desconto.val();
-				var totalPago = this.totalPago.val();
-				
-				var troco = totalPago.replace('R$ ', '').replace('.', '').replace(',', '.') - (totalVenda.replace('R$ ', '').replace('.', '').replace(',', '.') - desconto.replace('R$ ', '').replace('.', '').replace(',', '.'));
-				
-				$('#valorPago').val(totalPago.replace('R$ ', ''));
-				$('#valorTotal').val(totalVenda.replace('R$ ', ''));
-				$('#valorDesconto').val(desconto.replace('R$ ', ''));
-				
-				this.troco.val(troco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
-
-				var total = totalVenda.replace('R$ ', '').replace('.', '').replace(',', '.') - desconto.replace('R$ ', '').replace('.', '').replace(',', '.');
-				this.totalVenda.text(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
-				
-				this.desconto.val('R$ ' + this.desconto.val());
-				
-				this.troco.focus();
-				this.troco.select();
-			}
+			}	
 		}.bind(this));
 		
 		this.troco.on('keypress', function(e) {
@@ -101,8 +117,17 @@ Pdv.FinalizarVenda = (function() {
 				this.formaPagamento.focus();
 				this.formaPagamento.select();
 				
+				$('#valorDesconto').val(this.desconto.val().replace('R$ ', '').trim());
+				$('#valorPago').val(this.totalPago.val().replace('R$ ', '').trim());
+
+				console.log('#3', 'totalVenda', this.valorTotalVenda, 'totalPago', this.valorTotalPago, 'desconto', this.valorTotalDesconto);
+				
+				console.log('#1', $('#valorTotal').val());
+				console.log('#1', $('#valorPago').val());
+				console.log('#1', $('#valorDesconto').val());
+
 				this.formPdv.submit();
-			}	
+			}
 		}.bind(this));
 	}
 	
@@ -111,6 +136,15 @@ Pdv.FinalizarVenda = (function() {
 }());
 
 $(function() {
-	let finalizarVenda = new Pdv.FinalizarVenda();
+	var buscarProduto = new Pdv.BuscarProduto();
+	buscarProduto.start();
+	
+	var tabelaItens = new Pdv.TabelaItens(buscarProduto);
+	tabelaItens.start();
+	
+	var venda = new Pdv.Venda(tabelaItens);
+	venda.start();
+
+	var finalizarVenda = new Pdv.FinalizarVenda(venda);
 	finalizarVenda.start();
 });

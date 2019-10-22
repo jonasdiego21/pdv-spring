@@ -99,7 +99,7 @@ public class ContasPagarController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(ContaPagarFilter contaPagarFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(ContaPagarFilter contaPagarFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_CONTAPAGAR);
 		mv.addObject("fornecedores", fornecedores.findAllByOrderByNomeAsc());
 		mv.addObject("status", Status.values());

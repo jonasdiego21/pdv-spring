@@ -93,7 +93,7 @@ public class EmpresasController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(EmpresaFilter empresaFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(EmpresaFilter empresaFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_EMPRESA);
 		mv.addObject("empresas", empresas.findAllByOrderByNomeAsc());
 		

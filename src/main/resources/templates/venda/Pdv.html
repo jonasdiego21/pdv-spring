@@ -60,7 +60,7 @@
 			</div>
 			
 			<div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
-				<span class="text-white text-center">Visualização do Cupom</span>
+				<span class="text-white text-center">Itens da venda | <span th:text="${printer}"></span></span>
 				<div id="tabela-itens-container" class="bg-light text-white">
 					<div class="mb-2">
 						<div id="cabecalho-cupom" class="row bg-dark-blue m-0">
@@ -122,6 +122,7 @@
   	<script th:src="@{/js/pdv.buscar-produto.js}"></script>
   	<script th:src="@{/js/pdv.tabela-itens-venda.js}"></script>
   	<script th:src="@{/js/pdv.venda.js}"></script>
+  	<script th:src="@{/js/pdv.finalizar-venda.js}"></script>
   	<script th:src="@{/vendor/handlebars/handlebars.min.js}"></script>
   	<script th:src="@{/js/pdv.pesquisa-rapida-cliente.js}"></script>
 </body>

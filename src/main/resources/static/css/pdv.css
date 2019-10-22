@@ -1,4 +1,8 @@
 /* PDV */
+* {
+	font-familly: Verdana, 'Roboto', Arial, sans-serif;
+}
+
 ::-webkit-scrollbar-track {
     background-color: #fff68b;
 }
@@ -14,8 +18,16 @@
 	border: 2px solid #fff !important;
 }
 
+.bg-light-grey {
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(255, 255, 255, 1)) !important;
+}
+
 .bg-dark-blue {
-	background-color: #110071 !important;
+	background-image: linear-gradient(to bottom, #0000A0 0%, #000090 50%, #000090 51%, #000080 100%) !important;/*110071*/
+}
+
+.bg-dark-green {
+	background-color: #32CD32 !important;
 }
 
 #tabela-itens-container {

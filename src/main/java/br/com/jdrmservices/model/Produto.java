@@ -64,11 +64,11 @@ public class Produto implements Serializable {
 	//private String contentType;
 	
 	@ManyToOne
-	@NotNull(message = "A categoria é obrigatoria")
+	//@NotNull(message = "A categoria é obrigatoria")
 	private Categoria categoria;
 	
 	@ManyToOne
-	@NotNull(message = "O fornecedor é obrigatório")
+	//@NotNull(message = "O fornecedor é obrigatório")
 	private Fornecedor fornecedor;
 
 	public boolean isNovo() {

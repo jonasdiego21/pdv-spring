@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +42,7 @@ import br.com.jdrmservices.dto.TotalVendasMes;
 import br.com.jdrmservices.dto.TotalVendasMesCrediario;
 import br.com.jdrmservices.dto.TotalVendasMesGeral;
 import br.com.jdrmservices.exception.GlobalException;
+import br.com.jdrmservices.impressora.GenericPrinter;
 import br.com.jdrmservices.model.Cliente;
 import br.com.jdrmservices.model.Produto;
 import br.com.jdrmservices.model.Venda;
@@ -73,12 +73,11 @@ public class VendasController {
 	
 	@Autowired
 	private TabelasItensSession tabelasItensSession;
-	
-	//private Thread imprimeItemCupomThread;
-	
-	//private Thread imprimeCabecalhoCupomThead;
 
 	private DecimalFormat decimalFormat;
+	
+	@Autowired
+	private GenericPrinter genericPrinter;
 	
 	public VendasController() {
 		decimalFormat = new DecimalFormat("#,##0.00");
@@ -92,9 +91,6 @@ public class VendasController {
 		tabelasItensSession.adicionarItem(uuid, produto, quantidade);
 
 		vendaService.imprimirItemCupom(venda, uuid, produto, quantidade);
-		
-		//imprimeItemCupomThread = new Thread(new ImprimeItemCupomRunnable(vendaService, venda, uuid, produto, quantidade));
-		//imprimeItemCupomThread.start();
 		
 		mv.addObject("itens", tabelasItensSession.getItens(uuid));	
 		mv.addObject("valorTotal", decimalFormat.format(tabelasItensSession.getValorTotal(uuid)));
@@ -134,6 +130,7 @@ public class VendasController {
 		
 		venda.setUuid(UUID.randomUUID().toString());
 		
+		mv.addObject("printer", genericPrinter.listarImpressoras());
 		mv.addObject("status", StatusVenda.values());
 		mv.addObject("itens", tabelasItensSession.getItens(uuid));
 		mv.addObject("vendas", vendas.findAll());
@@ -153,17 +150,14 @@ public class VendasController {
 		mv.addObject("vendas", vendas.findAll());
 		
 		vendaService.imprimirCabecalhoCupom(venda);
-		
-		//imprimeCabecalhoCupomThead = new Thread(new ImprimeCabecalhoCupomRunnable(vendaService, venda));
-		//imprimeCabecalhoCupomThead.start();
-		
+			
 		return mv;
 	}
 	
 	@PostMapping("/finalizar")
 	public ModelAndView finalizarVenda(@AuthenticationPrincipal UsuarioSistema usuarioSistema, Venda venda, PdvDTO pdvDTO) {
 		ModelAndView mv = new ModelAndView(VIEW_FINALIZAR_VENDA);
-		
+
 		pdvDTO.setValorVenda(tabelasItensSession.getValorTotal(venda.getUuid()));
 		
 		if(venda.getCliente() == null) {
@@ -191,10 +185,12 @@ public class VendasController {
 			venda.adicionarItens(tabelasItensSession.getItens(venda.getUuid()));
 		}
 
-		try {
+		try {			
 			vendaService.cadastrar(venda);
 		} catch (GlobalException e) {
-			attributes.addAttribute("aviso", e.getMessage());
+			//attributes.addFlashAttribute("aviso", e.getLocalizedMessage());
+			//ResponseEntity.badRequest().body(e.getLocalizedMessage());
+			//System.out.println(e.getLocalizedMessage());
 			return novo(venda, uuid);		
 		}
 
@@ -221,9 +217,10 @@ public class VendasController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(VendaFilter vendaFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(VendaFilter vendaFilter, BindingResult result, @PageableDefault(size = 100) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_VENDA);
 		mv.addObject("clientes", clientes.findAll());
+		mv.addObject("status", StatusVenda.values());
 		mv.addObject("vendas", vendas.findAll());
 		
 		Page<Venda> pagina = vendas.filtrar(vendaFilter, pageable);

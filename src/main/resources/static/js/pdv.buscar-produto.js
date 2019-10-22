@@ -58,6 +58,7 @@ Pdv.BuscarProduto = (function() {
 	
 	function novaVendaIniciadaError(error) {
 		this.vendaStatus = false;
+		alert(error);
 	}
 	
 	/*========== ADICIONAR CLIENTE ==========*/

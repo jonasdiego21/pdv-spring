@@ -2,7 +2,6 @@ package br.com.jdrmservices.service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-//import java.util.stream.IntStream;
 
 import javax.transaction.Transactional;
 
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-//import br.com.jdrmservices.epson.EpsonPrint;
+import br.com.jdrmservices.epson.EpsonPrint;
 import br.com.jdrmservices.exception.GlobalException;
 import br.com.jdrmservices.impressora.GenericPrinter;
 import br.com.jdrmservices.model.ContaReceber;
@@ -22,7 +21,6 @@ import br.com.jdrmservices.model.enumeration.Status;
 import br.com.jdrmservices.model.enumeration.StatusVenda;
 import br.com.jdrmservices.repository.ContasReceber;
 import br.com.jdrmservices.repository.ItensVendas;
-//import br.com.jdrmservices.repository.Produtos;
 import br.com.jdrmservices.repository.Vendas;
 import br.com.jdrmservices.service.event.venda.FechamentoCupomEvent;
 import br.com.jdrmservices.service.event.venda.VendaEvent;
@@ -36,9 +34,6 @@ public class VendaService {
 	@Autowired
 	private ItensVendas itensVendas;
 	
-	//@Autowired
-	//private Produtos produtos;
-	
 	@Autowired
 	private ProdutoService produtoService;
 	
@@ -48,8 +43,8 @@ public class VendaService {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
-	//@Autowired
-	//private EpsonPrint epsonPrint;
+	@Autowired
+	private EpsonPrint epsonPrint;
 	
 	@Autowired
 	private GenericPrinter genericPrinter;
@@ -64,16 +59,18 @@ public class VendaService {
 			if(contaReceberOptional.isPresent()) {
 				contaReceberOptional.get().setCodigo(contaReceberOptional.get().getCodigo());
 				contaReceberOptional.get().setTotalVenda(venda.getValorTotal().add(contaReceberOptional.get().getTotalVenda()));
-
+				
+				/*
 				if(venda.getCliente().getLimiteCompra().doubleValue() >= venda.getValorTotal()
 						.add(contaReceberOptional.get().getRestante()).doubleValue()) {					
 					
 					publisher.publishEvent(new VendaEvent(venda));
 					publisher.publishEvent(new FechamentoCupomEvent(venda));
-					
+
 					throw new GlobalException("LIMITE DE CREDITO ATINGIDO!");
 				}				
-
+				*/
+				
 				contasReceber.saveAndFlush(contaReceberOptional.get());
 			} else {
 				ContaReceber contaReceber = new ContaReceber();
@@ -101,7 +98,6 @@ public class VendaService {
 			publisher.publishEvent(new FechamentoCupomEvent(venda));
 		}
 		
-		// desconto
 		venda.setValorTotal(venda.getValorTotal().subtract(venda.getValorDesconto()));
 		
 		vendas.saveAndFlush(venda);

@@ -88,7 +88,7 @@ public class CategoriasController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(CategoriaFilter categoriaFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(CategoriaFilter categoriaFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_CATEGORIA);
 		mv.addObject("categorias", categorias.findAllByOrderByNomeAsc());
 		

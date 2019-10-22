@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+//import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -35,12 +36,12 @@ public class Fornecedor implements Serializable {
 
 	private String complemento;
 
-	@NotBlank(message = "Estado é obrigatório")
-	private String estado;
+	//@NotBlank(message = "Estado é obrigatório")
+	private Estado estado;
 
-	//@ManyToOne
-	@NotBlank(message = "Cidade é obrigatória")
-	private String cidade;
+	@ManyToOne
+	//@NotBlank(message = "Cidade é obrigatória")
+	private Municipio cidade;
 
 	private String observacao;
 
@@ -108,20 +109,20 @@ public class Fornecedor implements Serializable {
 		this.complemento = complemento;
 	}
 
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public String getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+
+	public Municipio getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Municipio cidade) {
+		this.cidade = cidade;
 	}
 
 	public String getObservacao() {

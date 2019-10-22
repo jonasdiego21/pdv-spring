@@ -35,9 +35,9 @@
 				<h1 class="text-white">[[${vendas}]]</h1>
 				<h5 class="text-white">Vendas</h5>
 			</div>
-		</div>
+		<!--</div>
 		
-		<div class="row">
+		<div class="row">-->
 			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_USUARIO')}">
 				<h1 class="text-white">[[${usuarios}]]</h1>
 				<h5 class="text-white">Usuários</h5>
@@ -54,8 +54,8 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">FLUXO DE CAIXA (HOJE)</span>
-		<hr class="bg-ligt m-0 p-0" />
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">FLUXO DE CAIXA (HOJE)</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="card bg-success col-sm-12 col-md-4 p-3 text-center">
@@ -74,8 +74,8 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">VENDAS À VISTA</span>
-		<hr class="bg-ligt m-0 p-0" />
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">VENDAS À VISTA</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
@@ -94,8 +94,8 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">VENDAS À PRAZO</span>
-		<hr class="bg-ligt m-0 p-0" />
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">VENDAS À PRAZO</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
@@ -114,8 +114,8 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">TODAS AS VENDAS</span>
-		<hr class="bg-ligt m-0 p-0" />
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">TODAS AS VENDAS</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
@@ -134,7 +134,7 @@
 			</div>
 		</div>
 		
-		<div class="row mt-1 justify-content-center" style="z-index: 9999; display: flex;">
+		<div class="row mt-1 justify-content-center" style="z-index: 9999; display: flex;" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="btn-group col-sm-12">				
 				<button id="line" class="btn" disabled="disabled">
 					<i class="fas fa-chart-line"></i> Por dia
@@ -150,8 +150,8 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">GRÁFICOS - VENDA À VISTA</span>
-		<hr class="bg-ligt m-0 p-0" />
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">GRÁFICOS - VENDA À VISTA</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="col-sm-4">
@@ -167,8 +167,8 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">GRÁFICOS - VENDA À PRAZO</span>
-		<hr class="bg-ligt m-0 p-0" />
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">GRÁFICOS - VENDA À PRAZO</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="col-sm-4">
@@ -184,8 +184,8 @@
 			</div>
 		</div>
 		
-		<span class="text-dark m-0 p-0">GRÁFICOS - TOTDAS AS VENDAS</span>
-		<hr class="bg-ligt m-0 p-0" />
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">GRÁFICOS - TOTDAS AS VENDAS</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
 		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
 			<div class="col-sm-4">

@@ -1,4 +1,3 @@
-/*
 package br.com.jdrmservices.epson;
 
 import java.math.BigDecimal;
@@ -13,4 +12,3 @@ public interface EpsonPrintInterface {
 	public boolean imprimirItem(String uuid, Produto produto, BigDecimal quantidade);
 	public boolean imprimirFechamento(Venda venda);
 }
-*/

@@ -256,8 +256,26 @@ public class VendasImpl implements VendasQueries {
 	
 	private void adicionarFiltro(VendaFilter filtro, Criteria criteria) {
 		if(filtro != null) {
-			if(!StringUtils.isEmpty(filtro.getCodigo())) {
-				criteria.add(Restrictions.eq("cliente.codigo", filtro.getCodigo()));
+			if(!StringUtils.isEmpty(filtro.getStatus())) {
+				criteria.add(Restrictions.eq("status", filtro.getStatus()));
+			}
+		}
+		
+		if(filtro != null) {
+			if(!StringUtils.isEmpty(filtro.getCodigoCliente())) {
+				criteria.add(Restrictions.eq("cliente.codigo", filtro.getCodigoCliente()));
+			}
+		}
+		
+		if(filtro != null) {
+			if(!StringUtils.isEmpty(filtro.getDataInicio())) {
+				criteria.add(Restrictions.ge("dataCriacao", filtro.getDataInicio()));
+			}
+		}
+		
+		if(filtro != null) {
+			if(!StringUtils.isEmpty(filtro.getDataFim())) {
+				criteria.add(Restrictions.le("dataCriacao", filtro.getDataFim()));
 			}
 		}
 	}

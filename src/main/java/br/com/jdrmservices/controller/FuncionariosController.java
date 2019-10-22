@@ -88,7 +88,7 @@ public class FuncionariosController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(FuncionarioFilter funcionarioFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable) {
+	public ModelAndView pesquisar(FuncionarioFilter funcionarioFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_FUNCIONARIO);
 		mv.addObject("funcionarios", funcionarios.findAllByOrderByNomeAsc());
 		

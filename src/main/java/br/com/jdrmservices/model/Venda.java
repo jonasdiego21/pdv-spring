@@ -17,15 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.DynamicUpdate;
+import javax.validation.constraints.Digits;
 
 import br.com.jdrmservices.model.enumeration.FormaPagamento;
 import br.com.jdrmservices.model.enumeration.StatusVenda;
 
 @Entity
 @Table(name = "venda")
-@DynamicUpdate
 public class Venda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -44,13 +42,13 @@ public class Venda implements Serializable {
 	@Column(name = "data_criacao")
 	private LocalDate dataCriacao = LocalDate.now();
 	
-	//@Digits(integer = 10, fraction = 2)
+	@Digits(integer = 10, fraction = 2)
 	@Column(name = "valor_total")
 	private BigDecimal valorTotal = BigDecimal.ZERO;
 	
-	//@Digits(integer = 10, fraction = 2)
+	@Digits(integer = 10, fraction = 2)
 	@Column(name = "valor_desconto")
-	private BigDecimal valorDesconto  = BigDecimal.ZERO;
+	private BigDecimal valorDesconto = BigDecimal.ZERO;
 	
 	@Enumerated(EnumType.STRING)
 	private FormaPagamento formaPagamento = FormaPagamento.DINHEIRO;
@@ -65,10 +63,16 @@ public class Venda implements Serializable {
 	private String uuid;
 	
 	@Transient
-	private BigDecimal valorPago  = BigDecimal.ZERO;
+	@Digits(integer = 10, fraction = 2)
+	private BigDecimal valorPago = BigDecimal.ZERO;
 	
 	@Transient
-	private BigDecimal troco  = BigDecimal.ZERO;
+	@Digits(integer = 10, fraction = 2)
+	private BigDecimal troco = BigDecimal.ZERO;
+	
+	@Transient
+	@Digits(integer = 10, fraction = 2)
+	private BigDecimal subTotal = BigDecimal.ZERO;
 	
 	public void adicionarItens(List<ItemVenda> itens) {
 		this.itens = itens;
@@ -160,7 +164,7 @@ public class Venda implements Serializable {
 	}
 
 	public BigDecimal getTroco() {
-		return troco;
+		return this.valorPago.subtract(this.valorTotal.subtract(this.valorDesconto));
 	}
 
 	public void setTroco(BigDecimal troco) {
@@ -173,6 +177,14 @@ public class Venda implements Serializable {
 
 	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
+	}
+
+	public BigDecimal getSubTotal() {
+		return this.getValorTotal().add(this.getValorDesconto());
+	}
+
+	public void setSubTotal(BigDecimal subTotal) {
+		this.subTotal = subTotal;
 	}
 
 	@Override
