@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import static br.com.jdrmservices.util.Constants.VIEW_VISUALIZAR_ITENS_VENDA;
-import static br.com.jdrmservices.util.Constants.VIEW_VENDA_REDIRECT;
 
 import br.com.jdrmservices.model.ItemVenda;
 import br.com.jdrmservices.model.Venda;
@@ -34,11 +33,9 @@ public class ItensVendasController {
 	}
 	
 	@GetMapping("/devolver/{codigo}")
-	public ModelAndView devolverItem(@PathVariable("codigo") ItemVenda itemVenda) {
-		ModelAndView mv = new ModelAndView(VIEW_VENDA_REDIRECT);
+	public ModelAndView devolverItem(@PathVariable("codigo") ItemVenda itemVenda, Venda venda) {
+		vendaService.devolverItem(itemVenda, venda);
 		
-		vendaService.devolverItem(itemVenda);
-		
-		return mv;
+		return itemVenda(itemVenda.getVenda());
 	}
 }

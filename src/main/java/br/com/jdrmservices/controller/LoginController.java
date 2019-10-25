@@ -15,7 +15,7 @@ public class LoginController {
 	@GetMapping
 	public String Login(@AuthenticationPrincipal User user) {
 		if(user != null) {
-			return "redirect:/admin";
+			return "redirect:/";
 		}
 		
 		return VIEW_LOGIN;

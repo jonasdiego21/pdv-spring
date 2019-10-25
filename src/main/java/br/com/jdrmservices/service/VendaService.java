@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import br.com.jdrmservices.epson.EpsonPrint;
-import br.com.jdrmservices.exception.GlobalException;
 import br.com.jdrmservices.impressora.GenericPrinter;
 import br.com.jdrmservices.model.ContaReceber;
 import br.com.jdrmservices.model.ItemVenda;
@@ -109,26 +108,27 @@ public class VendaService {
 	}
 	
 	@Transactional
-	public void devolverItem(ItemVenda itemVenda) {
-		Optional<Venda> vendaExistente = vendas.findById(itemVenda.getVenda().getCodigo());
+	public void devolverItem(ItemVenda itemVenda, Venda venda) {
+		Optional<Venda> vendaExistente = vendas.findById(venda.getCodigo());
 		
-		System.out.println("Item venda: " + itemVenda.getProduto().getNome());
-		
-		for(ItemVenda it : vendaExistente.get().getItens()) {						
-			produtoService.adicionarEntrada(it.getProduto());
-		}
-		
+		produtoService.adicionarEntrada(itemVenda.getProduto(), itemVenda.getQuantidade());
 		itensVendas.delete(itemVenda);
+		
+		Optional<BigDecimal> valorTotalVenda = vendaExistente.get().getItens()
+				.stream().map(i -> i.getValorTotal()).findAny();
+		
+		vendaExistente.get().setValorTotal(valorTotalVenda.orElse(BigDecimal.ZERO));
+		vendas.saveAndFlush(vendaExistente.get());
 	}
 		
 	@Transactional
 	public void cancelar(Venda venda) {
 		Optional<Venda> vendaExistente = vendas.findById(venda.getCodigo());
 		
-		for(ItemVenda it : vendaExistente.get().getItens()) {						
-			produtoService.adicionarEntrada(it.getProduto());
+		for(ItemVenda it : vendaExistente.get().getItens()) {
+			produtoService.adicionarEntrada(it.getProduto(), it.getQuantidade());
 		}
-
+		
 		vendaExistente.get().setStatus(StatusVenda.CANCELADA);			
 		vendas.saveAndFlush(vendaExistente.get());
 	}

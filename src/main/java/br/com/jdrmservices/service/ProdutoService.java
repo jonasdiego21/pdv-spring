@@ -3,6 +3,7 @@ package br.com.jdrmservices.service;
 import static br.com.jdrmservices.util.Constants.INFORMACOES_JA_CADASTRADAS;
 import static br.com.jdrmservices.util.Constants.INFORMACOES_NAO_CADASTRADO;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -33,6 +34,7 @@ public class ProdutoService {
 	
 	@Transactional
 	public void adicionarEntrada(Produto produto) {
+		System.out.println("Código de barras: " + produto.getCodigoBarras());
 		Optional<Produto> optional = produtos.findByCodigoBarrasIgnoreCase(produto.getCodigoBarras());
 		
 		if(!optional.isPresent()) {
@@ -51,7 +53,29 @@ public class ProdutoService {
 		produto.setFornecedor(optional.get().getFornecedor());
 		
 		produtos.saveAndFlush(produto);
-	}	
+	}
+	
+	@Transactional
+	public void adicionarEntrada(Produto produto, BigDecimal quantidade) {
+		Optional<Produto> optional = produtos.findByCodigoBarrasIgnoreCase(produto.getCodigoBarras());
+		
+		if(!optional.isPresent()) {
+			throw new GlobalException(INFORMACOES_NAO_CADASTRADO);
+		}
+		
+		produto.setCodigo(optional.get().getCodigo());
+		produto.setCodigoBarras(optional.get().getCodigoBarras());
+		produto.setNome(optional.get().getNome());
+		produto.setUnidade(optional.get().getUnidade());
+		produto.setDescricao(optional.get().getDescricao());
+		produto.setQuantidade(optional.get().getQuantidade().add(quantidade));
+		produto.setPrecoCompra(optional.get().getPrecoCompra());
+		produto.setPrecoVenda(optional.get().getPrecoVenda());
+		produto.setCategoria(optional.get().getCategoria());
+		produto.setFornecedor(optional.get().getFornecedor());
+		
+		produtos.saveAndFlush(produto);
+	}
 
 	@Transactional
 	public void excluir(Produto produto) {

@@ -168,6 +168,7 @@ public class VendasController {
 			venda.setCliente(cliente);
 		}
 		
+		mv.addObject("printer", genericPrinter.listarImpressoras());
 		mv.addObject("status", StatusVenda.values());
 		mv.addObject("itens", tabelasItensSession.getItens(venda.getUuid()));
 		mv.addObject("vendas", vendas.findAll());

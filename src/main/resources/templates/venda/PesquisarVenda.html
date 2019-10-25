@@ -112,15 +112,19 @@
 							<td class="text-center text-success"><b>R$ [[${{venda.valorTotal}}]]</b></td>
 							
 							<td class="text-center">
-								<a th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" th:href="|/vendas/cancelar/${venda.codigo}|" data-toggle="tooltip" title="CANCELAR" data-position="top">
-									<i class="fas fa-ban text-danger"></i>
-								</a>
+								<div th:class="${venda.status.descricao == 'CANCELADA'} ? 'd-none' : 'd-block'">
+									<a th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" th:href="|/vendas/cancelar/${venda.codigo}|" data-toggle="tooltip" title="CANCELAR" data-position="top">
+										<i class="fas fa-ban text-danger"></i>
+									</a>
+								</div>
 							</td>
 							
 							<td class="text-center" data-toggle="tooltip" title="ITENS DA VENDA" data-position="top"> 
-								<a th:href="@{|/itensvendas/${venda.codigo}|}">
-									<i class="fas fa-boxes"></i>
-								</a>
+								<div th:class="${venda.status.descricao == 'CANCELADA'} ? 'd-none' : 'd-block'">
+									<a th:href="@{|/itensvendas/${venda.codigo}|}">
+										<i class="fas fa-boxes"></i>
+									</a>
+								</div>
 							</td>
 						</tr>
 						
