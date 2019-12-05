@@ -37,7 +37,7 @@
 							<th style="width: 10%;" class="text-center">Qtde <i class="fas fa-angle-down"></i></th>
 							<th style="width: 15%;" class="text-center">Valor Unit. <i class="fas fa-angle-down"></i></th>
 							<th style="width: 15%;" class="text-center">Total <i class="fas fa-angle-down"></i></th>
-							<th style="width: 10%;" class="text-center">Ações <i class="fas fa-angle-down"></th>
+							<!--<th style="width: 10%;" class="text-center">Ações <i class="fas fa-angle-down"></th>-->
 						</tr>
 					</thead>
 					<tbody>
@@ -47,12 +47,13 @@
 							<td class="text-center" th:text="${item.quantidade}"></td>
 							<td class="text-center">R$ [[${{item.valorUnitario}}]]</td>
 							<td class="text-center">R$ [[${{item.quantidade * item.valorUnitario}}]]</td>
-							
+							<!--
 							<td class="text-center">
 								<a th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" th:href="|/itensvendas/devolver/${item.codigo}|" data-toggle="tooltip" title="DEVOLVER" data-position="top">
 									<i class="fas fa-exchange-alt text-danger"></i>
 								</a>
 							</td>
+							-->
 						</tr>
 						
 						<tr th:if="${#lists.isEmpty(itens)}"> 

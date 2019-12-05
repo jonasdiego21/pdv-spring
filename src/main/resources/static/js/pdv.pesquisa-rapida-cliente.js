@@ -60,8 +60,8 @@ Pdv.TabelaClientePesquisa = (function() {
 	}
 	
 	TabelaClientePesquisa.prototype.start = function() {
-		this.cliente.on('click', clienteSelecionado.bind(this));
 		this.cliente.focus();
+		this.cliente.on('click', clienteSelecionado.bind(this));
 	}
 	
 	function clienteSelecionado(evento) {

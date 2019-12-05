@@ -74,6 +74,10 @@ public class ProdutosImpl implements ProdutosQueries {
 			if(!StringUtils.isEmpty(filtro.getNome())) {
 				criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 			}
+			
+			if(!StringUtils.isEmpty(filtro.getCodigoBarras())) {
+				criteria.add(Restrictions.ilike("codigoBarras", filtro.getCodigoBarras(), MatchMode.EXACT));
+			}
 		}
 	}
 }

@@ -16,8 +16,7 @@
 <body>
 	<div class="container" layout:fragment="conteudo">
 		<h1 class="text-center">Pesquisar Categoria</h1>
-		
-		<!-- Breadcrumb -->
+
 		<div aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
@@ -25,10 +24,8 @@
 				<li class="breadcrumb-item"><a th:href="@{/categorias/novo}">Novo</a></li>
 			</ol>
 		</div>
-		
-		<!-- Filtros -->
+
 		<form class="row" method="GET" th:object="${categoriaFilter}" th:action="@{/categorias}">
-			<!-- busca -->	
 			<div class="col-sm-8"></div>	
 					
 			<div class="col-sm-4">
@@ -43,8 +40,7 @@
 				</div>
 			</div>
 		</form>
-		
-		<!-- Table de livros -->
+
 		<div class="row">
 			<div class="col-sm-12 table-responsive">
 				<table class="table table-hover thead-light table-bordered">
@@ -61,25 +57,28 @@
 							<td th:text="${categoria.nome}"></td>
 							
 							<td class="text-center">
-								<a th:href="@{|/categorias/${categoria.codigo}|}" data-toggle="tooltip" title="EDITAR" data-position="top">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
+								<div th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+									<a th:href="@{|/categorias/${categoria.codigo}|}" data-toggle="tooltip" title="EDITAR" data-position="top">
+										<i class="fas fa-pencil-alt"></i>
+									</a>
+								</div>
 							</td>
 							<td class="text-center" data-toggle="tooltip" title="EXCLUIR" data-position="top"> 
-								<a href="javascript:;" class="js-btn-excluir" th:url="@{|/categorias/${categoria.codigo}|}">
-									<i class="fas fa-trash-alt text-danger"></i>
-								</a>
+								<div th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+									<a href="javascript:;" class="js-btn-excluir" th:url="@{|/categorias/${categoria.codigo}|}">
+										<i class="fas fa-trash-alt text-danger"></i>
+									</a>
+								</div>
 							</td>
 						</tr>
 						
-						<tr th:if="${#lists.isEmpty(pagina.content)}"> 
+						<tr th:if="${#lists.isEmpty(pagina.content)}">
 							<td colspan="5" class="text-center">Nenhuma informação encontrado!</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			
-			<!-- Paginação -->
 			<div class="col-sm-12" th:if="${not #lists.isEmpty(pagina.content)}">
 				<nav>
 				  <ul class="pagination pagination-sm justify-content-center" th:with="paginaAtual=${pagina.number}">

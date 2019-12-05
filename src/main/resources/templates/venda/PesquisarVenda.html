@@ -89,7 +89,7 @@
 								<span th:text="${venda.codigo}"></span>
 							</td>
 							<td class="text-center">[[${{venda.dataCriacao}}]]</td>
-							<td th:text="${venda.cliente.nome}"></td>
+							<td th:text="|${venda.cliente.nome} (${venda.formaPagamento})|"></td>
 							<td class="text-center">
 								<span th:text="${venda.status.descricao}" th:if="${venda.status.descricao == 'ORÇAMENTO'}"
 									th:class="${venda.status.descricao == 'ORÇAMENTO'} ? 'badge badge-warning p-2' : ''">

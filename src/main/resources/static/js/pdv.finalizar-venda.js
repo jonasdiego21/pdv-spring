@@ -88,8 +88,18 @@ Pdv.FinalizarVenda = (function() {
 
 					if(parseFloat(this.valorTotalPago) < parseFloat(this.valorTotalVenda)) {
 						console.log('#ERRO', 'totalVenda', this.valorTotalVenda, 'totalPago', this.valorTotalPago, 'desconto', this.valorTotalDesconto);
-						alert('O VALOR PAGO NÃO PODE SER MENOR QUE O TOTAL A PAGAR');
 						
+						swal({
+							  title: "Valor Insuficiente!",
+							  text: "O VALOR PAGO NÃO PODE SER MENOR QUE O TOTAL A PAGAR!",
+							  icon: "error",
+							  button: "Fechar",
+						}).then((value) => {			
+							this.totalPago.focus();
+							this.totalPago.select();
+							this.totalPago.val('R$ 0,00');
+						});
+												
 						this.totalPago.val(this.totalPago.val() != '' ? 'R$ ' + this.totalPago.val() : 'R$ 0,00');
 					} else {
 						var troco = this.valorTotalPago - (this.valorTotalVenda - this.valorTotalDesconto);

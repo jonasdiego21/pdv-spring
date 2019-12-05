@@ -19,16 +19,20 @@ public class Balanca implements BalancaInterface {
 
 	@Override
 	public boolean conectar() {
+		// funcção conectar para obter retornos da balança		
 		return false;
 	}
 
 	@Override
 	public boolean desconectar() {
+		// função desconectar a balança do sistema
 		return false;
 	}
 
 	@Override
 	public void configurar() {
-		
+		// configurar paramtetros de conexão da balança
 	}	
 }
+
+/* Os comentários representam funcionalidades que devem ser implementadas ao sistema */

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import br.com.jdrmservices.model.enumeration.Status;
 
@@ -29,6 +30,7 @@ public class ContaReceber implements Serializable {
 	private Long codigo;
 	
 	@ManyToOne
+	@NotNull(message = "O cliente é obrigatório")
 	private Cliente cliente;
 	
 	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)

@@ -65,14 +65,18 @@
 							<td th:text="${#numbers.formatDecimal(funcionario.comissao, 1, 'DEFAULT', 2, 'DEFAULT')}" class="text-center"></td>
 							
 							<td class="text-center">
-								<a th:href="@{|/funcionarios/${funcionario.codigo}|}" data-toggle="tooltip" title="EDITAR" data-position="top">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
+								<div th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+									<a th:href="@{|/funcionarios/${funcionario.codigo}|}" data-toggle="tooltip" title="EDITAR" data-position="top">
+										<i class="fas fa-pencil-alt"></i>
+									</a>
+								</div>
 							</td>
 							<td class="text-center" data-toggle="tooltip" title="EXCLUIR" data-position="top"> 
-								<a href="javascript:;" class="js-btn-excluir" th:url="@{|/funcionarios/${funcionario.codigo}|}">
-									<i class="fas fa-trash-alt text-danger"></i>
-								</a>
+								<div th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+									<a href="javascript:;" class="js-btn-excluir" th:url="@{|/funcionarios/${funcionario.codigo}|}">
+										<i class="fas fa-trash-alt text-danger"></i>
+									</a>
+								</div>
 							</td>
 						</tr>
 						

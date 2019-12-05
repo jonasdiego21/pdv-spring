@@ -28,20 +28,21 @@
 		</div>
 		
 		<!-- Filtros -->
-		<form class="row" method="GET" th:object="${produtoFilter}" th:action="@{/produtos}">
-			<!-- busca -->	
-			<div class="col-sm-8"></div>	
-					
-			<div class="col-sm-4">
-				<div class="input-group mb-3">						 
-					<input id="nome" th:field="*{nome}" type="text" class="form-control" placeholder="Pesquisar por nome...">
-					 
-					<div class="input-group-append">
-						<button id="btnBuscar" class="btn btn-primary" type="submit">
-							<i class="fas fa-search"></i>
-						</button> 
-					</div>
+		<form class="row text-right mb-2" method="GET" th:object="${produtoFilter}" th:action="@{/produtos}">		
+			<div class="col-sm-5">
+				<div class="form-group">					 
+					<input id="codigoBarras" th:field="*{codigoBarras}" type="text" class="form-control" placeholder="Codigo de barras...">
 				</div>
+			</div>
+					
+			<div class="col-sm-5">
+				<div class="form-group">						 
+					<input id="nome" th:field="*{nome}" type="text" class="form-control" placeholder="Pesquisar por nome...">
+				</div>
+			</div>
+			
+			<div class="form-group col-sm-2">
+				<button class="btn btn-primary btn-block">Pesquisar</button>
 			</div>
 		</form>
 		
@@ -72,14 +73,18 @@
 							<td class="text-center" th:text="${produto.unidade}"></td>
 							
 							<td class="text-center">
-								<a th:href="@{|/produtos/${produto.codigo}|}" data-toggle="tooltip" title="EDITAR" data-position="top">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
+								<div th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+									<a th:href="@{|/produtos/${produto.codigo}|}" data-toggle="tooltip" title="EDITAR" data-position="top">
+										<i class="fas fa-pencil-alt"></i>
+									</a>
+								</div>
 							</td>
 							<td class="text-center" data-toggle="tooltip" title="EXCLUIR" data-position="top"> 
-								<a href="javascript:;" class="js-btn-excluir" th:url="@{|/produtos/${produto.codigo}|}">
-									<i class="fas fa-trash-alt text-danger"></i>
-								</a>
+								<div th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+									<a href="javascript:;" class="js-btn-excluir" th:url="@{|/produtos/${produto.codigo}|}">
+										<i class="fas fa-trash-alt text-danger"></i>
+									</a>
+								</div>
 							</td>
 						</tr>
 						

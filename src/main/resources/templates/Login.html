@@ -12,6 +12,7 @@
 		<title>PDV - Ponto de Venda</title>
 		
 		<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+		<link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
 		<link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
 	</head>
 	
@@ -22,7 +23,7 @@
 				
 					<div class="row">
 						<div class="col-sm-12 text-center mb-2 mt-2">
-							<img class="img-fluid" th:src="@{/images/logo_pdv.svg}" alt="Logo PDV" width="200px" />
+							<img class="img-fluid" th:src="@{/images/logo_pdv_login.svg}" alt="Logo PDV" width="100px" />
 						</div>
 					</div>
 					
@@ -32,15 +33,33 @@
 	                  	      
 					<h2 class="form-signin-heading mb-3 text-center text-muted">Faça seu login</h2>
 					
-					<input type="email" class="form-control mb-3" name="username" placeholder="Seu e-mail..." required="required" autofocus="autofocus" />
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<div class="input-group-text" id="btnGroupAddon">
+								<i class="fas fa-at"></i>
+							</div>
+						</div>
+						
+						<input type="email" class="form-control" name="username" placeholder="Seu e-mail..." required="required" autofocus="autofocus" aria-describedby="btnGroupAddon" />
+					</div>
 					
-					<input type="password" class="form-control mb-3" name="password" placeholder="Sua senha..." required="required"/>      
-
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>   
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<div class="input-group-text" id="btnGroupAddon">
+								<i class="fas fa-key"></i>
+							</div>
+						</div>
+						
+						<input type="password" class="form-control" name="password" placeholder="Sua senha..." required="required" aria-describedby="btnGroupAddon"/>
+					</div>
+					
+					<button class="btn btn-lg btn-primary btn-block" type="submit">
+						<i class="fas fa-check"></i> Entrar
+					</button>   
 				</form>
 				
-				<p class="text-center text-light mt-1">
-					Version: 1.41.00
+				<p class="text-center text-light mt-2">
+					<small>&copy; JDRM SERVICES 2019, Todos os direitos reservados</small>
 				</p>
 			</div>
 		</div>

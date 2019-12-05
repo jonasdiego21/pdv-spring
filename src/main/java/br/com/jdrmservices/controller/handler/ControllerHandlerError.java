@@ -15,7 +15,7 @@ public class ControllerHandlerError implements ErrorController {
 	public String handlerError(HttpServletRequest request) {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		
-		if(status != null) {
+		if(status != null) {//(status != null) ou apenas (status)
 			Integer statusCode = Integer.valueOf(status.toString());
 			
 			if(statusCode == HttpStatus.UNAUTHORIZED.value()) {

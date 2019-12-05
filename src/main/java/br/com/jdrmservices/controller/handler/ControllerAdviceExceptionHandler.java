@@ -12,5 +12,6 @@ public class ControllerAdviceExceptionHandler {
 	@ExceptionHandler(GlobalException.class)
 	public ResponseEntity<String> HandlerGlobalException(GlobalException e) {
 		return ResponseEntity.badRequest().body(e.getMessage());
+		// implementar informar ao usuário possiveis ações dependendo do erro
 	}
 }

@@ -1,4 +1,4 @@
-package br.com.jdrmservices.epson;
+/*package br.com.jdrmservices.epson;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -154,21 +154,54 @@ public class EpsonPrint implements EpsonPrintInterface {
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "Data/Hora                    " + simpleDateFormat.format(data) + "\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
-			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "VENDA Nº: " + vendas.count() + "\n");
+			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "VENDA Nº: " + (vendas.count() + 1) + "\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "CLIENTE: " + venda.getCliente().getNome() + "\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "OPERADOR: " + venda.getUsuario().getNome() + "\n");
-			
-			if(venda.getFormaPagamento().equals(FormaPagamento.CREDIARIO)) {
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "\n");
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "   __________________________________________   \n");
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "             ASSINATURA DO CLIENTE              \n");
-			}
-			
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "================================================\n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "             OBRIGADO, VOLTE SEMPRE!            \n");
 			printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, JPOS_CUT);
 
+			
+			if(venda.getFormaPagamento().equals(FormaPagamento.CREDIARIO)) {
+				Optional<Empresa> empresa = empresas.findById(1L);	
+				
+				String empresaLine = String.format("                       ".substring(0, 23 - empresa.get().getNome().length() / 2) + "%s" + "                        ".substring(0, 24 - empresa.get().getNome().length() / 2), empresa.get().getNome());			
+				String enderecoLine = String.format("%s, %s, %s", empresa.get().getRua(), empresa.get().getNumero(), empresa.get().getBairro() + "\n");
+				String localizacaoLine = String.format("%s - %s | %s", empresa.get().getCidade().getNome(), empresa.get().getEstado().getSigla(), empresa.get().getTelefone() + "\n");
+
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, empresaLine + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, enderecoLine);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, localizacaoLine);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "   COMPROVANTE VALE DE CLIENTE - NAO E FISCAL   \n");			
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "================================================\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " ESTE DOCUMENTO COMPROVA QUE O REFERENTE CLIENTE\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " CITADO  ABAIXO  O  QUAL  POR MEIO DE ASSINATURA\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " FIRMA   CONTRATO  DE  COMPRA  NO  CREDIARIO  NA\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " REFERIDA  DATA  TAMBEM  CITADA  NESSE DOCUMENTO\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " FICA  CIENTE  QUE  O NAO PAGAMENTO RESULTARA EM\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " ACAO DE COBRANCA NAS NORMAS DA LEI.            \n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "CPF: " + venda.getCliente().getCpf() + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "CLIENTE: " + venda.getCliente().getNome() + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "ENDERECO: " + venda.getCliente().getRua() + ", " + venda.getCliente().getNumero() + ", " + venda.getCliente().getBairro() + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "LOCALIDADE: " + venda.getCliente().getCidade().getNome() + " - " + venda.getCliente().getEstado().getSigla() + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "VALOR TOTAL: " + venda.getValorTotal() + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "VENDA Nº: " + (vendas.count() + 1) + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "OPERADOR: " + venda.getUsuario().getNome() + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "Data/Hora                    " + simpleDateFormat.format(data) + "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "------------------------------------------------\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "        RECONHECO E PAGAREI A DIVIDA AQUI       \n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "   __________________________________________   \n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "             ASSINATURA DO CLIENTE              \n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "================================================\n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "             OBRIGADO, VOLTE SEMPRE!            \n");
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "\n\n\n\n\n\n");				
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, JPOS_CUT);
+			}
+			
 			desconectar();
 		} catch (Exception e) {
 			return false;
@@ -176,4 +209,4 @@ public class EpsonPrint implements EpsonPrintInterface {
 		
 		return true;
 	}
-}
+}*/

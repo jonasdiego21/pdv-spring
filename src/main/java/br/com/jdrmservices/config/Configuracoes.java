@@ -6,8 +6,10 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 import br.com.jdrmservices.balanca.Balanca;
 import br.com.jdrmservices.balanca.BalancaInterface;
-import br.com.jdrmservices.epson.EpsonPrint;
-import br.com.jdrmservices.epson.EpsonPrintInterface;
+//import br.com.jdrmservices.bematech.BematechInterface;
+//import br.com.jdrmservices.bematech.BematechPrinter;
+//import br.com.jdrmservices.epson.EpsonPrint;
+//import br.com.jdrmservices.epson.EpsonPrintInterface;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
@@ -23,10 +25,15 @@ public class Configuracoes {
 		return new SpringSecurityDialect();
 	}
 	
-	@Bean
-	public EpsonPrintInterface epsonPrintInterface() {
-		return new EpsonPrint();
-	}
+	//@Bean
+	//public EpsonPrintInterface epsonPrintInterface() {
+		//return new EpsonPrint();
+	//}
+	
+	//@Bean
+	//public BematechInterface bematechInterface() {
+		//return new BematechPrinter();
+	//}
 
 	@Bean
 	public BalancaInterface balancaInterface() {

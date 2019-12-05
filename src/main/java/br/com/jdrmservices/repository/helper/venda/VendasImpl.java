@@ -2,6 +2,8 @@ package br.com.jdrmservices.repository.helper.venda;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.Year;
 import java.util.List;
@@ -30,6 +32,7 @@ import br.com.jdrmservices.dto.TotalVendasMes;
 import br.com.jdrmservices.dto.TotalVendasMesCrediario;
 import br.com.jdrmservices.dto.TotalVendasMesGeral;
 import br.com.jdrmservices.model.Venda;
+import br.com.jdrmservices.model.enumeration.FormaPagamento;
 import br.com.jdrmservices.model.enumeration.Status;
 import br.com.jdrmservices.model.enumeration.StatusVenda;
 import br.com.jdrmservices.repository.filter.VendaFilter;
@@ -38,18 +41,20 @@ public class VendasImpl implements VendasQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
-	
 
 	@Override
 	public BigDecimal valorTotalCaixa() {		
-		Optional<BigDecimal> optionalVendas = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where day(dataCriacao) = :dia  and status = :status", BigDecimal.class)
-				.setParameter("dia", LocalDate.now().getDayOfMonth())
-				.setParameter("status", StatusVenda.EMITIDA)
+		Optional<BigDecimal> optionalVendas = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where data_criacao between :dataInicio and :dataFim and formaPagamento = :formaPagamento and status != :status", BigDecimal.class)
+				.setParameter("dataInicio", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)))
+				.setParameter("dataFim", LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)))
+				.setParameter("formaPagamento", FormaPagamento.DINHEIRO)
+				.setParameter("status", StatusVenda.CANCELADA)
 				.getSingleResult());
 		
 		Optional<BigDecimal> optionalContaReceber = Optional.ofNullable(manager
-				.createQuery("select sum(totalRecebido) from ContaReceberLancamento where day(dataRecebimento) = :dia", BigDecimal.class)
-				.setParameter("dia", LocalDate.now().getDayOfMonth())
+				.createQuery("select sum(totalRecebido) from ContaReceberLancamento where data_recebimento between :dataInicio and :dataFim", BigDecimal.class)
+				.setParameter("dataInicio", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)))
+				.setParameter("dataFim", LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)))
 				.getSingleResult());
 		
 		return optionalVendas.orElse(BigDecimal.ZERO).add(optionalContaReceber.orElse(BigDecimal.ZERO));
@@ -58,8 +63,9 @@ public class VendasImpl implements VendasQueries {
 	@Override
 	public BigDecimal valorTotalDespesas() {
 		Optional<BigDecimal> optionalContaPagar = Optional.ofNullable(manager
-				.createQuery("select sum(totalCompra) from ContaPagar where day(dataVencimento) = :dia and status = :status", BigDecimal.class)
-				.setParameter("dia", LocalDate.now().getDayOfMonth())
+				.createQuery("select sum(totalCompra) from ContaPagar where data_vencimento between :dataInicio and :dataFim and status = :status", BigDecimal.class)
+				.setParameter("dataInicio", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)))
+				.setParameter("dataFim", LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)))
 				.setParameter("status", Status.DEVENDO)
 				.getSingleResult());
 		
@@ -71,6 +77,7 @@ public class VendasImpl implements VendasQueries {
 		return valorTotalCaixa().subtract(valorTotalDespesas());
 	}
 	
+	/* GRÁFICOS */
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<TotalVendasDia> totalVendasDia() {
@@ -133,11 +140,13 @@ public class VendasImpl implements VendasQueries {
 		List<TotalVendasAnoGeral> totalAnoGeral = manager.createNamedQuery("Vendas.totalVendasAnoGeral").getResultList();	
 		return totalAnoGeral;
 	}
-	
+
+	/* CREDIÁRIO */
 	@Override
 	public BigDecimal valorTotalDiaCrediario() {
-		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where day(dataCriacao) = :dia  and status = :status", BigDecimal.class)
-				.setParameter("dia", LocalDate.now().getDayOfMonth())
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where data_criacao between :dataInicio and :dataFim and status = :status", BigDecimal.class)
+				.setParameter("dataInicio", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)))
+				.setParameter("dataFim", LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)))
 				.setParameter("status", StatusVenda.CREDIARIO)
 				.getSingleResult());
 		
@@ -164,26 +173,94 @@ public class VendasImpl implements VendasQueries {
 		return optional.orElse(BigDecimal.ZERO);
 	}
 	
+	/* CRÉDITO */
+	@Override
+	public BigDecimal valorTotalDiaCredito() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where data_criacao between :dataInicio and :dataFim and formaPagamento = :formaPagamento", BigDecimal.class)
+				.setParameter("dataInicio", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)))
+				.setParameter("dataFim", LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)))
+				.setParameter("formaPagamento", FormaPagamento.CREDITO)
+				.getSingleResult());
+		
+		return optional.orElse(BigDecimal.ZERO);
+	}
+	
+
+	@Override
+	public BigDecimal valorTotalMesCredito() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where month(dataCriacao) = :mes and formaPagamento = :formaPagamento", BigDecimal.class)
+				.setParameter("mes", MonthDay.now().getMonthValue())
+				.setParameter("formaPagamento", FormaPagamento.CREDITO)
+				.getSingleResult());
+		
+		return optional.orElse(BigDecimal.ZERO);
+	}
+	
+
+	@Override
+	public BigDecimal valorTotalAnoCredito() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where year(dataCriacao) = :ano and formaPagamento = :formaPagamento", BigDecimal.class)
+				.setParameter("ano", Year.now().getValue())
+				.setParameter("formaPagamento", FormaPagamento.CREDITO)
+				.getSingleResult());
+		
+		return optional.orElse(BigDecimal.ZERO);
+	}
+	
+	/* DÉBITO */
+	@Override
+	public BigDecimal valorTotalDiaDebito() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where data_criacao between :dataInicio and :dataFim and formaPagamento = :formaPagamento", BigDecimal.class)
+				.setParameter("dataInicio", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)))
+				.setParameter("dataFim", LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)))
+				.setParameter("formaPagamento", FormaPagamento.DEBITO)
+				.getSingleResult());
+		
+		return optional.orElse(BigDecimal.ZERO);
+	}
+
+	@Override
+	public BigDecimal valorTotalMesDebito() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where month(dataCriacao) = :mes and formaPagamento = :formaPagamento", BigDecimal.class)
+				.setParameter("mes", MonthDay.now().getMonthValue())
+				.setParameter("formaPagamento", FormaPagamento.DEBITO)
+				.getSingleResult());
+		
+		return optional.orElse(BigDecimal.ZERO);
+	}
+
+	@Override
+	public BigDecimal valorTotalAnoDebito() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where year(dataCriacao) = :ano  and formaPagamento = :formaPagamento", BigDecimal.class)
+				.setParameter("ano", Year.now().getValue())
+				.setParameter("formaPagamento", FormaPagamento.DEBITO)
+				.getSingleResult());
+		
+		return optional.orElse(BigDecimal.ZERO);
+	}
+	
+	/* TOTAL */
 	@Override
 	public BigDecimal valorTotalDiaGeral() {
-		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where day(dataCriacao) = :dia and status != :status", BigDecimal.class)
-				.setParameter("dia", LocalDate.now().getDayOfMonth())
-				.setParameter("status", StatusVenda.CANCELADA)
-				.getSingleResult());
+		Optional<BigDecimal> optional = Optional.ofNullable(valorTotalDia()
+				.add(valorTotalDiaCrediario())
+				.add(valorTotalAnoCredito())
+				.add(valorTotalAnoDebito()));
 		
 		return optional.orElse(BigDecimal.ZERO);
 	}
-
+	
 	@Override
 	public BigDecimal valorTotalMesGeral() {
-		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where month(dataCriacao) = :mes and status != :status", BigDecimal.class)
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where month(dataCriacao) = :mes and status != :statusCancelada and status != :statusOrcamento", BigDecimal.class)
 				.setParameter("mes", MonthDay.now().getMonthValue())
-				.setParameter("status", StatusVenda.CANCELADA)
+				.setParameter("statusCancelada", StatusVenda.CANCELADA)
+				.setParameter("statusOrcamento", StatusVenda.ORCAMENTO)
 				.getSingleResult());
 		
 		return optional.orElse(BigDecimal.ZERO);
 	}
-
+	
 	@Override
 	public BigDecimal valorTotalAnoGeral() {
 		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where year(dataCriacao) = :ano and status != :status", BigDecimal.class)
@@ -193,12 +270,14 @@ public class VendasImpl implements VendasQueries {
 		
 		return optional.orElse(BigDecimal.ZERO);
 	}
-
+	
+	/* À VISTA */
 	@Override
 	public BigDecimal valorTotalDia() {
-		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where day(dataCriacao) = :dia  and status = :status", BigDecimal.class)
-				.setParameter("dia", LocalDate.now().getDayOfMonth())
-				.setParameter("status", StatusVenda.EMITIDA)
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where data_criacao between :dataInicio and :dataFim and formaPagamento = :formaPagamento", BigDecimal.class)
+				.setParameter("dataInicio", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)))
+				.setParameter("dataFim", LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)))
+				.setParameter("formaPagamento", FormaPagamento.DINHEIRO)
 				.getSingleResult());
 		
 		return optional.orElse(BigDecimal.ZERO);
@@ -206,9 +285,9 @@ public class VendasImpl implements VendasQueries {
 
 	@Override
 	public BigDecimal valorTotalMes() {
-		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where month(dataCriacao) = :mes and status = :status", BigDecimal.class)
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where month(dataCriacao) = :mes and formaPagamento = :formaPagamento", BigDecimal.class)
 				.setParameter("mes", MonthDay.now().getMonthValue())
-				.setParameter("status", StatusVenda.EMITIDA)
+				.setParameter("formaPagamento", FormaPagamento.DINHEIRO)
 				.getSingleResult());
 		
 		return optional.orElse(BigDecimal.ZERO);
@@ -216,9 +295,9 @@ public class VendasImpl implements VendasQueries {
 
 	@Override
 	public BigDecimal valorTotalAno() {
-		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where year(dataCriacao) = :ano  and status = :status", BigDecimal.class)
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where year(dataCriacao) = :ano  and formaPagamento = :formaPagamento", BigDecimal.class)
 				.setParameter("ano", Year.now().getValue())
-				.setParameter("status", StatusVenda.EMITIDA)
+				.setParameter("formaPagamento", FormaPagamento.DINHEIRO)
 				.getSingleResult());
 		
 		return optional.orElse(BigDecimal.ZERO);

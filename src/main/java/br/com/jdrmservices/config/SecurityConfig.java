@@ -60,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/caixas").hasAuthority("PESQUISAR_CAIXA")
 				.antMatchers("/emprestimos").hasAuthority("PESQUISAR_EMPRESTIMO")
 				
+				.antMatchers("/").hasAuthority("DASHBOARD")
+				.antMatchers("/admin").hasAuthority("DASHBOARD")
 				.antMatchers("/dashboard").hasAuthority("DASHBOARD")
 				.anyRequest().authenticated()
 			.and()

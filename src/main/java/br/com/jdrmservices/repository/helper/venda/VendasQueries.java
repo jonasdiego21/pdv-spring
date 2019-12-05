@@ -33,6 +33,14 @@ public interface VendasQueries {
 	public BigDecimal valorTotalMesCrediario();
 	public BigDecimal valorTotalAnoCrediario();
 	
+	public BigDecimal valorTotalDiaCredito();
+	public BigDecimal valorTotalMesCredito();
+	public BigDecimal valorTotalAnoCredito();
+	
+	public BigDecimal valorTotalDiaDebito();
+	public BigDecimal valorTotalMesDebito();
+	public BigDecimal valorTotalAnoDebito();
+	
 	public BigDecimal valorTotalDiaGeral();
 	public BigDecimal valorTotalMesGeral();
 	public BigDecimal valorTotalAnoGeral();

@@ -3,6 +3,7 @@ package br.com.jdrmservices.util;
 public class Constants {
 	public static final String FORMAT_DATE = "dd/MM/yyyy";
 	public static final String FORMAT_TIME = "HH:mm:ss";
+	public static final String FORMAT_CURRENCY = "#,##0.00";
 	
 	public final static String ERRO_IMPRIMIR_CABECALHO = "Erro ao imprimir cabeçalho da venda";
 	public final static String ERRO_IMPRIMIR_ITEM = "Erro ao imprimir item da venda";
@@ -27,6 +28,8 @@ public class Constants {
 	public final static String VIEW_PESQUISAR_CLIENTE = "cliente/PesquisarCliente";
 	public final static String VIEW_CLIENTE_NOVO = "cliente/CadastrarCliente";
 	public final static String VIEW_CLIENTE_REDIRECT = "redirect:/clientes/novo";
+	
+	public final static String VIEW_LIMITE_CREDITO_ATINGIDO = "notifications/LimiteExcedido";
 	
 	public final static String VIEW_PESQUISAR_CONTAPAGAR = "contapagar/PesquisarContaPagar";
 	public final static String VIEW_CONTAPAGAR_NOVO = "contapagar/CadastrarContaPagar";

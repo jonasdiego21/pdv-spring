@@ -38,7 +38,7 @@ public class Venda implements Serializable {
 	@ManyToOne
 	private Cliente cliente;
 	
-	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)
+	//@DateTimeFormat(pattern = Constants.FORMAT_DATE) <-- definido pelas configurações do spring
 	@Column(name = "data_criacao")
 	private LocalDate dataCriacao = LocalDate.now();
 	

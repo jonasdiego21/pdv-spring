@@ -11,21 +11,25 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.number.NumberStyleFormatter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static br.com.jdrmservices.util.Constants.FORMAT_DATE;
+import static br.com.jdrmservices.util.Constants.FORMAT_TIME;
+import static br.com.jdrmservices.util.Constants.FORMAT_CURRENCY;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {	
-		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
+		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter(FORMAT_CURRENCY);
 		registry.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
 		
 		DateTimeFormatterRegistrar dateTimeFormatterRegistrar = new DateTimeFormatterRegistrar();
-		dateTimeFormatterRegistrar.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm:ss"));
-		dateTimeFormatterRegistrar.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		dateTimeFormatterRegistrar.setDateFormatter(DateTimeFormatter.ofPattern(FORMAT_DATE));
+		dateTimeFormatterRegistrar.setTimeFormatter(DateTimeFormatter.ofPattern(FORMAT_TIME));
 		dateTimeFormatterRegistrar.registerFormatters(registry);
 		
 		DateFormatterRegistrar dateFormatterRegistrar = new DateFormatterRegistrar();
-		dateFormatterRegistrar.setFormatter(new DateFormatter("dd/MM/yyyy"));
+		dateFormatterRegistrar.setFormatter(new DateFormatter(FORMAT_DATE));
 		dateFormatterRegistrar.registerFormatters(registry);
 	}
 }

@@ -4,15 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import br.com.jdrmservices.epson.EpsonPrint;
+//import br.com.jdrmservices.bematech.BematechPrinter;
+//import br.com.jdrmservices.epson.EpsonPrint;
 import br.com.jdrmservices.impressora.GenericPrinter;
-import br.com.jdrmservices.repository.Vendas;
+//import br.com.jdrmservices.repository.Vendas;
 
 @Component
 public class FechamentoCupomListener {
 
-	@Autowired
-	private EpsonPrint epsonPrint;
+	//@Autowired
+	//private EpsonPrint epsonPrint;
+	
+	//@Autowired
+	//private BematechPrinter bematechPrinter;
 	
 	@Autowired
 	private GenericPrinter genericPrinter;
@@ -20,6 +24,7 @@ public class FechamentoCupomListener {
 	@EventListener
 	public void imprimeFechamentoCupom(FechamentoCupomEvent fechamentoCupomEvent) {	
 		//epsonPrint.imprimirFechamento(fechamentoCupomEvent.getVenda());
+		//bematechPrinter.imprimirFechamento(fechamentoCupomEvent.getVenda());
 		genericPrinter.imprimirFechamento(fechamentoCupomEvent.getVenda());
 	}
 }

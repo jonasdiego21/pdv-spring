@@ -31,8 +31,6 @@ public class ContaPagarLancamentoService {
 		
 		if(contaPagar.get().getRestante().doubleValue() <= 0 && contaPagar.get().getStatus().equals(Status.DEVENDO)) {
 			contaPagar.get().setStatus(Status.PAGO);
-			//contaPagar.get().setTotalCompra(new BigDecimal("0.000"));
-			//contaPagar.get().setTotalPago(new BigDecimal("0.000"));
 		}
 		
 		if(contaPagar.get().getStatus().equals(Status.DEVENDO)) {

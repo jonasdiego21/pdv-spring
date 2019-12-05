@@ -28,6 +28,10 @@ Pdv.BuscarProduto = (function() {
 		this.campoValorUnitario.on('keypress', valorUnitarioEnter.bind(this));
 		this.campoQuantidade.on('change', sairCampoQuantidade.bind(this));
 		
+		setInterval(function(retorno) {
+			buscarLimiteCredito($('#aviso').text()); // LIMITE DE CRÉDITO
+		}, 5000);
+		
 		$(document).on('keypress', function(evento) {			
 		    if(evento.which == 27) {
 		    	evento.preventDefault();
@@ -68,12 +72,26 @@ Pdv.BuscarProduto = (function() {
 		this.campoCodigoProduto.val('');
 		this.campoCodigoProduto.focus();
 	}
+	
+	function pesquisarPrecoProduto(e) {
+		this.campoQuantidade.val('0,000');
+		this.campoValorUnitario.val('R$ 0,00');
+		this.campoValorTotal.val('R$ 0,00');
+		
+		this.campoNomeProduto.text('INFORME O CÓDIGO DO PRODUTO...');
+		this.aviso.text('PESQUISA DE PREÇO');
+		
+		this.campoCodigoProduto.val('');
+		this.campoCodigoProduto.focus();
+	}
 
 	function buscarProduto(evento) {
 		if(evento.which == 13 || evento.which == 9) {				
 			evento.preventDefault();
 
-			if(this.campoCodigoProduto.val() == ',1') {
+			if(this.campoCodigoProduto.val() == ',0') {
+				pesquisarPrecoProduto.call(this);
+			} else if(this.campoCodigoProduto.val() == ',1') {
 				iniciarNovaVenda.call(this);
 			} else if(this.campoCodigoProduto.val() == ',2' && this.vendaStatus) {
 				adicionarCliente.call(this);
@@ -92,6 +110,28 @@ Pdv.BuscarProduto = (function() {
 						success: retornoBuscarProdutoSuccess.bind(this),
 						error: retornoBuscarProdutoError.bind(this)
 					});			
+				} else {
+					var retorno = $.ajax({
+						url: this.campoCodigoProduto.attr('data-url'),
+						method: 'GET',
+						data: {
+							'codigoOuCodigoBarras': this.campoCodigoProduto.val(),
+							'uuid': this.uuid,
+						}
+					});
+					
+					retorno.done(function(data) {
+						var dados = data[0];	
+
+						if(data != undefined) {
+							$('#nomeProduto').text(dados.nome);
+							$('#valorUnitario').val(dados.precoVenda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+						
+							setTimeout(function() {
+								window.location.href = window.location.href;
+							}, 5000);
+						}
+					});
 				}
 			}
 		}
@@ -103,14 +143,32 @@ Pdv.BuscarProduto = (function() {
 		this.itemDados = data;
 
 		if(data != undefined) {
-			trazerNomeProdutoValorUnitario.call(this, data);				
-		} else {
-			alert('PRODUTO NÃO ENCONTRADO!');
+			trazerNomeProdutoValorUnitario.call(this, data);
+		} else {			
+			swal({
+				  title: "Oops!",
+				  text: "O ítem que você está tentando buscar não foi encontrado!",
+				  icon: "error",
+				  button: "Ok, entendi!",
+			}).then((value) => {
+				this.campoCodigoProduto.focus();
+				this.campoCodigoProduto.select();
+				this.campoCodigoProduto.val('');				
+			});
 		}		
 	}
 	
 	function retornoBuscarProdutoError(erro) {
-		alert('Erro ao buscar o produto.');
+		swal({
+			  title: "Oops!",
+			  text: "Erro ao buscar o produto",
+			  icon: "error",
+			  button: "Fechar",
+		}).then((value) => {
+			this.campoCodigoProduto.focus();
+			this.campoCodigoProduto.select();
+			this.campoCodigoProduto.val('');				
+		});
 	}
 	
 	function trazerNomeProdutoValorUnitario(data) {		
@@ -135,7 +193,16 @@ Pdv.BuscarProduto = (function() {
 			console.log(campoQuantidade, quantidade);
 			
 			if(campoQuantidade > quantidade) {				
-				alert('QUANTIDADE INSUFICIENTE!');
+				swal({
+					  title: "Oops!",
+					  text: "Quantidade insuficiente!",
+					  icon: "error",
+					  button: "Fechar",
+				}).then((value) => {
+					this.campoCodigoProduto.focus();
+					this.campoCodigoProduto.select();
+					this.campoCodigoProduto.val('');				
+				});
 			} else {
 				this.campoQuantidadeOculta.val(this.campoQuantidade.val());
 				this.campoValorUnitario.focus();
@@ -159,7 +226,7 @@ Pdv.BuscarProduto = (function() {
 
 			if(this.campoQuantidade.val() != null && this.campoQuantidade.val() != undefined && this.campoQuantidade.val() != '') {				
 				this.emitter.trigger('item-selecionado', this.itemDados);
-				
+
 				zerarValoresDosCampos.call(this);
 			}	
 		}
@@ -179,6 +246,39 @@ Pdv.BuscarProduto = (function() {
 	function limparCampoCodigoFocusQantidade() {
 		this.campoCodigoProduto.val('');
 		this.campoQuantidade.focus();
+	}
+	
+	function buscarLimiteCredito(cliente) {
+		$.ajax({
+			url: '/contasreceber/limiteCredito/' + cliente,
+			method: 'GET',
+			success: function(r) {				
+				if(r.cliente != null) {					
+					$('#limiteCompra').text(r.cliente.limiteCompra.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
+					$('#utilizado').text(r.totalVenda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
+					
+					var restante = parseFloat(r.cliente.limiteCompra) - parseFloat(r.totalVenda);
+					
+					$('#restante').text(restante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
+					
+					if(restante <= 0) {
+						swal({
+							  title: "Crédito Excedido!",
+							  text: "Seu limite de crédito é insuficiente!",
+							  icon: "error",
+							  button: "Fechar",
+						}).then((value) => {
+							this.campoCodigoProduto.focus();
+							this.campoCodigoProduto.select();
+							this.campoCodigoProduto.val('');				
+						});
+					}
+				}
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
 	}
 	
 	return BuscarProduto;

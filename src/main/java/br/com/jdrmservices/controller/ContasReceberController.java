@@ -1,7 +1,12 @@
 package br.com.jdrmservices.controller;
 
 import static br.com.jdrmservices.util.Constants.INFORMACOES_SALVAS_SUCESSO;
+import static br.com.jdrmservices.util.Constants.VIEW_CONTARECEBER_LANCAMENTO_REDIRECT;
 import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_CONTARECEBER;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+
 import static br.com.jdrmservices.util.Constants.VIEW_CONTARECEBER_NOVO;
 import static br.com.jdrmservices.util.Constants.VIEW_CONTARECEBER_REDIRECT;
 
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.jdrmservices.dto.ContaReceberDTO;
 import br.com.jdrmservices.exception.GlobalException;
+import br.com.jdrmservices.model.Cliente;
 import br.com.jdrmservices.model.ContaReceber;
 import br.com.jdrmservices.model.enumeration.Status;
 import br.com.jdrmservices.repository.Clientes;
@@ -70,7 +77,7 @@ public class ContasReceberController {
 		try {
 			contaReceberService.cadastrar(contaReceber);
 		} catch (GlobalException e) {
-			result.rejectValue("cliente", e.getMessage(), e.getMessage());
+			//result.rejectValue("cliente", e.getMessage(), e.getMessage());
 			return novo(contaReceber);		
 		}
 		
@@ -112,9 +119,21 @@ public class ContasReceberController {
 	}
 	
 	@GetMapping("/lancamentos/{codigoContaReceber}")
-	public @ResponseBody ResponseEntity<?> pesquisaContaReceber(@PathVariable Long codigoContaReceber) {
+	public ModelAndView pesquisaContaReceber(@PathVariable Long codigoContaReceber) {
+		ModelAndView mv = new ModelAndView(VIEW_CONTARECEBER_LANCAMENTO_REDIRECT);
+		
 		contaReceberDTO.setCodigoContaReceber(codigoContaReceber);
 		
-		return ResponseEntity.ok().build();
+		return mv;
+	}
+	
+	@GetMapping("/limiteCredito/{nomeCliente}")
+	public ResponseEntity<ContaReceber> obterLimiteDeCredito(@PathVariable String nomeCliente) {	
+		String cliente = nomeCliente == "VENDA INICIADA" ? null : nomeCliente;
+		
+		Optional<ContaReceber> contaReceberExistente = 
+					contasReceber.findByClienteNomeIgnoreCaseAndStatus(cliente, Status.DEVENDO);
+		
+		return ResponseEntity.ok(contaReceberExistente.orElse(null));
 	}
 }

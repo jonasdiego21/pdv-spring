@@ -36,7 +36,7 @@ public class Produto implements Serializable {
 	@Size(max = 24, message = "O nome deve conter no máximo 24 caracteres e no mínimo 5")
 	private String nome;
 
-	@NotBlank(message = "Descricao é obrigatória")
+	//@NotBlank(message = "Descricao é obrigatória")
 	private String descricao;
 
 	@Column(name = "preco_compra")
@@ -54,7 +54,7 @@ public class Produto implements Serializable {
 	private BigDecimal quantidade = BigDecimal.ZERO;
 	
 	@Enumerated(EnumType.STRING)
-	@NotNull(message = "A unidade de medida é obrigatoria")
+	//@NotNull(message = "A unidade de medida é obrigatoria")
 	private UnidadeMedida unidade = UnidadeMedida.UN;
 
 	@NotBlank(message = "CodigoBarras é obrigatório")

@@ -20,8 +20,7 @@
 		<h1 class="text-center" th:unless="${contaPagarLancamento.novo}" th:text="|Edição de ${contaPagarLancamento.nome}|">Editar conta pagar laçamento</h1>
 		
 		<hr />
-		
-		<!-- Breadcrumb -->
+
 		<div aria-label="breadcrumb">
 			<ol class="breadcrumb">
 		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
@@ -55,14 +54,12 @@
 			
 			<hr />
 			
-			<div class="row">
-				<!-- Botão cadastrar -->
+			<div class="row mb-3">
 				<div class="col-sm-12 text-right">
-					<button type="submit" class="btn btn-primary">SAVAR</button>
+					<a th:href="@{/}" class="btn btn-danger"><i class="fas fa-ban"></i> Cancelar</a>
+					<button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Salvar</button>
 				</div>
 			</div>
-			
-			<br />
 		</form>
 	</section>
 </body>

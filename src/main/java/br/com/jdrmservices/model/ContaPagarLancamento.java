@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "conta_pagar_lancamento")
@@ -22,7 +24,8 @@ public class ContaPagarLancamento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+	@NotNull(message = "Conta a pagar é obrigatório")
 	private ContaPagar contaPagar;
 	
 	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)

@@ -15,6 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Value;
 
 import br.com.jdrmservices.model.enumeration.Status;
 @Entity
@@ -28,6 +33,7 @@ public class ContaPagar implements Serializable {
 	private Long codigo;
 	
 	@ManyToOne
+	@NotNull(message = "O fornecedor é obrigatório")
 	private Fornecedor fornecedor;
 	
 	//@DateTimeFormat(pattern = Constants.FORMAT_DATE)

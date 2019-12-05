@@ -1,7 +1,5 @@
 package br.com.jdrmservices.service;
 
-import static br.com.jdrmservices.util.Constants.INFORMACOES_JA_CADASTRADAS;
-
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -9,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.jdrmservices.exception.GlobalException;
 import br.com.jdrmservices.model.ContaPagar;
+import br.com.jdrmservices.model.enumeration.Status;
 import br.com.jdrmservices.repository.ContasPagar;
 
 @Service
@@ -21,10 +19,16 @@ public class ContaPagarService {
 	
 	@Transactional
 	public void cadastrar(ContaPagar contaPagar) {
-		Optional<ContaPagar> optional = contasPagar.findByFornecedorNomeIgnoreCase(contaPagar.getFornecedor().getNome());
+		Optional<ContaPagar> contaPagarExistente = 
+				contasPagar.findByFornecedorNomeIgnoreCaseAndStatus(contaPagar.getFornecedor().getNome(), Status.DEVENDO);
 		
-		if(contaPagar.isNovo() && optional.isPresent()) {
-			throw new GlobalException(INFORMACOES_JA_CADASTRADAS);
+		if(contaPagarExistente.isPresent() && contaPagarExistente.get().getStatus().equals(Status.DEVENDO)) {
+			contaPagar.setTotalCompra(contaPagarExistente.get().getTotalCompra().add(contaPagar.getTotalCompra()));
+			contaPagar.setTotalPago(contaPagarExistente.get().getTotalPago());
+			contaPagar.setRestante(contaPagarExistente.get().getRestante());
+			contaPagar.setCodigo(contaPagarExistente.get().getCodigo());
+			
+			contasPagar.saveAndFlush(contaPagar);
 		}
 		
 		contasPagar.saveAndFlush(contaPagar);

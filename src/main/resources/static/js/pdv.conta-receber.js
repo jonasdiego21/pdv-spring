@@ -3,17 +3,19 @@ var Pdv = Pdv || {};
 Pdv.ContaReceber = (function() {
 	
 	function ContaReceber() {
-		this.contaReceberBtn = $('#contaReceberBtn');
-		this.codigoContaReceber = $('#contaReceberBtn').data('codigo-receber');
+		this.contaReceberBtn = $('a.contaReceberBtn');
+		//this.codigoContaReceber = $('#contaReceberBtn').data('codigo-receber');
 	}
 	
 	ContaReceber.prototype.start = function() {
 		this.contaReceberBtn.on('click', contaReceberLancamento.bind(this));
 	}
 	
-	function contaReceberLancamento(data) {
+	function contaReceberLancamento(e) {
+		e.preventDefault();
+		
 		$.ajax({
-			url: '/contasreceber/lancamentos/' + this.codigoContaReceber,
+			url: '/contasreceber/lancamentos/' + $(e.currentTarget).data("codigo-receber"),
 			method: 'GET',
 			success: requisicaoSuccess.bind(this),
 			error: requisicaoError.bind(this)
@@ -21,8 +23,7 @@ Pdv.ContaReceber = (function() {
 	}
 	
 	function requisicaoSuccess(response) {
-		console.log('Ok, realizado com sucesso!', response);
-		window.location.href = '/contasreceberlancamento/novo';
+		$('body').html(response);
 	}
 	
 	function requisicaoError(error) {

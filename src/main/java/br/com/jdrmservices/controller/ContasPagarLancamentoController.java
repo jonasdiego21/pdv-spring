@@ -1,12 +1,11 @@
 package br.com.jdrmservices.controller;
 
 import static br.com.jdrmservices.util.Constants.INFORMACOES_SALVAS_SUCESSO;
+import static br.com.jdrmservices.util.Constants.VIEW_CONTAPAGAR_LANCAMENTO_NOVO;
+import static br.com.jdrmservices.util.Constants.VIEW_CONTAPAGAR_REDIRECT;
 import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_CONTAPAGAR_LANCAMENTO;
 
 import java.util.Optional;
-
-import static br.com.jdrmservices.util.Constants.VIEW_CONTAPAGAR_LANCAMENTO_NOVO;
-import static br.com.jdrmservices.util.Constants.VIEW_CONTAPAGAR_LANCAMENTO_REDIRECT;
 
 import javax.validation.Valid;
 
@@ -59,7 +58,7 @@ public class ContasPagarLancamentoController {
 		mv.addObject(contapagarlancamento);
 		
 		Optional<ContaPagar> contaPagar = contasPagar.findById(contaPagarDTO.getCodigoContaPagar());	
-		contapagarlancamento.setContaPagar(contaPagar.orElse(null));
+		contapagarlancamento.setContaPagar(contaPagar.get());
 		
 		return mv;
 	}
@@ -80,7 +79,7 @@ public class ContasPagarLancamentoController {
 		
 		attributes.addFlashAttribute("successMessage", INFORMACOES_SALVAS_SUCESSO);
 		
-		return new ModelAndView(VIEW_CONTAPAGAR_LANCAMENTO_REDIRECT);
+		return new ModelAndView(VIEW_CONTAPAGAR_REDIRECT);
 	}
 	
 	@GetMapping("/{codigo}")

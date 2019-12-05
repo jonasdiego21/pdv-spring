@@ -6,7 +6,7 @@ import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_CONTARECEBER_LAN
 import java.util.Optional;
 
 import static br.com.jdrmservices.util.Constants.VIEW_CONTARECEBER_LANCAMENTO_NOVO;
-import static br.com.jdrmservices.util.Constants.VIEW_CONTARECEBER_LANCAMENTO_REDIRECT;
+import static br.com.jdrmservices.util.Constants.VIEW_CONTARECEBER_REDIRECT;
 
 import javax.validation.Valid;
 
@@ -59,7 +59,7 @@ public class ContasReceberLancamentoController {
 		mv.addObject(contareceberlancamento);
 		
 		Optional<ContaReceber> contaReceber = contasReceber.findById(contaReceberDTO.getCodigoContaReceber());	
-		contareceberlancamento.setContaReceber(contaReceber.orElse(null));
+		contareceberlancamento.setContaReceber(contaReceber.get());
 		
 		return mv;
 	}
@@ -80,7 +80,7 @@ public class ContasReceberLancamentoController {
 		
 		attributes.addFlashAttribute("successMessage", INFORMACOES_SALVAS_SUCESSO);
 		
-		return new ModelAndView(VIEW_CONTARECEBER_LANCAMENTO_REDIRECT);
+		return new ModelAndView(VIEW_CONTARECEBER_REDIRECT);
 	}
 	
 	@GetMapping("/{codigo}")

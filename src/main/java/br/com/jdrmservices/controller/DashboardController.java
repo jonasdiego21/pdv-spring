@@ -74,6 +74,14 @@ public class DashboardController {
 		mv.addObject("valorVendasMes", vendas.valorTotalMes());
 		mv.addObject("valorVendasAno", vendas.valorTotalAno());
 		
+		mv.addObject("valorVendasDiaCredito", vendas.valorTotalDiaCredito());
+		mv.addObject("valorVendasMesCredito", vendas.valorTotalMesCredito());
+		mv.addObject("valorVendasAnoCredito", vendas.valorTotalAnoCredito());
+		
+		mv.addObject("valorVendasDiaDebito", vendas.valorTotalDiaDebito());
+		mv.addObject("valorVendasMesDebito", vendas.valorTotalMesDebito());
+		mv.addObject("valorVendasAnoDebito", vendas.valorTotalAnoDebito());
+		
 		mv.addObject("valorVendasDiaCrediario", vendas.valorTotalDiaCrediario());
 		mv.addObject("valorVendasMesCrediario", vendas.valorTotalMesCrediario());
 		mv.addObject("valorVendasAnoCrediario", vendas.valorTotalAnoCrediario());

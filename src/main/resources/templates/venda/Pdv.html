@@ -95,7 +95,17 @@
 		
 		<div class="row">			
 			<div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
-				<span class="text-white">Aviso/Status</span>
+				<span class="text-white">Aviso/Status  
+					<span class="badge badge-info">
+						Limite: <span id="limiteCompra">0,00</span>
+					</span> | 
+					<span class="badge badge-danger">
+						Utilizado: <span id="utilizado">0,00</span>
+					</span> | 
+					<span class="badge badge-success">
+						Restante: <span id="restante">0,00</span>
+					</span>
+				</span>
 				<h1 id="aviso" class="card bg-dark-blue border-bold text-center pl-3 pt-3 pb-3 mt-2 mb-2 text-white">CAIXA LIVRE</h1>
 			</div>
 			
@@ -115,6 +125,7 @@
 	<script th:src="@{/js/pdv.security-token.js}"></script>
 	<script th:src="@{/js/pdv.global-loading.js}"></script>
 	<script th:src="@{/js/admin.js}"></script>
+  	<script th:src="@{/vendor/sweetalert/sweetalert.min.js}"></script>
 	<script th:src="@{/vendor/datepicker/js/bootstrap-datepicker.min.js}"></script>
 	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
   	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>

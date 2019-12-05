@@ -1,9 +1,10 @@
 package br.com.jdrmservices.controller;
 
 import static br.com.jdrmservices.util.Constants.INFORMACOES_SALVAS_SUCESSO;
-import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_CONTAPAGAR;
+import static br.com.jdrmservices.util.Constants.VIEW_CONTAPAGAR_LANCAMENTO_REDIRECT;
 import static br.com.jdrmservices.util.Constants.VIEW_CONTAPAGAR_NOVO;
 import static br.com.jdrmservices.util.Constants.VIEW_CONTAPAGAR_REDIRECT;
+import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_CONTAPAGAR;
 
 import javax.validation.Valid;
 
@@ -28,8 +29,8 @@ import br.com.jdrmservices.dto.ContaPagarDTO;
 import br.com.jdrmservices.exception.GlobalException;
 import br.com.jdrmservices.model.ContaPagar;
 import br.com.jdrmservices.model.enumeration.Status;
-import br.com.jdrmservices.repository.Fornecedores;
 import br.com.jdrmservices.repository.ContasPagar;
+import br.com.jdrmservices.repository.Fornecedores;
 import br.com.jdrmservices.repository.filter.ContaPagarFilter;
 import br.com.jdrmservices.service.ContaPagarService;
 
@@ -70,7 +71,7 @@ public class ContasPagarController {
 		try {
 			contaPagarService.cadastrar(contaPagar);
 		} catch (GlobalException e) {
-			result.rejectValue("cliente", e.getMessage(), e.getMessage());
+			//result.rejectValue("fornecedor", e.getMessage(), e.getMessage());
 			return novo(contaPagar);		
 		}
 		
@@ -112,9 +113,11 @@ public class ContasPagarController {
 	}
 	
 	@GetMapping("/lancamentos/{codigoContaPagar}")
-	public @ResponseBody ResponseEntity<?> pesquisaContaPagar(@PathVariable Long codigoContaPagar) {
-		contaPagarDTO.setCodigoContaPagar(codigoContaPagar);
+	public ModelAndView pesquisaContaPagar(@PathVariable Long codigoContaPagar) {
+		ModelAndView mv = new ModelAndView(VIEW_CONTAPAGAR_LANCAMENTO_REDIRECT);
 		
-		return ResponseEntity.ok().build();
+		contaPagarDTO.setCodigoContaPagar(codigoContaPagar);
+
+		return mv;
 	}
 }

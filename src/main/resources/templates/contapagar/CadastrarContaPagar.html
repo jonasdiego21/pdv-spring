@@ -21,8 +21,7 @@
 		<h1 class="text-center" th:unless="${contaPagar.novo}" th:text="|Edição de ${contaPagar.fornecedor.nome}|">Editar Contas a Pagar</h1>
 		
 		<hr />
-		
-		<!-- Breadcrumb -->
+
 		<div aria-label="breadcrumb">
 			<ol class="breadcrumb">
 		    	<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
@@ -67,17 +66,7 @@
 					<label class="form-control-label" for="totalCompra"><span class="text-danger">*</span>Total da compra</label>
 					<input type="text" th:field="*{totalCompra}" class="form-control moeda-formato" id="totalCompra" th:errorclass="is-invalid" autocomplete="off">
 				</div>
-				<!--
-				<div class="form-group col-sm-3">
-					<label class="form-control-label" for="totalPago"><span class="text-danger">*</span>Total pago</label>
-					<input type="text" th:field="*{totalPago}" class="form-control moeda-formato" id="totalPago" th:errorclass="is-invalid" autocomplete="off">
-				</div>
-				
-				<div class="form-group col-sm-3">
-					<label class="form-control-label" for="restante">Saldo devedor</label>
-					<input readonly type="text" th:field="*{restante}" class="form-control moeda-formato" id="restante" th:errorclass="is-invalid" autocomplete="off">
-				</div>
-				-->
+
 				<div class="form-group col-sm-3">
 					<label class="form-control-label" for="status"><span class="text-danger">*</span>Status</label>
 					
@@ -90,14 +79,12 @@
 			
 			<hr />
 			
-			<div class="row">
-				<!-- Botão cadastrar -->
+			<div class="row mb-3">
 				<div class="col-sm-12 text-right">
-					<button type="submit" class="btn btn-primary">SAVAR</button>
+					<a th:href="@{/}" class="btn btn-danger"><i class="fas fa-ban"></i> Cancelar</a>
+					<button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Salvar</button>
 				</div>
 			</div>
-			
-			<br />
 		</form>
 	</section>
 	

@@ -2,6 +2,7 @@ package br.com.jdrmservices.controller;
 
 import static br.com.jdrmservices.util.Constants.VIEW_FINALIZAR_VENDA;
 import static br.com.jdrmservices.util.Constants.VIEW_ITENS_VENDA;
+import static br.com.jdrmservices.util.Constants.VIEW_LIMITE_CREDITO_ATINGIDO;
 import static br.com.jdrmservices.util.Constants.VIEW_PESQUISAR_VENDA;
 import static br.com.jdrmservices.util.Constants.VIEW_VENDA_NOVO;
 import static br.com.jdrmservices.util.Constants.VIEW_VENDA_REDIRECT;
@@ -94,7 +95,7 @@ public class VendasController {
 		
 		mv.addObject("itens", tabelasItensSession.getItens(uuid));	
 		mv.addObject("valorTotal", decimalFormat.format(tabelasItensSession.getValorTotal(uuid)));
-		
+
 		return mv;
 	}
 	
@@ -138,7 +139,6 @@ public class VendasController {
 		
 		return mv;
 	}
-	
 
 	@GetMapping("/iniciar")
 	private ModelAndView iniciarVenda(Venda venda) {
@@ -158,8 +158,21 @@ public class VendasController {
 	public ModelAndView finalizarVenda(@AuthenticationPrincipal UsuarioSistema usuarioSistema, Venda venda, PdvDTO pdvDTO) {
 		ModelAndView mv = new ModelAndView(VIEW_FINALIZAR_VENDA);
 
-		pdvDTO.setValorVenda(tabelasItensSession.getValorTotal(venda.getUuid()));
+		pdvDTO.setValorVenda(tabelasItensSession.getValorTotal(venda.getUuid()));//redundante
 		
+		adicionarClienteAvulso(venda);
+
+		mv.addObject("printer", genericPrinter.listarImpressoras());
+		mv.addObject("status", StatusVenda.values());
+		mv.addObject("itens", tabelasItensSession.getItens(venda.getUuid()));
+		mv.addObject("vendas", vendas.findAll());
+		mv.addObject(pdvDTO);//redundante
+		mv.addObject(venda);
+
+		return mv;
+	}
+
+	public void adicionarClienteAvulso(Venda venda) {
 		if(venda.getCliente() == null) {
 			Cliente cliente = new Cliente();
 			cliente.setCodigo(1L);
@@ -167,15 +180,6 @@ public class VendasController {
 			cliente.setLimiteCompra(new BigDecimal("1000000"));
 			venda.setCliente(cliente);
 		}
-		
-		mv.addObject("printer", genericPrinter.listarImpressoras());
-		mv.addObject("status", StatusVenda.values());
-		mv.addObject("itens", tabelasItensSession.getItens(venda.getUuid()));
-		mv.addObject("vendas", vendas.findAll());
-		mv.addObject(pdvDTO);
-		mv.addObject(venda);
-		
-		return mv;
 	}
 	
 	@PostMapping
@@ -226,6 +230,15 @@ public class VendasController {
 		
 		Page<Venda> pagina = vendas.filtrar(vendaFilter, pageable);
 		mv.addObject("pagina", pagina);
+		
+		return mv;
+	}
+	
+	@GetMapping("/limiteExcedido")
+	public ModelAndView limiteExcedido(Venda venda) {
+		ModelAndView mv = new ModelAndView(VIEW_LIMITE_CREDITO_ATINGIDO);
+		
+		mv.addObject(venda);
 		
 		return mv;
 	}

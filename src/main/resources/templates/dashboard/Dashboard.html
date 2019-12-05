@@ -114,6 +114,48 @@
 			</div>
 		</div>
 		
+		<!-- CREDITO -->
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">VENDAS NO CRÉDITO</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasAnoCredito}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no crétito no ano</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasMesCredito}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no crédito no mês</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$  [[${{valorVendasDiaCredito}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no crédito no dia</h5>
+			</div>
+		</div>
+		
+		<!-- DEBITO -->
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">VENDAS NO DÉBITO</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasAnoDebito}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no débito no ano</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$ [[${{valorVendasMesDebito}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no débito no mês</h5>
+			</div>
+			
+			<div class="card bg-dark col-sm-12 col-md-4 p-3 text-center">
+				<h1 class="text-white">R$  [[${{valorVendasDiaDebito}}]]</h1>
+				<h5 class="text-white">Valor total das vendas no débito no dia</h5>
+			</div>
+		</div>
+		
 		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">TODAS AS VENDAS</span>
 		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
 		
@@ -183,6 +225,42 @@
 				<canvas id="totalVendasAnoCrediario" width="100%" height="100px"></canvas>
 			</div>
 		</div>
+		
+		<!-- 
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">GRÁFICOS - VENDA NO CRÉDITO</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="col-sm-4">
+				<canvas id="totalVendasDiaCredito" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasMesCredito" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasAnoCredito" width="100%" height="100px"></canvas>
+			</div>
+		</div>
+		
+		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">GRÁFICOS - VENDA NO DÉBITO</span>
+		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />
+		
+		<div class="row" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+			<div class="col-sm-4">
+				<canvas id="totalVendasDiaDebito" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasMesDebito" width="100%" height="100px"></canvas>
+			</div>
+			
+			<div class="col-sm-4">
+				<canvas id="totalVendasAnoDebito" width="100%" height="100px"></canvas>
+			</div>
+		</div>
+		-->
 		
 		<span class="text-dark m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">GRÁFICOS - TOTDAS AS VENDAS</span>
 		<hr class="bg-ligt m-0 p-0" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}" />

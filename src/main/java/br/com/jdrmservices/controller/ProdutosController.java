@@ -63,7 +63,7 @@ public class ProdutosController {
 		mv.addObject("fornecedores", fornecedores.findAllByOrderByNomeAsc());
 		mv.addObject("medidas", UnidadeMedida.values());
 		mv.addObject("codigoGeradoAuto", GCPA.getTimestampCodigo());
-		mv.addObject("codigoGerado", produtos.count());
+		mv.addObject("codigoGerado", produtos.count() <= 0 ? (produtos.count() + 1) : produtos.count());
 		mv.addObject(produto);
 		
 		return mv;
@@ -143,7 +143,7 @@ public class ProdutosController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(ProdutoFilter produtoFilter, BindingResult result, @PageableDefault(size = 50) Pageable pageable) {
+	public ModelAndView pesquisar(ProdutoFilter produtoFilter, BindingResult result, @PageableDefault(size = 500) Pageable pageable) {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_PRODUTO);
 		mv.addObject("produtos", produtos.findAllByOrderByNomeAsc());
 		
