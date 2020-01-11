@@ -56,8 +56,8 @@ public class ContasPagarImpl implements ContasPagarQueries {
 	
 	private void adicionarFiltro(ContaPagarFilter filtro, Criteria criteria) {
 		if(filtro != null) {
-			if(!StringUtils.isEmpty(filtro.getFornecedor())) {
-				criteria.add(Restrictions.ilike("fornecedor", filtro.getFornecedor(), MatchMode.ANYWHERE));
+			if(filtro.getFornecedor() != null) {
+				criteria.add(Restrictions.eq("fornecedor", filtro.getFornecedor()));
 			}
 		}
 	}

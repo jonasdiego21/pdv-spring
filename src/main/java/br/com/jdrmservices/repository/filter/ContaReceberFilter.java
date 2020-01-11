@@ -1,14 +1,16 @@
 package br.com.jdrmservices.repository.filter;
 
+import br.com.jdrmservices.model.Cliente;
+
 public class ContaReceberFilter {
 
-	private String cliente;
+	private Cliente cliente;
 
-	public String getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(String cliente) {
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}	
+	}
 }

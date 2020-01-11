@@ -21,10 +21,11 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Empresas</li>
-				<li class="breadcrumb-item"><a th:href="@{/empresas/novo}">Novo</a></li>
+				<li class="breadcrumb-item" th:if="${#lists.isEmpty(pagina.content)}"><a th:href="@{/empresas/novo}">Novo</a></li>
 			</ol>
 		</div>
 
+		<!--
 		<form class="row" method="GET" th:object="${empresaFilter}" th:action="@{/empresas}">
 			<div class="col-sm-8"></div>	
 					
@@ -39,21 +40,19 @@
 					</div>
 				</div>
 			</div>
-		</form>
+		</form>-->
 
 		<div class="row">
 			<div class="col-sm-12 table-responsive">
-				<table class="table table-hover thead-light table-bordered">
-					<thead>
+				<table class="table table-hover thead-light table-bordered table-striped">
+					<thead class="thead-dark">
 						<tr>
-							<th style="width: 10%;">Código <i class="fas fa-angle-down"></i></th>
-							<th style="width: 80%;">nome <i class="fas fa-angle-down"></i></th>
+							<th style="width: 90%;">Informações da empresa <i class="fas fa-angle-down"></i></th>
 							<th style="width: 10%;" colspan="2" class="text-center">Ações <i class="fas fa-angle-down"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="empresa : ${pagina.content}">
-							<td class="text-center" th:text="${empresa.codigo}"></td>
 							<td th:text="${empresa.nome}"></td>
 							
 							<td class="text-center">
@@ -73,13 +72,13 @@
 						</tr>
 						
 						<tr th:if="${#lists.isEmpty(pagina.content)}"> 
-							<td colspan="5" class="text-center">Nenhuma informação encontrado!</td>
+							<td colspan="5" class="text-center">Adicione os dados da sua empresa para sair no cupom!</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			
-			<th:block th:include="componentes/paginacao"></th:block>
+			<!--<th:block th:include="componentes/paginacao"></th:block>-->
 		</div>
 	</div>
 	

@@ -35,7 +35,7 @@
 				</select>
 			</div>
 			
-			<div class="form-group col-sm-4 date">
+			<div class="form-group col-sm-4">
 				<label for="cliente" class="form-control-label">Cliente</label>
 				
 				<select th:field="*{codigoCliente}" id="cliente" class="form-control">
@@ -43,34 +43,35 @@
 					<option th:each="cliente : ${clientes}" th:value="${cliente.codigo}" th:text="|${cliente.codigo}. ${cliente.nome}|"></option>
 				</select>
 			</div>
-			
+
 			<div class="form-group col-sm-3 date">
 				<label for="dataInicio" class="form-control-label">Data Início</label>
 				
-				<input th:field="*{dataInicio}" placeholder="Data Início" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataInicio" autocomplete="off">
+				<input th:field="*{dataInicio}" placeholder="Data Início" type="text" class="form-control datepicker" id="dataInicio" autocomplete="off">
 			</div>
 
 			<div class="form-group col-sm-3 date">	
 				<label for="dataFim" class="form-control-label">Data Fim</label>
 				
-				<input th:field="*{dataFim}" placeholder="Data Fim" type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="dataFim" autocomplete="off">
+				<input th:field="*{dataFim}" placeholder="Data Fim" type="text" class="form-control datepicker" id="dataFim" autocomplete="off">
 			</div>
 			
-			<hr class="bg-dark text-dark" />
+			<hr />
 			
 			<div class="col-sm-12 mb-2 text-right">				
-				<button class="btn btn-primary" type="submit">Pesquisar</button>
+				<button class="btn btn-primary" type="submit"><i class="fas fa-filter"></i> Pesquisar</button>
 			</div>
 		</form>
 
 		<div class="row">
 			<div class="col-sm-12 table-responsive">
-				<table class="table table-hover thead-light table-bordered">
-					<thead>
+				<table class="table table-hover thead-light table-bordered table-striped">
+					<thead class="thead-dark">
 						<tr style="font-size: 12px;">
 							<th style="width: 10%;">Nº/Código <i class="fas fa-angle-down"></i></th>
 							<th style="width: 12%;" class="text-center">Dat. venda<i class="fas fa-angle-down"></i></th>
-							<th style="width: 25%;">cliente <i class="fas fa-angle-down"></i></th>
+							<th style="width: 15%;">Cliente <i class="fas fa-angle-down"></i></th>
+							<th style="width: 10%;" class="text-center">F. pgto <i class="fas fa-angle-down"></i></th>
 							<th style="width: 8%;" class="text-center">Status <i class="fas fa-angle-down"></i></th>
 							<th style="width: 10%;" class="text-center">Valor Total <i class="fas fa-angle-down"></i></th>
 							<th style="width: 11%;" class="text-center">Desconto <i class="fas fa-angle-down"></i></th>
@@ -86,7 +87,8 @@
 								<span th:text="${venda.codigo}"></span>
 							</td>
 							<td class="text-center">[[${{venda.dataCriacao}}]]</td>
-							<td th:text="|${venda.cliente.nome} (${venda.formaPagamento})|"></td>
+							<td th:text="${venda.cliente.nome}"></td>
+							<td class="text-center" th:text="${venda.formaPagamento}"></td>
 							<td class="text-center">
 								<span th:text="${venda.status.descricao}" th:if="${venda.status.descricao == 'ORÇAMENTO'}"
 									th:class="${venda.status.descricao == 'ORÇAMENTO'} ? 'badge badge-warning p-2' : ''">
@@ -130,6 +132,8 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<h5 class="text-right text-muted">TOTAL DAS VENDAS: [[${#numbers.formatCurrency(#aggregates.sum(vendas.![valorTotal]))}]]</h5>
 			</div>
 			
 			<th:block th:include="componentes/paginacao"></th:block>
@@ -138,9 +142,9 @@
 	
 	<!-- JavaScript -->
   	<th:block layout:fragment="javascripts">
-  	<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
+  	<!--<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
   	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
-  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
+  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>-->
   	<script th:src="@{vendor/sweetalert/sweetalert.min.js}"></script>
   	<script th:src="@{js/pdv.dialogo-excluir.js}"></script>
   	</th:block>

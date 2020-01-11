@@ -70,8 +70,10 @@ public class VendaService {
 				
 				contaReceber.setCliente(venda.getCliente());
 				contaReceber.setTotalVenda(venda.getValorTotal());
-				contaReceber.setDataVenda(venda.getDataCriacao());
-				contaReceber.setDataVencimento(venda.getDataCriacao().plusDays(30));
+				//contaReceber.setDataVenda(venda.getDataCriacao());
+				//contaReceber.setDataVencimento(venda.getDataCriacao().plusDays(30));
+				contaReceber.setDataVenda(venda.getDataCriacao().toLocalDate());
+				contaReceber.setDataVencimento(venda.getDataCriacao().plusDays(30).toLocalDate());
 				contaReceber.setStatus(Status.DEVENDO);
 				
 				contasReceber.saveAndFlush(contaReceber);

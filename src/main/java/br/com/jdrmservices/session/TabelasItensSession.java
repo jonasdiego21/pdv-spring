@@ -50,6 +50,7 @@ public class TabelasItensSession {
 		TabelaItensVenda tabela = tabelas.stream()
 				.filter(t -> t.getUuid().equals(uuid))
 				.findAny().orElse(new TabelaItensVenda(uuid));
+		
 		return tabela;
 	}
 

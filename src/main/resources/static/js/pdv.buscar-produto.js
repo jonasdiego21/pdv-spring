@@ -1,3 +1,4 @@
+/* REFERENTE A ADIÇÃO DE PRODUTO NA LISTA */
 var Pdv = Pdv || {};
 
 Pdv.BuscarProduto = (function() {
@@ -187,10 +188,10 @@ Pdv.BuscarProduto = (function() {
 		if(evento.which == 13 || evento.which == 9) { 
 			evento.preventDefault();
 			
-			var campoQuantidade = parseFloat(this.campoQuantidade.val());
-			var quantidade = parseFloat(this.itemDados.quantidade);
+			var campoQuantidade = this.campoQuantidade.val().replace('R$', '').replace('.', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+			var quantidade = this.itemDados.quantidade;
 			
-			console.log(campoQuantidade, quantidade);
+			//console.log(campoQuantidade, quantidade);
 			
 			if(campoQuantidade > quantidade) {				
 				swal({
@@ -201,7 +202,9 @@ Pdv.BuscarProduto = (function() {
 				}).then((value) => {
 					this.campoCodigoProduto.focus();
 					this.campoCodigoProduto.select();
-					this.campoCodigoProduto.val('');				
+					this.campoCodigoProduto.val('');	
+					
+					zerarValoresDosCampos.call(this);
 				});
 			} else {
 				this.campoQuantidadeOculta.val(this.campoQuantidade.val());
@@ -213,11 +216,15 @@ Pdv.BuscarProduto = (function() {
 	function sairCampoQuantidade(evento) {
 		evento.preventDefault();
 		
-		var valorUnitario = this.campoValorUnitario.val().replace('R$', '').replace('.', '').replace('.', '').replace('.', '').replace(',', '.');
-		var quantidade = this.campoQuantidadeOculta.val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.');
+		var valorUnitario = this.campoValorUnitario.val().replace('R$', '').replace('.', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+		var quantidade = this.campoQuantidadeOculta.val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.').trim();
 		var total = parseFloat(quantidade) * parseFloat(valorUnitario);		
 		
-		this.campoValorTotal.val(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+		if(total > 0) {			
+			this.campoValorTotal.val(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+		}
+		
+		this.campoQuantidade.val('0,000');
 	}
 	
 	function valorUnitarioEnter(evento, data) {					

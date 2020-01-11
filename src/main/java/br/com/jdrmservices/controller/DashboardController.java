@@ -2,6 +2,10 @@ package br.com.jdrmservices.controller;
 
 import static br.com.jdrmservices.util.Constants.VIEW_DASHBOARD;
 
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,6 +20,7 @@ import br.com.jdrmservices.repository.Produtos;
 import br.com.jdrmservices.repository.Usuarios;
 import br.com.jdrmservices.repository.Vendas;
 import br.com.jdrmservices.security.UsuarioSistema;
+import br.com.jdrmservices.util.UtilitarioTrial;
 
 @Controller
 @RequestMapping("/")
@@ -89,6 +94,11 @@ public class DashboardController {
 		mv.addObject("valorVendasDiaGeral", vendas.valorTotalDiaGeral());
 		mv.addObject("valorVendasMesGeral", vendas.valorTotalMesGeral());
 		mv.addObject("valorVendasAnoGeral", vendas.valorTotalAnoGeral());
+		
+		// dias restantes
+		//long diferencaEmDias = ChronoUnit.DAYS.between(LocalDateTime.now(), 
+				//LocalDateTime.parse(UtilitarioTrial.readFile(Paths.get("C:\\Users\\Default\\app.log"))));
+		//mv.addObject("diasRestantes", diferencaEmDias);
 		
 		// conta pagar (TOTAL COMPRA, PAGO, RESTANTE)
 		

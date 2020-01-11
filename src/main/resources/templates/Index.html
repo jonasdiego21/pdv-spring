@@ -33,7 +33,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/admin}">
         <div class="sidebar-brand-text mx-3">
-			<img class="img-fluid" th:src="@{/images/logo_pdv_header.svg}" alt="Logo PDV" width="100px" />
+			<img class="img-fluid" th:src="@{/images/logo_pdv_horizontal_white.svg}" alt="Logo PDV" width="100px" />
 		</div>
       </a>
 
@@ -89,7 +89,7 @@
       
       <!-- Categoria -->
       <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CATEGORIA')}">
-        <a class="nav-link" th:href="@{/categorias/novo}">
+        <a class="nav-link active" th:href="@{/categorias/novo}">
           <i class="fas fa-fw fa-cubes"></i>
           <span>CATEGORIA</span>
         </a>
@@ -144,7 +144,7 @@
      
       <!-- Empresa -->
       <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_EMPRESA')}">
-        <a class="nav-link" th:href="@{/empresas/novo}">
+        <a class="nav-link" th:href="@{/empresas}">
           <i class="fas fa-fw fa-home"></i>
           <span>EMPRESA</span>
         </a>

@@ -112,11 +112,15 @@ public class VendasController {
 		return mv;
 	}
 	
-	@DeleteMapping("/item/{uuid}/{codigoProduto}")
-	public ModelAndView excluirItem(@PathVariable("codigoProduto") Produto produto, @PathVariable("uuid") String uuid) {
-		Produto produtoExcluir = produtos.findByCodigo(produto.getCodigo());
+	@DeleteMapping("/item/{uuid}/{codigo}")
+	public ModelAndView excluirItem(@PathVariable("codigo") Long codigo, @PathVariable("uuid") String uuid) {
+		Produto produtoExcluir = produtos.findByCodigo(codigo);
 		
-		tabelasItensSession.excluirItem(uuid, produtoExcluir);
+		try {
+			tabelasItensSession.excluirItem(uuid, produtoExcluir);
+		} catch (Exception e) {
+			System.out.println("O item já foi excluído!");
+		}
 		
 		ModelAndView mv = new ModelAndView(VIEW_ITENS_VENDA);
 		mv.addObject("itens", tabelasItensSession.getItens(uuid));
@@ -185,7 +189,7 @@ public class VendasController {
 	@PostMapping
 	public ModelAndView cadastrar(Venda venda, String uuid, @AuthenticationPrincipal UsuarioSistema usuarioSistema, BindingResult result, Model model, RedirectAttributes attributes) {
 		if(venda.isNovo()) {
-			venda.setDataCriacao(LocalDate.now());
+			//venda.setDataCriacao(LocalDate.now());
 			venda.setUsuario(usuarioSistema.getUsuario());
 			venda.adicionarItens(tabelasItensSession.getItens(venda.getUuid()));
 		}

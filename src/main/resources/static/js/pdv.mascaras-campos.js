@@ -11,6 +11,8 @@ Pdv.Mascaras = (function() {
 		this.dataCompra = $("#dataCompra");
 		this.dataVenda = $("#dataVenda");
 		this.dataVencimento = $("#dataVencimento");
+		this.dataInicio = $("#dataInicioPesquisa");
+		this.dataFim = $("#dataFimPesquisa");
 		this.cpf = $("#cpf");
 		this.cnpj = $("#cnpj");
 		this.telefone = $("#telefone");
@@ -40,6 +42,8 @@ Pdv.Mascaras = (function() {
 		this.dataCompra.mask("00/00/0000", {placeholder: "__/__/____"});
 		this.dataVenda.mask("00/00/0000", {placeholder: "__/__/____"});
 		this.dataVencimento.mask("00/00/0000", {placeholder: "__/__/____"});
+		this.dataInicio.mask("00/00/0000", {placeholder: "__/__/____"});
+		this.dataFim.mask("00/00/0000", {placeholder: "__/__/____"});
 		this.cpf.mask("000.000.000-00", {placeholder: "___.___.___-__"});
 		this.cnpj.mask("00.000.000/0000-00", {placeholder: "__.___.___/____-__"});
 		this.telefone.mask("(00) 00000-0000", {placeholder: "(99) 99999-9999"});

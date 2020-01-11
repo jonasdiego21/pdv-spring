@@ -16,8 +16,7 @@
 <body>
 	<div class="container" layout:fragment="conteudo">
 		<h1 class="text-center">Itens da venda</h1>
-		
-		<!-- Breadcrumb -->
+
 		<div aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a th:href="@{/}">Dashboard</a></li>
@@ -25,12 +24,11 @@
 				<li class="breadcrumb-item active" aria-current="page">Itens Venda</li>
 			</ol>
 		</div>
-		
-		<!-- Table -->
+
 		<div class="row">
 			<div class="col-sm-12 table-responsive">
-				<table class="table table-hover thead-light table-bordered">
-					<thead>
+				<table class="table table-hover thead-light table-bordered table-striped">
+					<thead class="thead-dark">
 						<tr>
 							<th style="width: 10%;" class="text-center">Código <i class="fas fa-angle-down"></i></th>
 							<th style="width: 40%;">Nome <i class="fas fa-angle-down"></i></th>

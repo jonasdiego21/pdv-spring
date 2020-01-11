@@ -1,14 +1,16 @@
 package br.com.jdrmservices.repository.filter;
 
+import br.com.jdrmservices.model.Fornecedor;
+
 public class ContaPagarFilter {
 
-	private String fornecedor;
+	private Fornecedor fornecedor;
 
-	public String getFornecedor() {
+	public Fornecedor getFornecedor() {
 		return fornecedor;
 	}
 
-	public void setFornecedor(String fornecedor) {
+	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
-	}	
+	}
 }

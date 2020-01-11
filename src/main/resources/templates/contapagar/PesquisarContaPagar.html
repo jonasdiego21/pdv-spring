@@ -26,17 +26,24 @@
 			</ol>
 		</div>
 		
-		<form class="row" method="GET" th:object="${contaPagarFilter}" th:action="@{/contaspagar}">
-			<div class="col-sm-8"></div>	
-					
-			<div class="col-sm-4">
-				<div class="input-group mb-3">						 
-					<input id="fornecedor" th:field="*{fornecedor}" type="text" class="form-control" placeholder="Pesquisar por fornecedor...">
-					 
-					<div class="input-group-append">
-						<button id="btnBuscar" class="btn btn-primary" type="submit">
-							<i class="fas fa-search"></i>
-						</button> 
+		<form method="GET" th:object="${contaPagarFilter}" th:action="@{/contaspagar}">
+			<div class="row">
+				<div class="col-sm-7"></div>	
+						
+				<div class="form-group col-sm-5">
+					<label for="cliente" class="form-control-label">Selecione o fornecedor</label>
+
+					<div class="input-group mb-3">						 					
+						<select th:field="*{fornecedor}" id="fornecedor" class="form-control">
+							<option value="">TODOS</option>
+							<option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.codigo}" th:text="|${fornecedor.codigo}. ${fornecedor.nome}|"></option>
+						</select>
+						 
+						<div class="input-group-append">
+							<button id="btnBuscar" class="btn btn-primary" type="submit">
+								<i class="fas fa-search"></i>
+							</button> 
+						</div>
 					</div>
 				</div>
 			</div>
@@ -45,8 +52,8 @@
 		<!-- Table -->
 		<div class="row">
 			<div class="col-sm-12 table-responsive">
-				<table class="table table-hover thead-light table-bordered">
-					<thead>
+				<table class="table table-hover thead-light table-bordered table-striped">
+					<thead class="thead-dark">
 						<tr>
 							<th style="width: 10%;">Código <i class="fas fa-angle-down"></i></th>
 							<th style="width: 25%;">Fornecedor <i class="fas fa-angle-down"></i></th>

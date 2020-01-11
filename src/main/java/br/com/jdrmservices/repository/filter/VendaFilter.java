@@ -1,6 +1,7 @@
 package br.com.jdrmservices.repository.filter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.jdrmservices.model.enumeration.StatusVenda;
 
@@ -8,8 +9,8 @@ public class VendaFilter {
 
 	private StatusVenda status;
 	private Long codigoCliente;
-	private LocalDate dataInicio;
-	private LocalDate dataFim;
+	private LocalDateTime dataInicio;
+	private LocalDateTime dataFim;
 
 	public StatusVenda getStatus() {
 		return status;
@@ -27,19 +28,19 @@ public class VendaFilter {
 		this.codigoCliente = codigoCliente;
 	}
 
-	public LocalDate getDataInicio() {
+	public LocalDateTime getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(LocalDate dataInicio) {
+	public void setDataInicio(LocalDateTime dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public LocalDate getDataFim() {
+	public LocalDateTime getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(LocalDate dataFim) {
+	public void setDataFim(LocalDateTime dataFim) {
 		this.dataFim = dataFim;
 	}
 }

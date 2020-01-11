@@ -56,8 +56,8 @@ public class ContasReceberImpl implements ContasReceberQueries {
 	
 	private void adicionarFiltro(ContaReceberFilter filtro, Criteria criteria) {
 		if(filtro != null) {
-			if(!StringUtils.isEmpty(filtro.getCliente())) {
-				criteria.add(Restrictions.ilike("cliente", filtro.getCliente(), MatchMode.ANYWHERE));
+			if(filtro.getCliente() != null) {
+				criteria.add(Restrictions.eq("cliente", filtro.getCliente()));
 			}
 		}
 	}

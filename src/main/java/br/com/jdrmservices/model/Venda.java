@@ -3,6 +3,7 @@ package br.com.jdrmservices.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,7 +41,7 @@ public class Venda implements Serializable {
 	
 	//@DateTimeFormat(pattern = Constants.FORMAT_DATE) <-- definido pelas configurações do spring
 	@Column(name = "data_criacao")
-	private LocalDate dataCriacao = LocalDate.now();
+	private LocalDateTime dataCriacao = LocalDateTime.now();//LocalDate
 	
 	@Digits(integer = 10, fraction = 2)
 	@Column(name = "valor_total")
@@ -91,11 +92,11 @@ public class Venda implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public LocalDate getDataCriacao() {
+	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(LocalDate dataCriacao) {
+	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 

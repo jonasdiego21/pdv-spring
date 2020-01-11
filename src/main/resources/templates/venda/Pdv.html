@@ -14,6 +14,7 @@
   
   <link th:href="@{/css/admin.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/pdv.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/vendor/animate/animate.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/vendor/datepicker/css/bootstrap-datepicker.min.css}" rel="stylesheet" type="text/css">
   
   <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
@@ -40,7 +41,7 @@
 				<a th:href="@{/}"> dashboard</a> | <a th:href="@{/vendas}" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}"> vendas</a>
 				
 				<div class="card bg-light p-3 mt-2 mb-2 d-flex justify-content-center align-items-center" style="height: 87%;">
-					<img id="fotoProduto" class="img-fluid" th:src="@{/images/logo_pdv.svg}" alt="Image" />
+					<img id="fotoProduto" th:src="@{/images/logo_colorida.svg}" alt="Image" height="250px" />
 				</div>
 			</div>
 			
@@ -79,12 +80,12 @@
 				
 				<div class="mt-2">
 					<div id="btn-cancelar" class="text-right d-none">
-						<a href="javascript:;" class="btn btn-secondary">
+						<a href="javascript:;" class="btn btn-secondary" data-toggle="tooltip" title="CANCELAR EXCLUSÃO" data-position="top">
 							<i class="fas fa-times"></i>
 						</a>
 					</div>
 					
-					<div id="btn-excluir" class="text-right d-none">
+					<div id="btn-excluir" class="text-right d-none" data-toggle="tooltip" title="EXCLUIR PRODUTO" data-position="top">
 						<a href="javascript:;" class="btn btn-danger">
 							<i class="fas fa-trash"></i>
 						</a>
@@ -136,5 +137,10 @@
   	<script th:src="@{/js/pdv.finalizar-venda.js}"></script>
   	<script th:src="@{/vendor/handlebars/handlebars.min.js}"></script>
   	<script th:src="@{/js/pdv.pesquisa-rapida-cliente.js}"></script>
+  	<script>
+	$(document).ready(function(){
+	  $('[data-toggle="tooltip"]').tooltip();
+	});
+	</script>
 </body>
 </html>

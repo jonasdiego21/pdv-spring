@@ -139,8 +139,20 @@ Pdv.FinalizarVenda = (function() {
 				this.formPdv.submit();
 			}
 		}.bind(this));
+		
+		this.desconto.on('focusout', function() {
+			if(this.desconto.val() <= 0) {
+				$('#valorDesconto').val('R$ 0,00');
+			}
+		}.bind(this));
+		
+		this.totalPago.on('focusout', function() {
+			if(this.totalPago.val() <= 0) {
+				$('#valorPago').val('R$ 0,00');
+			}
+		}.bind(this));
 	}
-	
+
 	return FinalizarVenda;
 	
 }());

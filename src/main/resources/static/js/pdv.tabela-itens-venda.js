@@ -7,7 +7,9 @@ Pdv.TabelaItens = (function() {
 		this.btnCancelar = $('#btn-cancelar');
 		this.campoQuantidadeOculta = $('#inputQuantidade');
 		this.tabelaItens = $('#tabela-itens');
+		
 		this.itemSelecionadoTabelaItens = null;
+		this.itemExcluir = null;
 		
 		this.emitter = $({});
 		this.on = this.emitter.on.bind(this.emitter); 
@@ -27,8 +29,7 @@ Pdv.TabelaItens = (function() {
 				'uuid': this.uuid.val()
 			},
 			success: tabelaItensRederizadaSuccess.bind(this)
-		});	
-		
+		});		
 		
 		retorno.done(irParaUltimoItemAdicionadoCupom.bind(this));
 	}	
@@ -38,6 +39,7 @@ Pdv.TabelaItens = (function() {
 		
 		this.itemSelecionadoTabelaItens = $('input[type=radio]');
 		
+		// colocar em umas função mostrarBotoes()
 		this.itemSelecionadoTabelaItens.on('click', mostrarButtonExcluirItem.bind(this));
 		this.itemSelecionadoTabelaItens.on('click', mostrarButtonCancelar.bind(this));
 		
@@ -51,15 +53,17 @@ Pdv.TabelaItens = (function() {
 		this.btnCancelar.attr('class', 'text-right d-none');
 		this.btnExcluir.attr('class', 'text-right d-block');
 		
+		this.itemExcluir = evento.currentTarget.value;
+		
 		this.btnExcluir.on('click', btnExcluirItemClicado.bind(this));
 	}
 	
 	function btnExcluirItemClicado(evento) {
 		this.btnExcluir.attr('class', 'text-right d-none');
 		this.btnCancelar.attr('class', 'text-right d-none');
-		
+
 		var retorno = $.ajax({
-			url: 'item/' + this.uuid.val() + '/' + this.itemSelecionadoTabelaItens.val(),
+			url: 'item/' + this.uuid.val() + '/' + this.itemExcluir,
 			method: 'DELETE',
 			success: itemExcluidoSuccess.bind(this),
 			error: itemExcluidoError.bind(this)
@@ -85,7 +89,6 @@ Pdv.TabelaItens = (function() {
 		console.log(error);
 	}
 	
-	// refatorar
 	function mostrarButtonCancelar(evento) {			
 		this.btnCancelar.attr('class', 'text-right d-block');
 		
