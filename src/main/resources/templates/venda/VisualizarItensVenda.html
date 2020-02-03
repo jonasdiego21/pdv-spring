@@ -54,6 +54,10 @@
 							-->
 						</tr>
 						
+						<tr th:if="${not #lists.isEmpty(itens)}">
+							<td colspan="10" class="text-right"><strong>[[${#numbers.formatCurrency(#aggregates.sum(itens.![quantidade * valorUnitario]))}]]</strong></td>
+						</tr>
+						
 						<tr th:if="${#lists.isEmpty(itens)}"> 
 							<td colspan="8" class="text-center">Nenhuma informação encontrado!</td>
 						</tr>

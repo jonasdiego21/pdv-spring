@@ -35,6 +35,15 @@
 				</select>
 			</div>
 			
+			<div class="form-group col-sm-2">
+				<label for="formaPagamento" class="form-control-label">F. Pgto</label>
+				
+				<select th:field="*{formaPagamento}" id="formaPagamento" class="form-control">
+					<option value="">TODAS</option>
+					<option th:each="formaPagamento : ${formasPagamento}" th:value="${formaPagamento}" th:text="${formaPagamento.formaPagamento}"></option>
+				</select>
+			</div>
+			
 			<div class="form-group col-sm-4">
 				<label for="cliente" class="form-control-label">Cliente</label>
 				
@@ -44,21 +53,22 @@
 				</select>
 			</div>
 
-			<div class="form-group col-sm-3 date">
+			<div class="form-group col-sm-2 date">
 				<label for="dataInicio" class="form-control-label">Data Início</label>
 				
-				<input th:field="*{dataInicio}" placeholder="Data Início" type="text" class="form-control datepicker" id="dataInicio" autocomplete="off">
+				<input th:field="*{dataInicio}" placeholder="Data Início" data-date-format="dd/mm/yyyy" type="text" class="form-control datepicker" id="dataInicio" autocomplete="off">
 			</div>
 
-			<div class="form-group col-sm-3 date">	
+			<div class="form-group col-sm-2 date">	
 				<label for="dataFim" class="form-control-label">Data Fim</label>
 				
-				<input th:field="*{dataFim}" placeholder="Data Fim" type="text" class="form-control datepicker" id="dataFim" autocomplete="off">
+				<input th:field="*{dataFim}" placeholder="Data Fim" data-date-format="dd/mm/yyyy" type="text" class="form-control datepicker" id="dataFim" autocomplete="off">
 			</div>
 			
 			<hr />
 			
-			<div class="col-sm-12 mb-2 text-right">				
+			<div class="col-sm-12 mb-2 text-right">	
+				<button id="buttonGerarExcel" class="btn btn-success" type="submit"><i class="fas fa-file-excel"></i> Exportar</button>			
 				<button class="btn btn-primary" type="submit"><i class="fas fa-filter"></i> Pesquisar</button>
 			</div>
 		</form>
@@ -127,13 +137,15 @@
 							</td>
 						</tr>
 						
+						<tr th:if="${not #lists.isEmpty(pagina.content)}">
+							<td colspan="10" class="text-right"><strong>[[${#numbers.formatCurrency(#aggregates.sum(vendas.![valorTotal]))}]]</strong></td>
+						</tr>
+						
 						<tr th:if="${#lists.isEmpty(pagina.content)}"> 
-							<td colspan="8" class="text-center">Nenhuma informação encontrado!</td>
+							<td colspan="10" class="text-center">Nenhuma informação encontrado!</td>
 						</tr>
 					</tbody>
 				</table>
-				
-				<h5 class="text-right text-muted">TOTAL DAS VENDAS: [[${#numbers.formatCurrency(#aggregates.sum(vendas.![valorTotal]))}]]</h5>
 			</div>
 			
 			<th:block th:include="componentes/paginacao"></th:block>
@@ -143,10 +155,12 @@
 	<!-- JavaScript -->
   	<th:block layout:fragment="javascripts">
   	<!--<script th:src="@{/vendor/mask/jquery-maskmoney.js}"></script>
-  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
-  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>-->
+  	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>-->
+  	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
   	<script th:src="@{vendor/sweetalert/sweetalert.min.js}"></script>
   	<script th:src="@{js/pdv.dialogo-excluir.js}"></script>
+  	<script th:src="@{js/jquery.table2excel.js}"></script>
+  	<script th:src="@{js/pdv.gerar-excel.js}"></script>
   	</th:block>
   	
   	<script>

@@ -1,16 +1,17 @@
 package br.com.jdrmservices.repository.filter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+import br.com.jdrmservices.model.enumeration.FormaPagamento;
 import br.com.jdrmservices.model.enumeration.StatusVenda;
 
 public class VendaFilter {
 
 	private StatusVenda status;
 	private Long codigoCliente;
-	private LocalDateTime dataInicio;
-	private LocalDateTime dataFim;
+	private LocalDate dataInicio;
+	private LocalDate dataFim;
+	private FormaPagamento formaPagamento;
 
 	public StatusVenda getStatus() {
 		return status;
@@ -28,19 +29,27 @@ public class VendaFilter {
 		this.codigoCliente = codigoCliente;
 	}
 
-	public LocalDateTime getDataInicio() {
+	public LocalDate getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(LocalDateTime dataInicio) {
+	public void setDataInicio(LocalDate dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public LocalDateTime getDataFim() {
+	public LocalDate getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(LocalDateTime dataFim) {
+	public void setDataFim(LocalDate dataFim) {
 		this.dataFim = dataFim;
+	}
+
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
+	}
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
 	}
 }

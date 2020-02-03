@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import com.ibm.icu.text.DateFormat;
 
 import br.com.jdrmservices.dto.TotalVendasAno;
 import br.com.jdrmservices.dto.TotalVendasAnoCrediario;
@@ -346,28 +349,35 @@ public class VendasImpl implements VendasQueries {
 	}
 	
 	private void adicionarFiltro(VendaFilter filtro, Criteria criteria) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+		
 		if(filtro != null) {
 			if(!StringUtils.isEmpty(filtro.getStatus())) {
 				criteria.add(Restrictions.eq("status", filtro.getStatus()));
 			}
-		}
-		
-		if(filtro != null) {
+			
+			if(!StringUtils.isEmpty(filtro.getFormaPagamento())) {
+				criteria.add(Restrictions.eq("formaPagamento", filtro.getFormaPagamento()));
+			}
+
 			if(!StringUtils.isEmpty(filtro.getCodigoCliente())) {
 				criteria.add(Restrictions.eq("cliente.codigo", filtro.getCodigoCliente()));
 			}
-		}
-		
-		if(filtro != null) {
-			if(!StringUtils.isEmpty(filtro.getDataInicio())) {
-				criteria.add(Restrictions.ge("dataCriacao", filtro.getDataInicio()));
+
+			if(filtro.getDataInicio() != null) {
+				criteria.add(Restrictions.ge("dataCriacao", LocalDateTime
+						.parse(getLocalDateToDateTimeConverter(filtro.getDataInicio(), LocalTime.MIN).format(formatter), formatter)));
+			}
+
+			if(filtro.getDataFim() != null) {
+				criteria.add(Restrictions.le("dataCriacao", LocalDateTime
+						.parse(getLocalDateToDateTimeConverter(filtro.getDataFim(), LocalTime.MAX).format(formatter), formatter)));
 			}
 		}
-		
-		if(filtro != null) {
-			if(!StringUtils.isEmpty(filtro.getDataFim())) {
-				criteria.add(Restrictions.le("dataCriacao", filtro.getDataFim()));
-			}
-		}
+	}
+	
+	private LocalDateTime getLocalDateToDateTimeConverter(LocalDate localDate, LocalTime localTime) {
+		return LocalDate.of(localDate.getYear(), localDate.getMonth(), localDate.getDayOfMonth())
+		.atTime(localTime.getHour(), localTime.getMinute());
 	}
 }

@@ -47,6 +47,7 @@ import br.com.jdrmservices.impressora.GenericPrinter;
 import br.com.jdrmservices.model.Cliente;
 import br.com.jdrmservices.model.Produto;
 import br.com.jdrmservices.model.Venda;
+import br.com.jdrmservices.model.enumeration.FormaPagamento;
 import br.com.jdrmservices.model.enumeration.StatusVenda;
 import br.com.jdrmservices.repository.Clientes;
 import br.com.jdrmservices.repository.Produtos;
@@ -230,6 +231,7 @@ public class VendasController {
 		ModelAndView mv = new ModelAndView(VIEW_PESQUISAR_VENDA);
 		mv.addObject("clientes", clientes.findAll());
 		mv.addObject("status", StatusVenda.values());
+		mv.addObject("formasPagamento", FormaPagamento.values());
 		mv.addObject("vendas", vendas.findAll());
 		
 		Page<Venda> pagina = vendas.filtrar(vendaFilter, pageable);
