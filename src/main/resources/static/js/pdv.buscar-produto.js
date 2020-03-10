@@ -262,9 +262,11 @@ Pdv.BuscarProduto = (function() {
 			success: function(r) {				
 				if(r.cliente != null) {					
 					$('#limiteCompra').text(r.cliente.limiteCompra.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
-					$('#utilizado').text(r.totalVenda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
+					//$('#utilizado').text(r.totalVenda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
+					$('#utilizado').text(parseFloat(r.totalVenda - r.totalRecebido).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
 					
-					var restante = parseFloat(r.cliente.limiteCompra) - parseFloat(r.totalVenda);
+					//var restante = parseFloat(r.cliente.limiteCompra) - parseFloat(r.totalVenda);
+					var restante = parseFloat(r.cliente.limiteCompra) - parseFloat(r.totalVenda - r.totalRecebido);
 					
 					$('#restante').text(restante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).trim());
 					

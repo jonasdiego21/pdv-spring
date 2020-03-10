@@ -23,7 +23,7 @@ Pdv.Mascaras = (function() {
 	
 	Mascaras.prototype.start = function() {
 		this.limiteCompra.maskMoney({
-			prefix:'R$ ', 
+			prefix:'', 
 			allowNegative: true, 
 			thousands:'.', 
 			decimal:',', 
@@ -31,7 +31,7 @@ Pdv.Mascaras = (function() {
 		});
 		
 		this.moeda.maskMoney({
-			prefix:'R$ ', 
+			prefix:'', 
 			allowNegative: true, 
 			thousands:'.', 
 			decimal:',', 
@@ -74,6 +74,7 @@ Pdv.Mascaras = (function() {
 $(function() {
 	$('[data-toggle="tooltip"]').tooltip();
 	$('.datepicker').datepicker({
+		format: 'dd/mm/yyyy',
 		language: "pt-BR"
 	});
     

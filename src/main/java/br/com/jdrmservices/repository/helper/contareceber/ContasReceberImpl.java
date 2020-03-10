@@ -59,6 +59,10 @@ public class ContasReceberImpl implements ContasReceberQueries {
 			if(filtro.getCliente() != null) {
 				criteria.add(Restrictions.eq("cliente", filtro.getCliente()));
 			}
+			
+			if(filtro.getStatus() != null) {
+				criteria.add(Restrictions.eq("status", filtro.getStatus()));
+			}
 		}
 	}
 }
