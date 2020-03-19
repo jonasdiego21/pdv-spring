@@ -256,8 +256,8 @@ public class VendasImpl implements VendasQueries {
 	public BigDecimal valorTotalDiaGeral() {
 		Optional<BigDecimal> optional = Optional.ofNullable(valorTotalDia()
 				.add(valorTotalDiaCrediario())
-				.add(valorTotalAnoCredito())
-				.add(valorTotalAnoDebito()));
+				.add(valorTotalDiaCredito())
+				.add(valorTotalDiaDebito()));
 		
 		return optional.orElse(BigDecimal.ZERO);
 	}
