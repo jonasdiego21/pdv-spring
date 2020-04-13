@@ -1,6 +1,6 @@
 ## Sistema PDV
 # Tela do PDV
-<img src="screenshort/pdv2.png" alt="PDV" />
+<img src="screenshorts/pdv2.png" alt="PDV" />
 
 # Tela do Dashboard
 <img src="screenshorts/dashboard.png" alt="Dashboard" />
