@@ -3,19 +3,19 @@
 <img src="screenshort/pdv2.png" alt="PDV" />
 
 # Tela do Dashboard
-<img src="screenshort/dashboard.png" alt="Dashboard" />
+<img src="screenshorts/dashboard.png" alt="Dashboard" />
 
 # Tela do Dashboard Gráficos
-<img src="screenshort/dashboard-graficos.png" alt="Gráficos" />
+<img src="screenshorts/dashboard-graficos.png" alt="Gráficos" />
 
 # Tela do Cadastrar Produto
-<img src="screenshort/cadastrar-produto.png" alt="Cadastrar Produto" />
+<img src="screenshorts/cadastrar-produto.png" alt="Cadastrar Produto" />
 
 # Tela do Relatórios
-<img src="screenshort/gerar-relatorios.png" alt="Relatórios" />
+<img src="screenshorts/gerar-relatorios.png" alt="Relatórios" />
 
 # Modelo Cupom
-<img src="screenshort/cupom.png" alt="Cupom" />
+<img src="screenshorts/cupom.png" alt="Cupom" />
 
 # Tecnologias Utilizadas
 * Linguagens
