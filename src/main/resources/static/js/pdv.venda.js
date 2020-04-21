@@ -18,15 +18,3 @@ Pdv.Venda = (function() {
 	return Venda;
 	
 }());
-/*
-$(function() {
-	var buscarProduto = new Pdv.BuscarProduto();
-	buscarProduto.start();
-	
-	var tabelaItens = new Pdv.TabelaItens(buscarProduto);
-	tabelaItens.start();
-	
-	var venda = new Pdv.Venda(tabelaItens);
-	venda.start();
-});
-*/

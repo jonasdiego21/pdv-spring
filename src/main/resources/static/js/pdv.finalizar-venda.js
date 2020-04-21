@@ -11,14 +11,16 @@ Pdv.FinalizarVenda = (function() {
 		
 		this.formaPagamento = $('#formaPagamento');
 		
-		this.totalVenda = $('#totalVenda');
-		this.desconto = $('#desconto');
-		this.totalPago = $('#totalPago');
-		this.troco = $('#troco');
+		this.inputTotalVenda = $('#totalVenda');
+		this.inputDesconto = $('#desconto');
+		this.inputTotalPago = $('#totalPago');
+		this.inputTroco = $('#troco');
 		
 		this.valorTotalVenda = 0.00;
 		this.valorTotalDesconto = 0.00;
 		this.valorTotalPago = 0.00;
+		
+		this.descontoAplicado = false;
 		
 		this.formaPagamento.focus();
 		this.formaPagamento.select();
@@ -51,106 +53,112 @@ Pdv.FinalizarVenda = (function() {
 						break;
 				}
 				
-				this.desconto.focus();
-				this.desconto.select();
+				this.inputDesconto.focus();
+				this.inputDesconto.select();
 			}
 		}.bind(this));
 		
-		this.desconto.on('keypress', function(e) {			
+		this.inputDesconto.on('keypress', function(e) {			
 			if(e.which == 13) {
 				e.preventDefault();
+							
+				this.valorTotalVenda = this.inputTotalVenda.text().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+				this.valorTotalDesconto = this.inputDesconto.val().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+
+				$('#valorTotal').val(this.inputTotalVenda.text().replace('R$ ', ''));
 				
-				this.valorTotalVenda = this.totalVenda.text().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
-				this.valorTotalDesconto = this.desconto.val().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+				let total = 0.00;
+				
+				if(this.descontoAplicado === false) {
+					total = (this.valorTotalVenda - this.valorTotalDesconto);
+					this.descontoAplicado = true;	
+				}	
+				
+				this.inputTotalVenda.text(converterValueStringToDouble(total));
 
-				$('#valorTotal').val(this.totalVenda.text().replace('R$ ', '').trim());
+				this.inputDesconto.val(this.inputDesconto.val() != '' ? 'R$ ' + this.inputDesconto.val() : 'R$ 0,00');
 
-				var total = this.valorTotalVenda - this.valorTotalDesconto;
-
-				this.totalVenda.text(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ '));//1
-
-				this.desconto.val(this.desconto.val() != '' ? 'R$ ' + this.desconto.val() : 'R$ 0,00');	
-
-				this.totalPago.focus();
-				this.totalPago.select();
+				this.inputTotalPago.focus();
+				this.inputTotalPago.select();
 			}
 		}.bind(this));
 		
-		this.totalPago.on('keypress', function(e) {
+		this.inputTotalPago.on('keypress', function(e) {
 			if(e.which == 13) {
 				e.preventDefault();
 				
-				this.valorTotalVenda = this.totalVenda.text().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
-				this.valorTotalPago = this.totalPago.val().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+				this.valorTotalVenda = this.inputTotalVenda.text().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
+				this.valorTotalPago = this.inputTotalPago.val().replace('R$ ', '').replace('.', '').replace('.', '').replace(',', '.').trim();
 
 				if(this.formaPagamento.val() == 'DINHEIRO' || 
 						this.formaPagamento.val() == 'CREDITO' || this.formaPagamento.val() == 'DEBITO') {
-
+					
 					if(parseFloat(this.valorTotalPago) < parseFloat(this.valorTotalVenda)) {
-						console.log('#ERRO', 'totalVenda', this.valorTotalVenda, 'totalPago', this.valorTotalPago, 'desconto', this.valorTotalDesconto);
-						
 						swal({
 							  title: "Valor Insuficiente!",
 							  text: "O VALOR PAGO NÃO PODE SER MENOR QUE O TOTAL A PAGAR!",
 							  icon: "error",
 							  button: "Fechar",
 						}).then((value) => {			
-							this.totalPago.focus();
-							this.totalPago.select();
-							this.totalPago.val('R$ 0,00');
+							this.inputTotalPago.focus();
+							this.inputTotalPago.select();
+							this.inputTotalPago.val('R$ 0,00');
 						});
 												
-						this.totalPago.val(this.totalPago.val() != '' ? 'R$ ' + this.totalPago.val() : 'R$ 0,00');
+						this.inputTotalPago.val(this.inputTotalPago.val() != '' ? 'R$ ' + this.inputTotalPago.val() : 'R$ 0,00');
 					} else {
-						var troco = this.valorTotalPago - (this.valorTotalVenda - this.valorTotalDesconto);
-						var total = this.valorTotalVenda - this.valorTotalDesconto;
-
-						this.troco.val(troco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ '));
-						this.totalVenda.text(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ '));//2	
-
-						this.totalPago.val(this.totalPago.val() != '' ? 'R$ ' + this.totalPago.val() : 'R$ 0,00');
+						var troco = (this.valorTotalPago - this.valorTotalVenda);
+						var total = this.valorTotalVenda;
 						
-						this.troco.focus();
-						this.troco.select();
-					}
+						this.inputTroco.val(converterValueStringToDouble(troco));					
+						
+						this.inputTotalPago.val(this.inputTotalPago.val() != '' ? 'R$ ' + this.inputTotalPago.val() : 'R$ 0,00');
+						
+						this.inputTotalVenda.text(this.inputTotalVenda.text());
+						
+						console.log(converterValueStringToDouble(this.inputTotalVenda.text()));
+						
+						this.inputTroco.focus();
+						this.inputTroco.select();
+					}				
 				} else {
-					this.totalPago.val(this.totalPago.val() != '' ? 'R$ ' + this.totalPago.val() : 'R$ 0,00');
+					this.inputTotalPago.val(this.inputTotalPago.val() != '' ? 'R$ ' + this.inputTotalPago.val() : 'R$ 0,00');
 					
-					this.troco.focus();
-					this.troco.select();
+					this.inputTroco.focus();
+					this.inputTroco.select();
 				}
 			}	
 		}.bind(this));
 		
-		this.troco.on('keypress', function(e) {
+		this.inputTroco.on('keypress', function(e) {
 			if(e.which == 13) {
 				this.formaPagamento.focus();
 				this.formaPagamento.select();
 				
-				$('#valorDesconto').val(this.desconto.val().replace('R$ ', '').trim());
-				$('#valorPago').val(this.totalPago.val().replace('R$ ', '').trim());
-
-				console.log('#3', 'totalVenda', this.valorTotalVenda, 'totalPago', this.valorTotalPago, 'desconto', this.valorTotalDesconto);
+				$('#valorDesconto').val(this.inputDesconto.val().replace('R$ ', ''));
+				$('#valorPago').val(this.inputTotalPago.val().replace('R$ ', ''));
 				
-				console.log('#1', $('#valorTotal').val());
-				console.log('#1', $('#valorPago').val());
-				console.log('#1', $('#valorDesconto').val());
-
+				this.descontoAplicado = false;
+				
 				this.formPdv.submit();
 			}
 		}.bind(this));
 		
-		this.desconto.on('focusout', function() {
-			if(this.desconto.val() <= 0) {
+		this.inputDesconto.on('focusout', function() {
+			if(this.inputDesconto.val() <= 0) {
 				$('#valorDesconto').val('R$ 0,00');
 			}
 		}.bind(this));
 		
-		this.totalPago.on('focusout', function() {
-			if(this.totalPago.val() <= 0) {
+		this.inputTotalPago.on('focusout', function() {
+			if(this.inputTotalPago.val() <= 0) {
 				$('#valorPago').val('R$ 0,00');
 			}
 		}.bind(this));
+	}
+	
+	function converterValueStringToDouble(stringValue) {
+		return stringValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ ');
 	}
 
 	return FinalizarVenda;
