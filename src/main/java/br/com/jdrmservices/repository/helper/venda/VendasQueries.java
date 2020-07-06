@@ -6,6 +6,12 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import br.com.jdrmservices.dto.ItensMaisVendidosAno;
+import br.com.jdrmservices.dto.ItensMaisVendidosMes;
+import br.com.jdrmservices.dto.ItensMaisVendidosDia;
+import br.com.jdrmservices.dto.ItensMenosVendidosAno;
+import br.com.jdrmservices.dto.ItensMenosVendidosMes;
+import br.com.jdrmservices.dto.ItensMenosVendidosDia;
 import br.com.jdrmservices.dto.TotalVendasAno;
 import br.com.jdrmservices.dto.TotalVendasAnoCrediario;
 import br.com.jdrmservices.dto.TotalVendasAnoGeral;
@@ -56,4 +62,12 @@ public interface VendasQueries {
 	public List<TotalVendasDiaGeral> totalVendasDiaGeral();
 	public List<TotalVendasMesGeral> totalVendasMesGeral();
 	public List<TotalVendasAnoGeral> totalVendasAnoGeral();
+	
+	public List<ItensMaisVendidosAno> itensMaisVendidosAno();
+	public List<ItensMaisVendidosMes> itensMaisVendidosMes();
+	public List<ItensMaisVendidosDia> itensMaisVendidosDia();
+	
+	public List<ItensMenosVendidosAno> itensMenosVendidosAno();
+	public List<ItensMenosVendidosMes> itensMenosVendidosMes();
+	public List<ItensMenosVendidosDia> itensMenosVendidosDia();
 }

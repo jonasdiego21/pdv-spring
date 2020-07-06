@@ -23,8 +23,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.ibm.icu.text.DateFormat;
-
+import br.com.jdrmservices.dto.ItensMaisVendidosAno;
+import br.com.jdrmservices.dto.ItensMaisVendidosMes;
+import br.com.jdrmservices.dto.ItensMaisVendidosDia;
+import br.com.jdrmservices.dto.ItensMenosVendidosAno;
+import br.com.jdrmservices.dto.ItensMenosVendidosMes;
+import br.com.jdrmservices.dto.ItensMenosVendidosDia;
 import br.com.jdrmservices.dto.TotalVendasAno;
 import br.com.jdrmservices.dto.TotalVendasAnoCrediario;
 import br.com.jdrmservices.dto.TotalVendasAnoGeral;
@@ -379,5 +383,48 @@ public class VendasImpl implements VendasQueries {
 	private LocalDateTime getLocalDateToDateTimeConverter(LocalDate localDate, LocalTime localTime) {
 		return LocalDate.of(localDate.getYear(), localDate.getMonth(), localDate.getDayOfMonth())
 		.atTime(localTime.getHour(), localTime.getMinute());
+	}
+	
+	// Lista mais e menos vendidos
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ItensMaisVendidosAno> itensMaisVendidosAno() {
+		List<ItensMaisVendidosAno> itensMaisVendidosAno = manager.createNamedQuery("Vendas.itensMaisVendidosAno").getResultList();	
+		return itensMaisVendidosAno;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ItensMaisVendidosMes> itensMaisVendidosMes() {
+		List<ItensMaisVendidosMes> itensMaisVendidosMes = manager.createNamedQuery("Vendas.itensMaisVendidosMes").getResultList();	
+		return itensMaisVendidosMes;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ItensMaisVendidosDia> itensMaisVendidosDia() {
+		List<ItensMaisVendidosDia> itensMaisVendidosDia = manager.createNamedQuery("Vendas.itensMaisVendidosDia").getResultList();	
+		return itensMaisVendidosDia;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ItensMenosVendidosAno> itensMenosVendidosAno() {
+		List<ItensMenosVendidosAno> itensMenosVendidosAno = manager.createNamedQuery("Vendas.itensMenosVendidosAno").getResultList();	
+		return itensMenosVendidosAno;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ItensMenosVendidosMes> itensMenosVendidosMes() {
+		List<ItensMenosVendidosMes> itensMenosVendidosMes = manager.createNamedQuery("Vendas.itensMenosVendidosMes").getResultList();	
+		return itensMenosVendidosMes;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ItensMenosVendidosDia> itensMenosVendidosDia() {
+		List<ItensMenosVendidosDia> itensMenosVendidosDia = manager.createNamedQuery("Vendas.itensMenosVendidosDia").getResultList();	
+		return itensMenosVendidosDia;
 	}
 }

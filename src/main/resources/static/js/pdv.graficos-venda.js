@@ -7,6 +7,14 @@ Pdv.Graficos = (function() {
 		//this.bar = $('#bar');
 		//this.pizza = $('#pie');
 		
+		//this.ctxItensMaisVendidosDia = $('#itensMaisVendidosDia')[0].getContext('2d');
+		this.ctxItensMaisVendidosMes = $('#itensMaisVendidosMes')[0].getContext('2d');
+		this.ctxItensMaisVendidosAno = $('#itensMaisVendidosAno')[0].getContext('2d');
+		
+		//this.ctxItensMenosVendidosDia = $('#itensMenosVendidosDia')[0].getContext('2d');
+		this.ctxItensMenosVendidosMes = $('#itensMenosVendidosMes')[0].getContext('2d');
+		this.ctxItensMenosVendidosAno = $('#itensMenosVendidosAno')[0].getContext('2d');
+		
 		this.ctxTotalVendasDia = $('#totalVendasDia')[0].getContext('2d');
 		this.ctxTotalVendasMes = $('#totalVendasMes')[0].getContext('2d');
 		this.ctxTotalVendasAno = $('#totalVendasAno')[0].getContext('2d');
@@ -118,6 +126,36 @@ Pdv.Graficos = (function() {
 			url: 'vendas/totalVendasAnoGeral',
 			method: 'GET',
 			success: rederizaGraficoTotalVendasAnoGeral.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		// mais vendidos
+		$.ajax({
+			url: 'vendas/itensMaisVendidosAno',
+			method: 'GET',
+			success: rederizaGraficoItensMaisVendidosAno.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		$.ajax({
+			url: 'vendas/itensMaisVendidosMes',
+			method: 'GET',
+			success: rederizaGraficoItensMaisVendidosMes.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		// menos vendidos
+		$.ajax({
+			url: 'vendas/itensMenosVendidosAno',
+			method: 'GET',
+			success: rederizaGraficoItensMenosVendidosAno.bind(this),
+			error: rederizarGraficoError.bind(this)
+		});
+		
+		$.ajax({
+			url: 'vendas/itensMenosVendidosMes',
+			method: 'GET',
+			success: rederizaGraficoItensMenosVendidosMes.bind(this),
 			error: rederizarGraficoError.bind(this)
 		});
 	}
@@ -331,6 +369,112 @@ Pdv.Graficos = (function() {
 					label: 'Total de vendas por ano',
 					backgroundColor: gerarCores(ano),
 					pointBorderColor: gerarCoresText(ano),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+
+	// Mais vendidos
+	function rederizaGraficoItensMaisVendidosAno(itensMaisVendidosAno) {
+		var ano = [];
+		var nome = [];
+		var total = [];
+		
+		itensMaisVendidosAno.forEach(function(data) {
+			ano.unshift(data.ano);
+			nome.unshift(data.nome);
+			total.unshift(data.total);
+		});
+		
+		var graficoItensMaisVendidosAno = new Chart(this.ctxItensMaisVendidosAno, {
+			type: 'line',
+			data: {
+				labels: nome,
+				datasets: [{
+					label: 'Itens mais vendidos no ano',
+					backgroundColor: gerarCores(nome),
+					pointBorderColor: gerarCoresText(nome),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	function rederizaGraficoItensMaisVendidosMes(itensMaisVendidosMes) {
+		var mes = [];
+		var nome = [];
+		var total = [];
+		
+		itensMaisVendidosMes.forEach(function(data) {
+			mes.unshift(data.mes);
+			nome.unshift(data.nome);
+			total.unshift(data.total);
+		});
+		
+		var graficoItensMaisVendidosMes = new Chart(this.ctxItensMaisVendidosMes, {
+			type: 'line',
+			data: {
+				labels: nome,
+				datasets: [{
+					label: 'Itens mais vendidos no mês',
+					backgroundColor: gerarCores(nome),
+					pointBorderColor: gerarCoresText(nome),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	// Menos vendidos
+	function rederizaGraficoItensMenosVendidosAno(itensMenosVendidosAno) {
+		var ano = [];
+		var nome = [];
+		var total = [];
+		
+		itensMenosVendidosAno.forEach(function(data) {
+			ano.unshift(data.ano);
+			nome.unshift(data.nome);
+			total.unshift(data.total);
+		});
+		
+		var graficoItensMenosVendidosAno = new Chart(this.ctxItensMenosVendidosAno, {
+			type: 'line',
+			data: {
+				labels: nome,
+				datasets: [{
+					label: 'Itens menos vendidos no ano',
+					backgroundColor: gerarCores(nome),
+					pointBorderColor: gerarCoresText(nome),
+					pointBackgroundColor: '#fff',
+					data: total
+				}]
+			}
+		});
+	}
+	
+	function rederizaGraficoItensMenosVendidosMes(itensMenosVendidosMes) {
+		var mes = [];
+		var nome = [];
+		var total = [];
+		
+		itensMenosVendidosMes.forEach(function(data) {
+			mes.unshift(data.mes);
+			nome.unshift(data.nome);
+			total.unshift(data.total);
+		});
+		
+		var graficoItensMenosVendidosMes = new Chart(this.ctxItensMenosVendidosMes, {
+			type: 'line',
+			data: {
+				labels: nome,
+				datasets: [{
+					label: 'Itens menos vendidos no mês',
+					backgroundColor: gerarCores(nome),
+					pointBorderColor: gerarCoresText(nome),
 					pointBackgroundColor: '#fff',
 					data: total
 				}]

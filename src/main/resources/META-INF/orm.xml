@@ -121,6 +121,94 @@
 		</query>
 	</named-native-query> 
 	
+	<named-native-query name="Vendas.itensMaisVendidosAno" result-set-mapping="itensMaisVendidosAno">
+		<query>
+			SELECT 
+			    produto.nome as nome,
+			    SUM(item_venda.quantidade) AS total,
+			    DATE_FORMAT(venda.data_criacao, '%Y') as ano
+			FROM
+			    item_venda
+			        INNER JOIN
+			    venda ON item_venda.venda_codigo = venda.codigo
+			        INNER JOIN
+			    produto ON item_venda.produto_codigo = produto.codigo
+			WHERE
+				DATE_FORMAT(venda.data_criacao, '%Y') = DATE_FORMAT(NOW(), '%Y') AND status != 'CANCELADA'
+			GROUP BY produto.nome
+			ORDER BY total DESC;
+		</query>
+	</named-native-query>
+	
+	<named-native-query name="Vendas.itensMaisVendidosMes" result-set-mapping="itensMaisVendidosMes">
+		<query>
+			SELECT 
+			    produto.nome as nome,
+			    SUM(item_venda.quantidade) AS total,
+			    DATE_FORMAT(venda.data_criacao, '%m/%Y') as mes
+			FROM
+			    item_venda
+			        INNER JOIN
+			    venda ON item_venda.venda_codigo = venda.codigo
+			        INNER JOIN
+			    produto ON item_venda.produto_codigo = produto.codigo
+			WHERE
+				DATE_FORMAT(venda.data_criacao, '%Y/%M') = DATE_FORMAT(NOW(), '%Y/%M') AND status != 'CANCELADA'
+			GROUP BY produto.nome
+			ORDER BY total DESC;
+		</query>
+	</named-native-query> 
+	
+	<named-native-query name="Vendas.itensMaisVendidosDia" result-set-mapping="itensMaisVendidosDia">
+		<query>
+			-- POR DIA
+		</query>
+	</named-native-query>  
+	
+	<named-native-query name="Vendas.itensMenosVendidosAno" result-set-mapping="itensMenosVendidosAno">
+		<query>
+			SELECT 
+			    produto.nome as nome,
+			    SUM(item_venda.quantidade) AS total,
+			    DATE_FORMAT(venda.data_criacao, '%Y') as ano
+			FROM
+			    item_venda
+			        INNER JOIN
+			    venda ON item_venda.venda_codigo = venda.codigo
+			        INNER JOIN
+			    produto ON item_venda.produto_codigo = produto.codigo
+			WHERE
+				DATE_FORMAT(venda.data_criacao, '%Y') = DATE_FORMAT(NOW(), '%Y') AND status != 'CANCELADA'
+			GROUP BY produto.nome
+			ORDER BY total ASC;
+		</query>
+	</named-native-query>
+	
+	<named-native-query name="Vendas.itensMenosVendidosMes" result-set-mapping="itensMenosVendidosMes">
+		<query>
+			SELECT 
+			    produto.nome as nome,
+			    SUM(item_venda.quantidade) AS total,
+			    DATE_FORMAT(venda.data_criacao, '%m/%Y') as mes
+			FROM
+			    item_venda
+			        INNER JOIN
+			    venda ON item_venda.venda_codigo = venda.codigo
+			        INNER JOIN
+			    produto ON item_venda.produto_codigo = produto.codigo
+			WHERE
+				DATE_FORMAT(venda.data_criacao, '%Y/%M') = DATE_FORMAT(NOW(), '%Y/%M') AND status != 'CANCELADA'
+			GROUP BY produto.nome
+			ORDER BY total ASC;
+		</query>
+	</named-native-query> 
+	
+	<named-native-query name="Vendas.itensMenosVendidosDia" result-set-mapping="itensMenosVendidosDia">
+		<query>
+			-- POR DIA
+		</query>
+	</named-native-query>
+	
 	<sql-result-set-mapping name="totalVendasDia">
 		<constructor-result target-class="br.com.jdrmservices.dto.TotalVendasDia">
 			<column name="dia" class="java.lang.String" />
@@ -181,6 +269,54 @@
 		<constructor-result target-class="br.com.jdrmservices.dto.TotalVendasAnoGeral">
 			<column name="ano" class="java.lang.String" />
 			<column name="total" class="java.lang.Integer" />
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+	<sql-result-set-mapping name="itensMaisVendidosAno">
+		<constructor-result target-class="br.com.jdrmservices.dto.ItensMaisVendidosAno">
+			<column name="nome" class="java.lang.String" />
+			<column name="total" class="java.lang.Integer" />
+			<column name="ano" class="java.lang.String" />
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+	<sql-result-set-mapping name="itensMaisVendidosMes">
+		<constructor-result target-class="br.com.jdrmservices.dto.ItensMaisVendidosMes">
+			<column name="nome" class="java.lang.String" />
+			<column name="total" class="java.lang.Integer" />
+			<column name="mes" class="java.lang.String" />
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+	<sql-result-set-mapping name="itensMaisVendidosDia">
+		<constructor-result target-class="br.com.jdrmservices.dto.ItensMaisVendidosDia">
+			<column name="nome" class="java.lang.String" />
+			<column name="total" class="java.lang.Integer" />
+			<column name="dia" class="java.lang.String" />
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+	<sql-result-set-mapping name="itensMenosVendidosAno">
+		<constructor-result target-class="br.com.jdrmservices.dto.ItensMenosVendidosAno">
+			<column name="nome" class="java.lang.String" />
+			<column name="total" class="java.lang.Integer" />
+			<column name="ano" class="java.lang.String" />
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+	<sql-result-set-mapping name="itensMenosVendidosMes">
+		<constructor-result target-class="br.com.jdrmservices.dto.ItensMenosVendidosMes">
+			<column name="nome" class="java.lang.String" />
+			<column name="total" class="java.lang.Integer" />
+			<column name="mes" class="java.lang.String" />
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+	<sql-result-set-mapping name="itensMenosVendidosDia">
+		<constructor-result target-class="br.com.jdrmservices.dto.ItensMenosVendidosDia">
+			<column name="nome" class="java.lang.String" />
+			<column name="total" class="java.lang.Integer" />
+			<column name="dia" class="java.lang.String" />
 		</constructor-result>
 	</sql-result-set-mapping>
 </entity-mappings>

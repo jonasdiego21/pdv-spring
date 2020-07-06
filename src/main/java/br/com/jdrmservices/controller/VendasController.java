@@ -9,7 +9,6 @@ import static br.com.jdrmservices.util.Constants.VIEW_VENDA_REDIRECT;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +31,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.jdrmservices.dto.ItensMaisVendidosAno;
+import br.com.jdrmservices.dto.ItensMaisVendidosMes;
+import br.com.jdrmservices.dto.ItensMaisVendidosDia;
+import br.com.jdrmservices.dto.ItensMenosVendidosAno;
+import br.com.jdrmservices.dto.ItensMenosVendidosMes;
+import br.com.jdrmservices.dto.ItensMenosVendidosDia;
 import br.com.jdrmservices.dto.PdvDTO;
 import br.com.jdrmservices.dto.TotalVendasAno;
 import br.com.jdrmservices.dto.TotalVendasAnoCrediario;
@@ -313,5 +318,37 @@ public class VendasController {
 	@GetMapping("/totalVendasAnoGeral")
 	public @ResponseBody List<TotalVendasAnoGeral> totalVendasAnoGeral() {
 		return vendas.totalVendasAnoGeral();
+	}
+	
+	// Mais vendidos
+	@GetMapping("/itensMaisVendidosAno")
+	public @ResponseBody List<ItensMaisVendidosAno> itensMaisVendidosAno() {
+		return vendas.itensMaisVendidosAno();
+	}
+	
+	@GetMapping("/itensMaisVendidosMes")
+	public @ResponseBody List<ItensMaisVendidosMes> itensMaisVendidosMes() {
+		return vendas.itensMaisVendidosMes();
+	}
+	
+	@GetMapping("/itensMaisVendidosDia")
+	public @ResponseBody List<ItensMaisVendidosDia> itensMaisVendidosDia() {
+		return vendas.itensMaisVendidosDia();
+	}
+	
+	// Menos vendidos
+	@GetMapping("/itensMenosVendidosAno")
+	public @ResponseBody List<ItensMenosVendidosAno> itensMenosVendidosAno() {
+		return vendas.itensMenosVendidosAno();
+	}
+	
+	@GetMapping("/itensMenosVendidosMes")
+	public @ResponseBody List<ItensMenosVendidosMes> itensMenosVendidosMes() {
+		return vendas.itensMenosVendidosMes();
+	}
+	
+	@GetMapping("/itensMenosVendidosDia")
+	public @ResponseBody List<ItensMenosVendidosDia> itensMenosVendidosDia() {
+		return vendas.itensMenosVendidosDia();
 	}
 }
