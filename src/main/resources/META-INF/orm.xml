@@ -135,6 +135,7 @@
 			    produto ON item_venda.produto_codigo = produto.codigo
 			WHERE
 				DATE_FORMAT(venda.data_criacao, '%Y') = DATE_FORMAT(NOW(), '%Y') AND status != 'CANCELADA'
+			LIMIT 10
 			GROUP BY produto.nome
 			ORDER BY total DESC;
 		</query>
@@ -154,6 +155,7 @@
 			    produto ON item_venda.produto_codigo = produto.codigo
 			WHERE
 				DATE_FORMAT(venda.data_criacao, '%Y/%M') = DATE_FORMAT(NOW(), '%Y/%M') AND status != 'CANCELADA'
+			LIMIT 10
 			GROUP BY produto.nome
 			ORDER BY total DESC;
 		</query>
@@ -179,6 +181,7 @@
 			    produto ON item_venda.produto_codigo = produto.codigo
 			WHERE
 				DATE_FORMAT(venda.data_criacao, '%Y') = DATE_FORMAT(NOW(), '%Y') AND status != 'CANCELADA'
+			LIMIT 10
 			GROUP BY produto.nome
 			ORDER BY total ASC;
 		</query>
@@ -198,6 +201,7 @@
 			    produto ON item_venda.produto_codigo = produto.codigo
 			WHERE
 				DATE_FORMAT(venda.data_criacao, '%Y/%M') = DATE_FORMAT(NOW(), '%Y/%M') AND status != 'CANCELADA'
+			LIMIT 10
 			GROUP BY produto.nome
 			ORDER BY total ASC;
 		</query>

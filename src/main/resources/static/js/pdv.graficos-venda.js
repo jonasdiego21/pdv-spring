@@ -389,7 +389,7 @@ Pdv.Graficos = (function() {
 		});
 		
 		var graficoItensMaisVendidosAno = new Chart(this.ctxItensMaisVendidosAno, {
-			type: 'pie',
+			type: 'bar',
 			data: {
 				labels: nome,
 				datasets: [{
@@ -415,7 +415,7 @@ Pdv.Graficos = (function() {
 		});
 		
 		var graficoItensMaisVendidosMes = new Chart(this.ctxItensMaisVendidosMes, {
-			type: 'pie',
+			type: 'bar',
 			data: {
 				labels: nome,
 				datasets: [{
@@ -442,7 +442,7 @@ Pdv.Graficos = (function() {
 		});
 		
 		var graficoItensMenosVendidosAno = new Chart(this.ctxItensMenosVendidosAno, {
-			type: 'pie',
+			type: 'bar',
 			data: {
 				labels: nome,
 				datasets: [{
@@ -468,7 +468,7 @@ Pdv.Graficos = (function() {
 		});
 		
 		var graficoItensMenosVendidosMes = new Chart(this.ctxItensMenosVendidosMes, {
-			type: 'pie',
+			type: 'bar',
 			data: {
 				labels: nome,
 				datasets: [{
