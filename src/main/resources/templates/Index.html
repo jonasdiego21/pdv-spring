@@ -4,8 +4,7 @@
 	xmlns="http://www.w3.org/1999/xhtml" 
     xmlns:th="http://www.thymeleaf.org" 
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    th:with="currentPage='Index'">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     
 <head>
   <meta charset="utf-8" />
@@ -26,7 +25,6 @@
 
   <!-- Page Wrapper -->
   <div id="wrapper">
-
     <!-- Sidebar -->
     <ul class="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -35,13 +33,13 @@
         <div class="sidebar-brand-text mx-3">
 			<img class="img-fluid" th:src="@{/images/logo_pdv_horizontal_white.svg}" alt="Logo PDV" width="100px" />
 		</div>
-      </a>
+      </a>     
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0" />
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
+      <li th:classappend="${currentPage} == 'Dashboard' ? 'nav-item active' : 'nav-item'">
         <a class="nav-link" th:href="@{/admin}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -64,7 +62,7 @@
       </li>-->
       
       <!-- Funcionário -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_FUNCIONARIO')}">
+      <li th:classappend="${currentPage} == 'CadastrarFuncionario' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_FUNCIONARIO')}">
         <a class="nav-link" th:href="@{/funcionarios/novo}">
           <i class="fas fa-fw fa-running"></i>
           <span>FUNCIONÁRIO</span>
@@ -72,7 +70,7 @@
       </li>
       
       <!-- Cliente -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CLIENTE')}">
+      <li th:classappend="${currentPage} == 'CadastrarCliente' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CLIENTE')}">
         <a class="nav-link" th:href="@{/clientes/novo}">
           <i class="fas fa-fw fa-user-tie"></i>
           <span>CLIENTE</span>
@@ -80,7 +78,7 @@
       </li>
       
       <!-- Fornecedor -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_FORNECEDOR')}">
+      <li th:classappend="${currentPage} == 'CadastrarFornecedor' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_FORNECEDOR')}">
         <a class="nav-link" th:href="@{/fornecedores/novo}">
           <i class="fas fa-fw fa-user-friends"></i>
           <span>FORNECEDOR</span>
@@ -88,7 +86,7 @@
       </li>
       
       <!-- Categoria -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CATEGORIA')}">
+      <li th:classappend="${currentPage} == 'CadastrarCategoria' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CATEGORIA')}">
         <a class="nav-link active" th:href="@{/categorias/novo}">
           <i class="fas fa-fw fa-cubes"></i>
           <span>CATEGORIA</span>
@@ -96,14 +94,14 @@
       </li>
       
       <!-- Produto -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_PRODUTO')}">
+      <li th:classappend="${currentPage} == 'CadastrarProduto' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_PRODUTO')}">
         <a class="nav-link" th:href="@{/produtos/novo}">
           <i class="fas fa-fw fa-box-open"></i>
           <span>PRODUTO</span>
         </a>
       </li>
       
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_PRODUTO')}">
+      <li th:classappend="${currentPage} == 'EntradaEstoque' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_PRODUTO')}">
         <a class="nav-link" th:href="@{/produtos/entrada}">
           <i class="fas fa-fw fa-people-carry"></i>
           <span>ENTRADA ESTOQUE</span>
@@ -111,7 +109,7 @@
       </li>
       
       <!-- Conta Pagar -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CONTA_PAGAR')}">
+      <li th:classappend="${currentPage} == 'CadastrarContaPagar' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CONTA_PAGAR')}">
         <a class="nav-link" th:href="@{/contaspagar/novo}">
           <i class="fas fa-fw fa-dollar-sign"></i>
           <span>CONTAS A PAGAR</span>
@@ -119,7 +117,7 @@
       </li>
       
       <!-- Conta Receber -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CONTA_RECEBER')}">
+      <li th:classappend="${currentPage} == 'CadastrarContaReceber' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_CONTA_RECEBER')}">
         <a class="nav-link" th:href="@{/contasreceber/novo}">
           <i class="fas fa-fw fa-hand-holding-usd"></i>
           <span>CONTAS A RECEBER</span>
@@ -135,7 +133,7 @@
       </li>
       
       <!-- Vendas -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
+      <li th:classappend="${currentPage} == 'PesquisarVenda' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}">
         <a class="nav-link" th:href="@{/vendas}">
           <i class="fas fa-fw fa-shopping-basket"></i>
           <span>VENDAS</span>
@@ -143,7 +141,7 @@
       </li>
      
       <!-- Empresa -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_EMPRESA')}">
+      <li th:classappend="${currentPage} == 'CadastrarEmpresa' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_EMPRESA')}">
         <a class="nav-link" th:href="@{/empresas}">
           <i class="fas fa-fw fa-home"></i>
           <span>EMPRESA</span>
@@ -151,7 +149,7 @@
       </li>
       
       <!-- Emprestimo -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_EMPRESTIMO')}">
+      <li th:classappend="${currentPage} == 'CadastrarEmprestimo' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_EMPRESTIMO')}">
         <a class="nav-link" th:href="@{/emprestimos/novo}">
           <i class="fas fa-fw fa-box"></i>
           <span>EMPRÉSTIMO</span>
@@ -159,7 +157,7 @@
       </li>
       
       <!-- Relatórios -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'EMITIR_RELATORIO')}">
+      <li th:classappend="${currentPage} == 'EmitirRelatorio' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'EMITIR_RELATORIO')}">
         <a class="nav-link" th:href="@{/relatorios}">
           <i class="fas fa-fw fa-file-pdf"></i>
           <span>RELATÓRIOS</span>
@@ -167,12 +165,12 @@
       </li>
 
       <!-- Usuário -->
-      <li class="nav-item" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_USUARIO')}">
+      <li th:classappend="${currentPage} == 'CadastrarUsuario' ? 'nav-item active' : 'nav-item'" th:if="${#strings.contains(#authentication.principal.authorities, 'CADASTRAR_USUARIO')}">
         <a class="nav-link" th:href="@{/usuarios/novo}">
           <i class="fas fa-fw fa-user"></i>
           <span>USUÁRIO</span>
         </a>
-        <!--
+
         <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionSidebar">         
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">USUÁRIOS</h6>
@@ -180,7 +178,6 @@
             <a class="collapse-item" th:href="@{/usuarios}" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_USUARIO')}">PESQUISAR</a>
           </div>
         </div>
-        -->
       </li>
 
       <!-- Divider -->
@@ -213,6 +210,40 @@
           	<li class="nav-item mt-3">
           		<div th:replace="preloader/GlobalPreloader :: preloader"></div>
           	</li>
+          	
+          	<!-- Produtos com pouco estoque -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-dolly fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span id="quantidadeProdutosBaixoEstoque" class="badge badge-danger badge-counter"></span>
+              </a>
+              <!-- Dropdown - Produtos -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  PRODUTOS COM POUCO ESTOQUE
+                </h6>
+                <div id="itensProdutosBaixoEstoque" style="height: 200px; overflow: auto;"></div>                              
+                <a class="dropdown-item text-center small text-gray-500" th:href="@{/produtos}">Todos os produtos</a>
+              </div>
+            </li>
+
+            <!-- Clientes aniversariantes -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-gift fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span id="quantidadeClientesAniversariantes" class="badge badge-success badge-counter"></span>
+              </a>
+              <!-- Dropdown - Aniversariantes -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                  CLIENTES ANIVERSARIANTES
+                </h6>
+                <div id="itensClientesAniversariantes" style="height: 200px; overflow: auto;"></div>                 
+                <a class="dropdown-item text-center small text-gray-500" th:href="@{/clientes}">Todos os clientes</a>
+              </div>
+            </li>
             
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -232,7 +263,6 @@
               </div>
             </li>
           </ul>
-
         </nav>
         <!-- End of Topbar -->
 
@@ -250,7 +280,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Controle de Estoque PDV 2019</span>
+            <span>Copyright &copy; Controle de Estoque PDV 2020</span>
           </div>
         </div>
       </footer>
@@ -302,6 +332,7 @@
   	<script th:src="@{/vendor/mask/jquery.mask.min.js}"></script>
   	<script th:src="@{/js/pdv.mascaras-campos.js}"></script>
   	<script th:src="@{/js/pdv.carrega-municipios.js}"></script>
+  	<script th:src="@{/js/pdv.notifications.js}"></script>
 	<th:block layout:fragment="javascripts"></th:block>
 	<script>
 	$(window).ready(function() {

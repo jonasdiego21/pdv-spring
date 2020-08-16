@@ -31,10 +31,10 @@ public class RelatorioService {
 		Map<String, Object> parametros = new HashMap<>();
 
 		if(dataInicio != null && dataFim != null) {
-			Date dataInicioConvertido = Date.from(LocalDateTime.of(dataInicio.plusDays(1), LocalTime.of(0, 0, 0))
+			Date dataInicioConvertido = Date.from(LocalDateTime.of(dataInicio, LocalTime.of(0, 0, 0))
 					.atZone(ZoneId.systemDefault()).toInstant());
 			
-			Date dataFimConvertido = Date.from(LocalDateTime.of(dataFim.plusDays(1), LocalTime.of(23, 59, 59))
+			Date dataFimConvertido = Date.from(LocalDateTime.of(dataFim, LocalTime.of(23, 59, 59))
 					.atZone(ZoneId.systemDefault()).toInstant());
 			
 			parametros.put("data_inicio", dataInicioConvertido);
@@ -62,10 +62,10 @@ public class RelatorioService {
 	public byte[] gerarRelatorioComissaoFuncionarios(String nomeFuncionario, LocalDate dataInicioFuncionario, LocalDate dataFimFuncionario) throws Exception {	
 		Map<String, Object> parametros = new HashMap<>();
 		
-		Date dataInicioFuncionarioConvertido = Date.from(LocalDateTime.of(dataInicioFuncionario.plusDays(1), LocalTime.of(0, 0, 0))
+		Date dataInicioFuncionarioConvertido = Date.from(LocalDateTime.of(dataInicioFuncionario, LocalTime.of(0, 0, 0))
 				.atZone(ZoneId.systemDefault()).toInstant());
 		
-		Date dataFimFuncionarioConvertido = Date.from(LocalDateTime.of(dataFimFuncionario.plusDays(1), LocalTime.of(23, 59, 59))
+		Date dataFimFuncionarioConvertido = Date.from(LocalDateTime.of(dataFimFuncionario, LocalTime.of(23, 59, 59))
 				.atZone(ZoneId.systemDefault()).toInstant());
 
 		parametros.put("funcionario", nomeFuncionario);

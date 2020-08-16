@@ -1,5 +1,9 @@
 package br.com.jdrmservices.repository.helper.cliente;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.ibm.icu.text.DecimalFormat;
+
+import br.com.jdrmservices.dto.ClientesAniversariantes;
 import br.com.jdrmservices.model.Cliente;
 import br.com.jdrmservices.repository.filter.ClienteFilter;
 
@@ -60,5 +67,18 @@ public class ClientesImpl implements ClientesQueries {
 				criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 			}
 		}
+	}
+
+	@Override
+	public List<ClientesAniversariantes> findByClientesAniversariantes() {
+		DecimalFormat decimalFormat = new DecimalFormat("00");
+		List<ClientesAniversariantes> clientesAniversariantes = manager
+				.createQuery("select new br.com.jdrmservices.dto.ClientesAniversariantes(codigo, nome, dataNascimento) "
+							+ "from Cliente where dataNascimento like :dataNascimento", ClientesAniversariantes.class)
+				.setParameter("dataNascimento", decimalFormat.format(LocalDate.now().getDayOfMonth()) + "/" 
+							+ decimalFormat.format(LocalDate.now().getMonthValue()) + "%")
+				.getResultList();
+		
+		return clientesAniversariantes;
 	}
 }

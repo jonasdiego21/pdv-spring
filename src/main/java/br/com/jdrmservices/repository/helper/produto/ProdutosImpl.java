@@ -1,5 +1,6 @@
 package br.com.jdrmservices.repository.helper.produto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import br.com.jdrmservices.dto.ProdutoDTO;
+import br.com.jdrmservices.dto.ProdutosBaixoEstoque;
 import br.com.jdrmservices.model.Produto;
 import br.com.jdrmservices.repository.filter.ProdutoFilter;
 
@@ -79,5 +81,15 @@ public class ProdutosImpl implements ProdutosQueries {
 				criteria.add(Restrictions.ilike("codigoBarras", filtro.getCodigoBarras(), MatchMode.EXACT));
 			}
 		}
+	}
+
+	@Override
+	public List<ProdutosBaixoEstoque> findByProdutosQuantidadeMenorQueCinco() {
+		List<ProdutosBaixoEstoque> produtos = manager
+				.createQuery("select new br.com.jdrmservices.dto.ProdutosBaixoEstoque(codigo, codigoBarras, nome, quantidade) from Produto where quantidade <= :quantidadeMinima", ProdutosBaixoEstoque.class)
+				.setParameter("quantidadeMinima", new BigDecimal("5.000"))
+				.getResultList();
+		
+		return produtos;
 	}
 }

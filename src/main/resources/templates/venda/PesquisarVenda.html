@@ -4,7 +4,8 @@
 	xmlns="http://www.w3.org/1999/xhtml" 
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorator="'Index'">
+    layout:decorator="'Index'"
+    th:with="currentPage='PesquisarVenda'">
     
 <head>
   <meta charset="utf-8" />
@@ -138,7 +139,7 @@
 						</tr>
 						
 						<tr th:if="${not #lists.isEmpty(pagina.content)}">
-							<td colspan="10" class="text-right"><strong>[[${#numbers.formatCurrency(#aggregates.sum(vendas.![valorTotal]))}]]</strong></td>
+							<td colspan="10" class="text-right"><strong>[[${#numbers.formatCurrency(#aggregates.sum(pagina.content.![valorTotal]))}]]</strong></td>
 						</tr>
 						
 						<tr th:if="${#lists.isEmpty(pagina.content)}"> 

@@ -60,12 +60,15 @@ Pdv.TabelaClientePesquisa = (function() {
 	}
 	
 	TabelaClientePesquisa.prototype.start = function() {
-		this.cliente.focus();
+		//this.cliente.focus();
 		this.cliente.on('click', clienteSelecionado.bind(this));
 	}
 	
 	function clienteSelecionado(evento) {
-		var clienteSelecionado = $(evento.currentTarget);
+		var clienteSelecionado = $(evento.target);
+		
+		console.log('currentTarget', evento.currentTarget);
+		console.log('target', evento.target);
 		
 		this.inputCodigoCliente.val(clienteSelecionado.data('codigo'));
 		this.inputNomeCliente.text(clienteSelecionado.data('nome'));

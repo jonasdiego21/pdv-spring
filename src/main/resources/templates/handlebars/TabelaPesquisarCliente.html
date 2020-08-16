@@ -7,11 +7,11 @@
 				<th>CPF</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="clientePesquisaRapida">
 			{{#if .}}
 			{{#each .}}
 			<tr>
-				<td id="clientePesquisaRapida" data-codigo="{{codigo}}" data-nome="{{nome}}" style="cursor: pointer;">{{nome}}</td>
+				<td data-codigo="{{codigo}}" data-nome="{{nome}}" style="cursor: pointer;">{{nome}}</td>
 				<td>{{cpf}}</td>
 			</tr>
 			{{/each}}
