@@ -51,8 +51,10 @@ Pdv.Notifications = (function() {
 			method: 'GET',
 			success: function(clientes) {
 				if (clientes.indexOf('CLIENTE AVULSO') == -1) {
+					$('#quantidadeClientesAniversariantes').hide();
 					$('#quantidadeClientesAniversariantes').text(clientes.length -1);	
 				} else {
+					$('#quantidadeClientesAniversariantes').show();
 					$('#quantidadeClientesAniversariantes').text(clientes.length);
 				}
 				
