@@ -5,7 +5,7 @@
     xmlns:th="http://www.thymeleaf.org"
 	xmlns:data="http://www.thymeleaf.org/extras/data">
 
-	<div th:fragment="item-tabela" id="item-tabela" data:valor-total="${valorTotal}" data:total-venda="${totalVenda}" class="row bg-info" th:each="item : ${itens}">
+	<div th:fragment="item-tabela" id="item-tabela" data:valor-total="${valorTotal}" data:total-venda="${totalVenda}" data:unidade-medida="${unidadeMedida}" class="row bg-info" th:each="item : ${itens}">
 		<div class="col-sm-1 mt-1 mb-1 text-center">
 			<input th:value="${item.produto.codigo}" type="radio" name="_item_selecionado" />
 		</div>

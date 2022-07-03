@@ -43,9 +43,12 @@ Pdv.TabelaItens = (function() {
 		this.itemSelecionadoTabelaItens.on('click', mostrarButtonExcluirItem.bind(this));
 		this.itemSelecionadoTabelaItens.on('click', mostrarButtonCancelar.bind(this));
 		
-		var valorTotal = $('#item-tabela').data('valor-total');
+		var data = {
+			valorTotal: $('#item-tabela').data('valor-total'),
+			unidadeMedida: $('#item-tabela').data('unidade-medida')
+		}
 		
-		this.emitter.trigger('tabela-itens-atualizada', valorTotal);
+		this.emitter.trigger('tabela-itens-atualizada', data);
 	}
 
 	// refatorar
@@ -80,9 +83,12 @@ Pdv.TabelaItens = (function() {
 		this.itemSelecionadoTabelaItens.on('click', mostrarButtonExcluirItem.bind(this));
 		this.itemSelecionadoTabelaItens.on('click', mostrarButtonCancelar.bind(this));
 		
-		var valorTotal = $('#item-tabela').data('valor-total');
+		var data = {
+			valorTotal: $('#item-tabela').data('valor-total'),
+			unidadeMedida: $('#item-tabela').data('unidade-medida')
+		}
 		
-		this.emitter.trigger('tabela-itens-atualizada', valorTotal);
+		this.emitter.trigger('tabela-itens-atualizada', data);
 	}
 	
 	function itemExcluidoError(error) {

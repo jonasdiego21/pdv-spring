@@ -116,8 +116,6 @@ Pdv.FinalizarVenda = (function() {
 						
 						this.inputTotalVenda.text(this.inputTotalVenda.text());
 						
-						console.log(converterValueStringToDouble(this.inputTotalVenda.text()));
-						
 						this.inputTroco.focus();
 						this.inputTroco.select();
 					}				

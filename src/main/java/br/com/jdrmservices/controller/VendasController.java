@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.jdrmservices.balanca.Balanca;
 import br.com.jdrmservices.dto.ItensMaisVendidosAno;
 import br.com.jdrmservices.dto.ItensMaisVendidosMes;
 import br.com.jdrmservices.dto.ItensMaisVendidosDia;
@@ -85,10 +87,25 @@ public class VendasController {
 	
 	@Autowired
 	private GenericPrinter genericPrinter;
+
+	private Balanca balanca = new Balanca();
 	
 	public VendasController() {
 		decimalFormat = new DecimalFormat("#,##0.00");
+		balanca.conectar();
 	}
+	
+	@GetMapping(value = "/pesoBalanca", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getPesoBalanca() {
+		try {
+			decimalFormat = new DecimalFormat("0,000");
+			double peso = Double.parseDouble(balanca.getPesoBalanca());
+			return "{ \"peso\": \"" + decimalFormat.format(peso).replace(".", ",") + "\" }"; 
+		} catch (Exception e) {
+			return "{ \"peso\": \"0,000\" }";
+		}
+	}
+	
 	
 	@PostMapping("/item")
 	public ModelAndView adicionarItem(String codigoOuCodigoBarras, BigDecimal quantidade, String uuid, Venda venda) {		
@@ -99,8 +116,14 @@ public class VendasController {
 
 		vendaService.imprimirItemCupom(venda, uuid, produto, quantidade);
 		
-		mv.addObject("itens", tabelasItensSession.getItens(uuid));	
-		mv.addObject("valorTotal", decimalFormat.format(tabelasItensSession.getValorTotal(uuid)));
+		mv.addObject("itens", tabelasItensSession.getItens(uuid));
+		mv.addObject("unidadeMedida", produto.getUnidade().toString());
+		
+		if (produto.getUnidade().toString().equals("KG")) {			
+			mv.addObject("valorTotal", decimalFormat.format(tabelasItensSession.getValorTotal(uuid).multiply(BigDecimal.valueOf(1000))));
+		} else {
+			mv.addObject("valorTotal", decimalFormat.format(tabelasItensSession.getValorTotal(uuid)));
+		}
 
 		return mv;
 	}

@@ -194,7 +194,7 @@ public class GenericPrinter implements GenericPrinterInterface {
 			imprimir("------------------------------------------------\n");
 			imprimir("Data/Hora                    " + simpleDateFormat.format(data) + "\n");
 			imprimir("------------------------------------------------\n");
-			imprimir("VENDA Nº: " + (vendas.count() + 1) + "\n");
+			imprimir("NUMERO DA VENDA: " + (vendas.count() + 1) + "\n");
 			imprimir("CLIENTE: " + venda.getCliente().getNome() + "\n");
 			imprimir("OPERADOR: " + venda.getUsuario().getNome() + "\n");
 			
@@ -247,7 +247,7 @@ public class GenericPrinter implements GenericPrinterInterface {
 				imprimir("LOCALIDADE: " + venda.getCliente().getCidade().getNome() + " - " + venda.getCliente().getEstado().getSigla() + "\n");
 				imprimir("------------------------------------------------\n");
 				imprimir("VALOR TOTAL: " + venda.getValorTotal() + "\n");
-				imprimir("VENDA Nº: " + (vendas.count() + 1) + "\n");
+				imprimir("NUMERO DA VENDA: " + (vendas.count() + 1) + "\n");
 				imprimir("OPERADOR: " + venda.getUsuario().getNome() + "\n");
 				imprimir("------------------------------------------------\n");
 				imprimir("Data/Hora                    " + simpleDateFormat.format(data) + "\n");
@@ -280,7 +280,7 @@ public class GenericPrinter implements GenericPrinterInterface {
 				System.out.print("LOCALIDADE: " + venda.getCliente().getCidade().getNome() + " - " + venda.getCliente().getEstado().getSigla() + "\n");
 				System.out.print("------------------------------------------------\n");
 				System.out.print("VALOR TOTAL: " + venda.getValorTotal() + "\n");
-				System.out.print("VENDA Nº: " + (vendas.count() + 1) + "\n");
+				System.out.print("NUMERO DA VENDA: " + (vendas.count() + 1) + "\n");
 				System.out.print("OPERADOR: " + venda.getUsuario().getNome() + "\n");
 				System.out.print("------------------------------------------------\n");
 				System.out.print("Data/Hora                    " + simpleDateFormat.format(data) + "\n");

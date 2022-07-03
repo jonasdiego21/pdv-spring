@@ -1,7 +1,7 @@
 package br.com.jdrmservices.repository.helper.cliente;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,8 +18,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import com.ibm.icu.text.DecimalFormat;
 
 import br.com.jdrmservices.dto.ClientesAniversariantes;
 import br.com.jdrmservices.model.Cliente;

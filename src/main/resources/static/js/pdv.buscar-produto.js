@@ -89,6 +89,10 @@ Pdv.BuscarProduto = (function() {
 	function buscarProduto(evento) {
 		if(evento.which == 13 || evento.which == 9) {				
 			evento.preventDefault();
+			
+			if(this.campoCodigoProduto.val() == '') {
+				this.campoCodigoProduto.val(',0');
+			}
 
 			if(this.campoCodigoProduto.val() == ',0') {
 				pesquisarPrecoProduto.call(this);
@@ -184,15 +188,29 @@ Pdv.BuscarProduto = (function() {
 		this.campoQuantidade.focus();
 	}
 
-	function quantidadeEnter(evento) {			
-		if(evento.which == 13 || evento.which == 9) { 
+	function quantidadeEnter(evento) {
+		if(evento.which == 32 && this.vendaStatus) {
 			evento.preventDefault();
 			
+			$.ajax({
+				url: '/vendas/pesoBalanca',
+				method: 'GET',
+				success: function(data) {
+					this.campoQuantidade.val(data.peso);
+					this.campoQuantidadeOculta.val(data.peso);	
+				}.bind(this),
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+				
+		if(evento.which == 13 || evento.which == 9) { 
+			evento.preventDefault();
+
 			var campoQuantidade = this.campoQuantidade.val().replace('R$', '').replace('.', '').replace('.', '').replace('.', '').replace(',', '.').trim();
 			var quantidade = this.itemDados.quantidade;
-			
-			//console.log(campoQuantidade, quantidade);
-			
+
 			if(campoQuantidade > quantidade) {				
 				swal({
 					  title: "Oops!",
@@ -218,11 +236,14 @@ Pdv.BuscarProduto = (function() {
 		
 		var valorUnitario = this.campoValorUnitario.val().replace('R$', '').replace('.', '').replace('.', '').replace('.', '').replace(',', '.').trim();
 		var quantidade = this.campoQuantidadeOculta.val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.').trim();
-		var total = parseFloat(quantidade) * parseFloat(valorUnitario);		
+		var total = parseFloat(quantidade) * parseFloat(valorUnitario);	
 		
-		if(total > 0) {			
-			this.campoValorTotal.val(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
-		}
+		if (!total) {
+			total = 0.000;
+		}	
+		
+		// valorTotal (quantidade * valorUnitario)	
+		this.campoValorTotal.val(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
 		
 		this.campoQuantidade.val('0,000');
 	}

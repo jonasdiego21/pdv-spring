@@ -1,6 +1,7 @@
 package br.com.jdrmservices.service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -44,14 +45,14 @@ public class VendaService {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
+	@Autowired
+	private GenericPrinter genericPrinter;
+
 	//@Autowired
 	//private EpsonPrint epsonPrint;
 	
 	//@Autowired
 	//private BematechPrinter bematechPrinter;
-	
-	@Autowired
-	private GenericPrinter genericPrinter;
 	
 	@Transactional
 	public void cadastrar(Venda venda) {	

@@ -1,6 +1,6 @@
 Pdv.Venda = (function() {
 	
-	function Venda(tabelaItens) {
+	function Venda(tabelaItens, buscarProduto) {
 		this.tabelaItens = tabelaItens;
 		this.totalVenda = $('#totalVenda');
 	}
@@ -9,12 +9,11 @@ Pdv.Venda = (function() {
 		this.tabelaItens.on('tabela-itens-atualizada', tabelaItensAtualizada.bind(this));
 	}
 	
-	function tabelaItensAtualizada(evento, valorTotalVenda, valorTotalItem) {
-		var valor = valorTotalVenda == null ? '0,00' : valorTotalVenda;
+	function tabelaItensAtualizada(evento, data) {	
+		var valor = data.valorTotal == null ? 'R$ 0,00' : data.valorTotal;
 		
-		this.totalVenda.text('R$ ' + valor);
+		this.totalVenda.text(valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('R$', 'R$ '));
 	}
 	
 	return Venda;
-	
 }());

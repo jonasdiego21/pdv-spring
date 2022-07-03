@@ -41,7 +41,7 @@
 				<a th:href="@{/}"> dashboard</a> | <a th:href="@{/vendas}" th:if="${#strings.contains(#authentication.principal.authorities, 'PESQUISAR_VENDA_ADMIN')}"> vendas</a>
 				
 				<div class="card bg-light p-3 mt-2 mb-2 d-flex justify-content-center align-items-center" style="height: 87%;">
-					<img id="fotoProduto" th:src="@{/images/logo_colorida.svg}" alt="Image" height="250px" />
+					<img class="animated pulse" id="fotoProduto" th:src="@{/images/logo_colorida.svg}" alt="Image" height="250px" />
 				</div>
 			</div>
 			
